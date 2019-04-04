@@ -36,37 +36,38 @@ class Auth extends CI_Controller
 		//usernya ada
 		if($user) {
 				//jika usernya aktif
-				if($user['is_active'] == 1) {
+			if($user['is_active'] == 1) {
 					// cek password
-					if(password_verify($password, $user['password'])) {
+				if(password_verify($password, $user['password'])) {
 					$data = [
 						'email' => $user['email'],
 						'role_id' => $data['role_id']
 					];	
 					$this->session->set_userdata($data);
 					if($user['role_id'] == 1) {
-					redirect('admin');
-					} else {
-
-					redirect('user');
+						redirect('admin');
+					}elseif($user['role_id'] == 2) {
+						redirect('user/');
+					}else{
+						redirect('user/');
 					}
-					} else {
-			$this->session->set_flashdata('message', '<div class="alert alert-danger" 
-			role="alert">Password Salah!</div>');
-			redirect('auth');
+				}else {
+					$this->session->set_flashdata('message', '<div class="alert alert-danger" 
+						role="alert">Password Salah!</div>');
+					redirect('auth');
 
-					}
-
-
-				} else {
-			$this->session->set_flashdata('message', '<div class="alert alert-danger" 
-			role="alert">Email ini belum diaktivasi!</div>');
-			redirect('auth');	
 				}
 
-		} else {
+
+			}else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" 
+					role="alert">Email ini belum diaktivasi!</div>');
+				redirect('auth');	
+			}
+
+		}else {
 			$this->session->set_flashdata('message', '<div class="alert alert-danger" 
-			role="alert">Email belum pernah terdaftar!</div>');
+				role="alert">Email belum pernah terdaftar!</div>');
 			redirect('auth');	
 
 		}
@@ -81,31 +82,31 @@ class Auth extends CI_Controller
 		$this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
 			'matches' => 'password dont match!',
 			'min_length' => 'Password too Short!'
-			]);
+		]);
 		$this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password1]');
 
 		if($this->form_validation->run() == false) {
-		$data['title'] = 'WPU User Registration';
-		$this->load->view('templates/auth_header', $data);
-		$this->load->view('auth/registration');
-		$this->load->view('templates/auth_footer');	
-	} else {
-		$data = [
-			'name' => htmlspecialchars($this->input->post('name', true)),
-			'email' => htmlspecialchars($this->input->post('email', true)),
-			'image' => 'default.jpg',
-			'password' => password_hash($this->input->post('password1'), 
-			PASSWORD_DEFAULT),
-			'role_id' => 2,
-			'is_active' => 1,
-			'date_created' => time()
-		];	
-	
-		$this->db->insert('user', $data);
-		$this->session->set_flashdata('message', '<div class="alert alert-success" 
-		role="alert">Selamat! Akun anda telah dibuat. Silahkan Masuk!</div>');
-		redirect('auth');
-	}
+			$data['title'] = 'WPU User Registration';
+			$this->load->view('templates/auth_header', $data);
+			$this->load->view('auth/registration');
+			$this->load->view('templates/auth_footer');	
+		} else {
+			$data = [
+				'name' => htmlspecialchars($this->input->post('name', true)),
+				'email' => htmlspecialchars($this->input->post('email', true)),
+				'image' => 'default.jpg',
+				'password' => password_hash($this->input->post('password1'), 
+					PASSWORD_DEFAULT),
+				'role_id' => 2,
+				'is_active' => 1,
+				'date_created' => time()
+			];	
+
+			$this->db->insert('user', $data);
+			$this->session->set_flashdata('message', '<div class="alert alert-success" 
+				role="alert">Selamat! Akun anda telah dibuat. Silahkan Masuk!</div>');
+			redirect('auth');
+		}
 	}
 
 
@@ -116,6 +117,6 @@ class Auth extends CI_Controller
 
 		$this->session->set_flashdata('message', '<div class="alert alert-success" 
 			role="alert">Anda telah keluar!</div>');
-			redirect('auth');	
+		redirect('auth');	
 	}
 }

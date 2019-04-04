@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label for="divisi">Divisi</label>
                     <select class="form-control" id="divisi" name="divisi">
-                        <?php if ($row['divisi'] = "Pemasangan") : ?>
+                        <?php if ($row['divisi'] == "Pemasangan") : ?>
                         <option value="Pemasangan" selected>Pemasangan</option>
                         <option value="Perbaikan">Perbaikan</option>
                         <?php else : ?>
@@ -35,11 +35,11 @@
                 <div class="form-group">
                     <label for="team">Team</label>
                     <select class="form-control" id="team" name="team">
-                        <?php if ($row['team'] = "Merah") : ?>
+                        <?php if ($row['team'] == "Merah") : ?>
                         <option value="Merah" class="text-danger" selected>Merah</option>
                         <option value="Kuning" class="text-warning">Kuning</option>
                         <option value="Biru" class="text-primary">Biru</option>
-                        <?php elseif ($row['team'] = "Kuning") : ?>
+                        <?php elseif ($row['team'] == "Kuning") : ?>
                         <option value="Merah" class="text-danger">Merah</option>
                         <option value="Kuning" class="text-warning" selected>Kuning</option>
                         <option value="Biru" class="text-primary">Biru</option>
@@ -54,22 +54,22 @@
                 <div class="form-group">
                     <label for="datel">Datel</label>
                     <select class="form-control" id="datel" name="datel">
-                        <?php if ($row['id_datel'] = 1) : ?>
+                        <?php if ($row['id_datel'] == 1) : ?>
                         <option value="1" selected>Cirebon</option>
                         <option value="2">Indramayu</option>
                         <option value="3">Kuningan</option>
                         <option value="4">Majalengka</option>
-                        <?php elseif ($row['id_datel'] = 2) : ?>
+                        <?php elseif ($row['id_datel'] == 2) : ?>
                         <option value="1">Cirebon</option>
                         <option value="2" selected>Indramayu</option>
                         <option value="3">Kuningan</option>
                         <option value="4">Majalengka</option>
-                        <?php elseif ($row['id_datel'] = 3) : ?>
+                        <?php elseif ($row['id_datel'] == 3) : ?>
                         <option value="1">Cirebon</option>
                         <option value="2">Indramayu</option>
                         <option value="3" selected>Kuningan</option>
                         <option value="4">Majalengka</option>
-                        <?php elseif ($row['id_datel'] = 4) : ?>
+                        <?php elseif ($row['id_datel'] == 4) : ?>
                         <option value="1">Cirebon</option>
                         <option value="2">Indramayu</option>
                         <option value="3">Kuningan</option>

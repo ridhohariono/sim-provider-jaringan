@@ -1,7 +1,7 @@
 const flashData = $('.flash-data').data('flashdata');
 if (flashData) {
 	Swal.fire({
-		title: 'Data Teknisi',
+		title: 'Data',
 		text: 'Berhasil ' + flashData,
 		type: 'success'
 	});
@@ -12,7 +12,7 @@ $('.delete').on('click', function (e) {
 	const href = $(this).attr('href');
 	Swal.fire({
 		title: 'Apakah Anda Yakin ?',
-		text: "Data Teknisi akan di Hapus!",
+		text: "Data yang anda pilih akan di Hapus!",
 		type: 'warning',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',

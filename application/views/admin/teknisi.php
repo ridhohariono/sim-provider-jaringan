@@ -3,16 +3,17 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Data Teknisi</h1>
-    <div class="row mb-5">
-        <div class="col-lg-6">
-            <button type="button" class="btn btn-primary tambahData" data-toggle="modal" data-target="#tambahData">
-                Tambah Data Teknisi
+    <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
+    <?= $this->session->flashdata('adm_gagal'); ?>
+    
+    <!-- DataTales Example -->
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary tambahData float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
+                Tambah Teknisi
             </button>
         </div>
     </div>
-    <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
-    <?= $this->session->flashdata('adm_action'); ?>
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Informasi Teknisi</h6>
@@ -50,10 +51,10 @@
                             <td><?= $row['alamat'] ?></td>
                             <td><?= $row['divisi'] ?></td>
                             <td><?= $row['team'] ?></td>
-                            <td><?= $row['nm_datel'] ?></td>
-                            <td><a href="<?= base_url('admin/teknisi_detail?id=') . $row['id_teknisi']; ?>" class="btn btn-success p-1">Detail</a>
-                                <a href="<?= base_url('admin/edit_teknisi?id=') . $row['id_teknisi']; ?>" class="btn btn-primary p-1">Edit</a>
-                                <a href="<?= base_url('admin/delete_teknisi?id=') . $row['id_teknisi'] ?>" class="btn btn-danger p-1 delete">Hapus</a></td>
+                            <td style="width: 120px;"><?= $row['nm_datel'] ?></td>
+                            <td style="width: 215px;" class="justify-content-center"><a href="<?= base_url('admin/teknisi_detail?id=') . $row['id_teknisi']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                <a href="<?= base_url('admin/edit_teknisi?id=') . $row['id_teknisi']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                <a href="<?= base_url('admin/delete_teknisi?id=') . $row['id_teknisi'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

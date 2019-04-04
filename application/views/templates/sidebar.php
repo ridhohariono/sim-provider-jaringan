@@ -39,7 +39,7 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<?= base_url('admin/datel');?>">
                 <i class="fas fa-fw fa-building"></i>
                 <span>Datel</span></a>
         </li>
@@ -63,7 +63,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="<?= base_url('admin/layanan'); ?>">
                 <i class="fas fa-fw fa-clipboard-list"></i>
                 <span>Layanan</span></a>
         </li>
