@@ -30,6 +30,7 @@ class Admin extends CI_Controller
         $email = $this->session->userdata('email');
         $data['user'] = $this->Admin_model->getUserByMail($email);
         $data['teknisi'] = $this->Admin_model->getTeknisi();
+        $data['datel'] = $this->Admin_model->getDatel();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -125,6 +126,13 @@ class Admin extends CI_Controller
     }
 
 // DATEL
+
+    public function getJsonDatel()
+    {
+        $id = $this->input->get('id');
+        echo json_encode($this->Admin_model->getDatelById($id));
+    }
+
     public function datel()
     {
         $data['title'] = 'Datel';
@@ -176,20 +184,18 @@ class Admin extends CI_Controller
 
     public function edit_datel()
     {
-        $id = $this->input->get('id');
-        $data['title'] = 'Edit Datel';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['datel'] = $this->Admin_model->getDatelById($id);
+        $id = $this->input->post('id_datel');
         $this->form_validation->set_rules('nama_datel', 'Nama Datel', 'required|min_length[3]');
         $this->form_validation->set_rules('lokasi', 'Lokasi Datel', 'required|min_length[5]');
         $this->form_validation->set_rules('kakandatel', 'Kakan Datel', 'required');
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/edit_datel', $data);
-            $this->load->view('templates/footer');
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Datel Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/datel');
         } else {
 
             $data = [
@@ -205,22 +211,18 @@ class Admin extends CI_Controller
         }
     }
 
-    public function datel_detail()
+    public function datel_detailJson()
     {
         $id = $this->input->get('id');
-        $data['title'] = 'Datel Details';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['datel'] = $this->Admin_model->getDatelById($id);
-        $data['datelByteknisi'] = $this->Admin_model->DatelJoinTeknisi($id)->num_rows();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/datel_detail', $data);
-        $this->load->view('templates/footer');
+        echo json_encode($this->Admin_model->DatelJoinTeknisi($id)->num_rows());
     }
 
 // LAYANAN
+    public function getJsonLayanan()
+    {
+        $id = $this->input->get('id');
+        echo json_encode($this->Admin_model->getLayananById($id));
+    }
 
     public function layanan()
     {
@@ -276,22 +278,20 @@ class Admin extends CI_Controller
 
     public function edit_layanan()
     {
-        $id = $this->input->get('id');
-        $data['title'] = 'Edit Layanan';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['layanan'] = $this->Admin_model->getLayananById($id);
+        $id = $this->input->post('id');
         $this->form_validation->set_rules('nama_layanan', 'Nama Layanan', 'required');
         $this->form_validation->set_rules('paket', 'Paket', 'required');
         $this->form_validation->set_rules('nm_paket', 'Nama Paket', 'required');
         $this->form_validation->set_rules('kecepatan', 'Kecepatan', 'required');
         $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/edit_layanan', $data);
-            $this->load->view('templates/footer');
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Layanan Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/layanan');
         } else {
 
             $data = [

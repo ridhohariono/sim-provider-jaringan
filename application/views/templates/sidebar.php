@@ -69,12 +69,6 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/pelanggan'); ?>">
-                <i class="fas fa-fw fa-user-shield"></i>
-                <span>Pelanggan</span></a>
-        </li>
-
-        <li class="nav-item">
             <a class="nav-link" href="index.html">
                 <i class="fas fa-fw fa-dollar-sign"></i>
                 <span>Denda</span></a>

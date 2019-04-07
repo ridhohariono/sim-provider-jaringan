@@ -121,10 +121,9 @@
                     <div class="form-group">
                         <label for="datel">Datel</label>
                         <select class="form-control" id="datel" name="datel">
-                            <option id="defaultDatel" value="1">Cirebon</option>
-                            <option value="2">Indramayu</option>
-                            <option value="3">Kuningan</option>
-                            <option value="4">Majalengka</option>
+                            <?php foreach ($datel as $row): ?>
+                            <option id="defaultDatel" value="<?= $row['id_datel'];?>"><?= $row['nm_datel']?></option>
+                            <?php endforeach ?>
                         </select>
                         <small class="text-danger"><?= form_error('datel'); ?></small>
                     </div>

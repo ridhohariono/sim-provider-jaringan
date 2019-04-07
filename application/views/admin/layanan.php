@@ -53,8 +53,8 @@
                             <td><?= $row['nm_paket'] ?></td>
                             <td><?= $row['kecepatan'] ?></td>
                             <td>Rp.<?= number_format($row['harga']); ?></td>
-                            <td style="width: 215px;"><a href="<?= base_url('admin/layanan_detail?id=') . $row['id_layanan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                <a href="<?= base_url('admin/edit_layanan?id=') . $row['id_layanan']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
+                            <td style="width: 215px;"><a href="javascript:" class="btn btn-sm btn-success Details" data-toggle="modal" data-target="#Details" data-id="<?= $row['id_layanan'];?>" data-url="<?= base_url('admin/getJsonLayanan?id='.$row['id_layanan']);?>"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                <a href="javascript:" class="btn btn-sm btn-primary editLayanan" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_layanan'];?>" data-url="<?= base_url('admin/getJsonLayanan?id='.$row['id_layanan']);?>"><span class="fa fa-edit mr-1"></span>Edit</a>
                                 <a href="<?= base_url('admin/delete_layanan?id=') . $row['id_layanan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
                         </tr>
                         <?php $i++; ?>
@@ -81,6 +81,7 @@
             <div class="modal-body">
 
                 <form action="<?= base_url('admin/add_layanan'); ?>" method="post">
+                    <input type="hidden" id="id" name="id">
                     <div class="form-group">
                         <label for="nama_layanan">Nama layanan</label>
                         <input type="text" class="form-control" id="nama_layanan" name="nama_layanan" placeholder="Nama Layanan">
@@ -89,7 +90,7 @@
                     <div class="form-group">
                         <label for="paket">Paket</label>
                         <select name="paket" id="paket" class="form-control">
-                            <option value="Indihome">Indihome</option>
+                            <option value="Indihome" id="defStatus">Indihome</option>
                             <option value="Datin">Datin</option>
                         </select>
                         <small class="text-danger"><?= form_error('paket'); ?></small>
@@ -121,6 +122,25 @@
             </div>
         </div>
     </div>
+</div>
+</div>
+
+<!-- MODAL DETAILS -->
+<div class="modal fade" id="Details" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="DetailsJudul">Details Layanan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+        </div>
+        <div class="modal-body" id="Details">
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+</div>
 </div>
 </div>
 <!-- End of Main Content -- >                                                                                                                           
