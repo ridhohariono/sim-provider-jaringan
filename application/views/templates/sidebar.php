@@ -45,7 +45,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="<?= base_url('admin/sto');?>">
                 <i class="fas fa-fw fa-gopuram"></i>
                 <span>STO</span></a>
         </li>
@@ -66,6 +66,12 @@
             <a class="nav-link" href="<?= base_url('admin/layanan'); ?>">
                 <i class="fas fa-fw fa-clipboard-list"></i>
                 <span>Layanan</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('admin/pelanggan'); ?>">
+                <i class="fas fa-fw fa-user-shield"></i>
+                <span>Pelanggan</span></a>
         </li>
 
         <li class="nav-item">

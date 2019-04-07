@@ -115,4 +115,29 @@ class Admin_model extends CI_Model
         $this->db->where('id_layanan',$id);
         $this->db->update('layanan');
     }
+
+    // STO
+    public function getStoJoinDatel()
+    {
+       $this->db->select('*');
+       $this->db->from('sto');
+       $this->db->join('datel', 'datel.id_datel = sto.id_datel');
+       return $this->db->get()->result_array();
+    }
+
+    public function getSto()
+    {
+        return $this->db->get('sto')->result_array();
+    }
+
+    public function getStoById($id)
+    {
+        return $this->db->get_where('sto', ['id_sto' => $id])->result_array();
+    }
+
+    // PELANGGAN
+    public function getPelanggan()
+    {
+        return $this->db->get('pelanggan')->result_array();
+    }
 }

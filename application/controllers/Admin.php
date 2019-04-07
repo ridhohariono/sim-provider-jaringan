@@ -72,11 +72,7 @@ class Admin extends CI_Controller
 
     public function edit_teknisi()
     {
-        $id = $this->input->get('id');
-        $data['title'] = 'Edit Teknisi';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['teknisi'] = $this->Admin_model->getTeknisiById($id);
+        $id = $this->input->post('id');
         $this->form_validation->set_rules('nik', 'NIK', 'required|numeric');
         $this->form_validation->set_rules('nama', 'Nama', 'required|min_length[3]');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|min_length[10]');
@@ -84,11 +80,13 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('team', 'Team', 'required');
         $this->form_validation->set_rules('datel', 'Datel', 'required|numeric');
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/edit_teknisi', $data);
-            $this->load->view('templates/footer');
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Teknisi Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/teknisi');
         } else {
 
             $data = [
@@ -106,18 +104,16 @@ class Admin extends CI_Controller
         }
     }
 
-    public function teknisi_detail()
+    public function getJsonTeknisi()
     {
         $id = $this->input->get('id');
-        $data['title'] = 'Teknisi Details';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['teknisi'] = $this->Admin_model->TeknisiJoinDatel($id);
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/teknisi_detail', $data);
-        $this->load->view('templates/footer');
+        echo json_encode($this->Admin_model->getTeknisiById($id));
+    }
+
+    public function teknisi_detailJson()
+    {
+        $id = $this->input->get('id');
+        echo json_encode($this->Admin_model->TeknisiJoinDatel($id));
     }
 
     public function delete_teknisi()
@@ -231,7 +227,7 @@ class Admin extends CI_Controller
         $data['title'] = 'Layanan';
         $email = $this->session->userdata('email');
         $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['layanan'] = $this->Admin_model->getLayanan($email);
+        $data['layanan'] = $this->Admin_model->getLayanan();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -315,7 +311,7 @@ class Admin extends CI_Controller
     public function layanan_detail()
     {
         $id = $this->input->get('id');
-        $data['title'] = 'Datel Details';
+        $data['title'] = 'Layanan Details';
         $email = $this->session->userdata('email');
         $data['user'] = $this->Admin_model->getUserByMail($email);
         $data['layanan'] = $this->Admin_model->getLayananById($id);
@@ -326,4 +322,70 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    // STO
+    public function sto()
+    {
+        $data['title'] = 'STO';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $data['sto'] = $this->Admin_model->getStoJoinDatel();
+        // var_dump($data['sto']); die;
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/sto', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function edit_sto()
+    {
+        $id = $this->input->get('id');
+        $data['title'] = 'Edit STO';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $data['sto'] = $this->Admin_model->getStoById($id);
+        var_dump($data['sto']); die;
+        $this->form_validation->set_rules('nama_layanan', 'Nama Layanan', 'required');
+        $this->form_validation->set_rules('paket', 'Paket', 'required');
+        $this->form_validation->set_rules('nm_paket', 'Nama Paket', 'required');
+        $this->form_validation->set_rules('kecepatan', 'Kecepatan', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/edit_layanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+
+            $data = [
+                'nm_layanan' => $this->input->post('nama_layanan', true),
+                'paket' => $this->input->post('paket', true),
+                'nm_paket' => $this->input->post('nm_paket', true),
+                'kecepatan' => $this->input->post('kecepatan', true)." Mbps",
+                'harga' => $this->input->post('harga', true)
+            ];
+
+            $this->Admin_model->updateLayanan($data, $id);
+            $this->session->set_flashdata('adm_action', 'Di Ubah');
+            redirect('admin/layanan');
+        }
+    }
+
+    // PELANGGAN
+    public function pelanggan()
+    {
+        $data['title'] = 'Pelanggan';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $data['pelanggan'] = $this->Admin_model->getPelanggan();
+        $data['layanan'] = $this->Admin_model->getLayanan();
+        $data['sto'] = $this->Admin_model->getSto();
+        // print_r($data['sto']); die;
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/pelanggan', $data);
+        $this->load->view('templates/footer'); 
+    }
 }
