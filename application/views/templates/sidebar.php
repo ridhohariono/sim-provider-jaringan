@@ -12,128 +12,33 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
+        <!-- dinamyc menu -->
+        <?php 
+            $role_id = $this->session->userdata('role_id');
 
+            $menu = $this->db->query("SELECT user_menu.id, menu FROM user_menu JOIN user_access_menu ON user_menu.id = user_access_menu.menu_id WHERE user_access_menu.role_id = '$role_id' ORDER BY user_access_menu.menu_id ASC")->result_array();
 
+        ?>
+        <!-- looping menu -->
+        <?php foreach ($menu as $m) {
+            ?>
+                <div class="sidebar-heading">
+                    <?= $m['menu']; ?>
+                </div>
 
-        <!-- QUERY MENU -->
+            <?php
+                $query_submenu = $this->db->query("SELECT * FROM user_sub_menu WHERE user_sub_menu.menu_id = '$m[id]' AND is_active = '1'")->result_array();
 
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Administrator
-        </div>
-
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-            <a class="nav-link" href="./">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Data Management
-        </div>
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/datel');?>">
-                <i class="fas fa-fw fa-building"></i>
-                <span>Datel</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/sto');?>">
-                <i class="fas fa-fw fa-gopuram"></i>
-                <span>STO</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/teknisi'); ?>">
-                <i class="fas fa-fw fa-user-shield"></i>
-                <span>Teknisi</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-map-marker-alt"></i>
-                <span>Lokasi Properti</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('admin/layanan'); ?>">
-                <i class="fas fa-fw fa-clipboard-list"></i>
-                <span>Layanan</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-dollar-sign"></i>
-                <span>Denda</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Transaksi
-        </div>
-
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-plug"></i>
-                <span>Pemasangan Indihome</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-plug"></i>
-                <span>Pemasangan Datin</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-stream"></i>
-                <span>Pencabutan Indihome</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-stream"></i>
-                <span>Pencabutan Datin</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            User
-        </div>
-
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-user-tie"></i>
-                <span>My Profile</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-user-tie"></i>
-                <span>Users</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('auth/logout'); ?>">
-                <i class="fas fa-fw fa-sign-out-alt"></i>
-                <span>Logout</span></a>
-        </li>
+                foreach ($query_submenu as $m_sub) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url($m_sub['url']) ?>">
+                            <i class="<?= $m_sub['icon']; ?>"></i>
+                            <span><?= $m_sub['title']; ?></span></a>
+                    </li>
+                <?php
+                }
+        } ?>
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
