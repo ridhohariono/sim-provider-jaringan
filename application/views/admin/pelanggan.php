@@ -62,9 +62,9 @@
                             <td><?= $row['tgl_psb'] ?></td>
                             <td><?= $row['label'] ?></td>
                             <td><?= $row['status'] ?></td>
-                            <td style="width: 220px;"><a href="<?= base_url('admin/datel_detail?id=') . $row['id_datel']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                <a href="<?= base_url('admin/edit_datel?id=') . $row['id_datel']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                <a href="<?= base_url('admin/delete_datel?id=') . $row['id_datel'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a></td>
+                            <td style="width: 220px;"><a href="<?= base_url('admin/pelanggan_detail?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                <a href="<?= base_url('admin/edit_pelanggan?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                <a href="<?= base_url('admin/delete_pelanggan?id=') . $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a></td>
                         </tr>
                         <?php $i++; ?>
                         <?php endforeach; ?>
@@ -89,7 +89,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="<?= base_url('admin/add_datel'); ?>" method="post">
+                <form action="<?= base_url('admin/add_pelanggan'); ?>" method="post">
                     <div class="form-group">
                         <label for="nm_pelanggan">Nama Pelanggan</label>
                         <input type="text" class="form-control" id="nm_pelanggan" name="nm_pelanggan" placeholder="Nama Pelanggan">
