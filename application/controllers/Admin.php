@@ -8,7 +8,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Admin_model');
-        $this->load->library('Googlemaps');
+        $this->load->library('googlemaps');
     }
 
     public function index()
@@ -440,8 +440,7 @@ class Admin extends CI_Controller
     }
     
     public function lihat_lokasi(){
-        // $this->load->library('Googlemaps');
-
+        
         $config['center'] = '37.4419, -122.1419';
         $config['zoom'] = 'auto';
         $this->googlemaps->initialize($config);
