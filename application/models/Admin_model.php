@@ -166,8 +166,8 @@ class Admin_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('pelanggan AS P');
-        $this->db->join('sto AS S', 'P.id_sto = S.id_sto');
-        $this->db->join('layanan AS L', 'P.id_layanan = L.id_layanan');
+        $this->db->join('sto AS S', 'S.id_sto = P.id_sto');
+        $this->db->join('layanan AS L', 'L.id_layanan = P.id_layanan');
         $this->db->order_by('P.nm_pelanggan');
         return $this->db->get()->result_array();
     }
@@ -176,6 +176,19 @@ class Admin_model extends CI_Model
     // LOKASI
     public function getLokasi(){
         return $this->db->get('lokasi')->result();
+    }
+
+    public function addLokasi($data){
+        return $this->db->insert('lokasi', $data);
+    }
+
+    public function deleteLokasi($id){
+        return $this->db->delete('lokasi', ['id_lokasi' => $id]);
+    }
+
+    public function getLokasiById($id)
+    {
+        return $this->db->get_where('lokasi', ['id_lokasi' => $id])->result_array();
     }
 // =======
     // public function getPelanggan()

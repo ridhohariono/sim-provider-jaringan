@@ -10,11 +10,8 @@
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary float-right mb-1"><i class="fa fa-plus"></i>
-                Tambah Lokasi
-            </button>
-            <a type="button" href="<?= base_url('admin/lihat_lokasi') ?>" class="btn btn-success float-right mb-1"><i class="fa fa-search"></i>
-                Lihat di Maps
+            <a type="button" href="<?= base_url('admin/lokasi') ?>" class="btn btn-info float-right mb-1"><i class="fa fa-arrow-left"></i>
+                Lihat data lokasi
             </a>
         </div>
     </div>

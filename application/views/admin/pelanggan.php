@@ -130,15 +130,6 @@
                         <label for="tgl_psb">Jadwal Pasang</label>
                         <input type="text" class="form-control datepicker" name="tgl_psb">
                     </div>
-                    <script type="text/javascript">
-                     $(function(){
-                      $(".datepicker").datepicker({
-                          format: 'yyyy-mm-dd',
-                          autoclose: true,
-                          todayHighlight: true,
-                      });
-                     });
-                    </script>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

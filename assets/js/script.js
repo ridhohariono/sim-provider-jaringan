@@ -251,6 +251,30 @@ function tambahLokasi(){
 	});
 }
 
+function editLokasi(){
+	$('.editModal').on('click', function(){
+		$('#judulModal').html('Edit Lokasi');
+		$('select[name=datel_def]').attr('disabled', 'disabled');
+		$('.modal-footer button[type=submit]').html('Edit Sto');
+		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_lokasi');
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+		$.ajax({
+			url: base_url,
+			method: 'post',
+			dataType: 'json',
+			success: function(data){
+				console.log(data);
+				$('#id').val(data[0].id_sto);
+				$('#id_datel').val(data[0].id_datel);
+				$('#nama_sto').val(data[0].nm_sto);
+				$('#lokasi').val(data[0].lokasi);
+				$('#datel_def').val(data[0].id_datel);
+			}
+		});
+	})
+}
+
 // STO
 function editSto(){
 	$('.modalEditSto').on('click', function(){

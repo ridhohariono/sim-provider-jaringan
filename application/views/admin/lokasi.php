@@ -29,8 +29,6 @@
                             <th>No.</th>
                             <th>Nama ODP</th>
                             <th>Nama ODC</th>
-                            <th>Latitude</th>
-                            <th>Longtitude</th>
                             <th>Kapasitas</th>
                             <th>Action</th>
                         </tr>
@@ -42,11 +40,11 @@
                                 <td><?= $i; ?></td>
                                 <td><?= $row->nm_odp ?></td>
                                 <td><?= $row->nm_odc ?></td>
-                                <td><?= $row->latitude ?></td>
-                                <td><?= $row->longtitude ?></td>
                                 <td><?= $row->kapasitas ?></td>
-                                <td></td>
-                                
+                                <td style="width: 215px;" class="justify-content-center">
+                                    <a href="javascript:" class="btn btn-sm btn-success detailsModal" data-toggle="modal" data-target="#Details" data-id="<?= $row->id_lokasi;?>" data-url="<?= base_url('admin/lokasi_detailJson?id='.$row->id_lokasi);?>"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                    <a href="javascript:" class="btn btn-sm btn-primary editModal" data-toggle="modal" data-target="#tambahData" data-id="<?= $row->id_lokasi;?>" data-url="<?= base_url('admin/getJsonLokasi?id='.$row->id_lokasi);?>"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                    <a href="<?= base_url('admin/delete_lokasi?id=') . $row->id_lokasi ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
                                 </tr>
                                 <?php $i++; ?>
                             <?php endforeach; ?>
@@ -76,37 +74,37 @@
 
                         <div class="form-group">
                             <label for="nama_odp">Nama ODP</label>
-                            <input type="text" class="form-control" id="nama_odp" name="nama_odp" placeholder="Nama ODP">
+                            <input type="text" class="form-control" id="nama_odp" name="nama_odp" placeholder="Masukkan Nama ODP">
                             <small class="text-danger"><?= form_error('nama_odp'); ?></small>
                         </div>
 
                         <div class="form-group">
                             <label for="nama_odc">Nama ODC</label>
-                            <input type="text" class="form-control" id="nama_odc" name="nama_odc" placeholder="Nama ODC">
+                            <input type="text" class="form-control" id="nama_odc" name="nama_odc" placeholder="Masukkan Nama ODC">
                             <small class="text-danger"><?= form_error('nama_odc'); ?></small>
                         </div>
 
                         <div class="form-group">
                             <label for="lat">Latitude</label>
-                            <input type="text" class="form-control" id="lat" name="lat" placeholder="Latitude">
+                            <input type="text" class="form-control" id="lat" name="lat" placeholder="Masukkan  Latitude">
                             <small class="text-danger"><?= form_error('lat'); ?></small>
                         </div>
 
                         <div class="form-group">
                             <label for="long">Longtitude</label>
-                            <input type="text" class="form-control" id="long" name="long" placeholder="Longtitude">
+                            <input type="text" class="form-control" id="long" name="long" placeholder="Masukkan Longtitude">
                             <small class="text-danger"><?= form_error('long'); ?></small>
                         </div>
 
                         <div class="form-group">
                             <label for="kapasitas">Kapasitas</label>
-                            <input type="text" class="form-control" id="kapasitas" name="kapasitas" placeholder="Kapasitas">
+                            <input type="text" class="form-control" id="kapasitas" name="kapasitas" placeholder="Masukkan Kapasitas">
                             <small class="text-danger"><?= form_error('kapasitas'); ?></small>
                         </div>
 
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat">
+                            <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
                             <small class="text-danger"><?= form_error('alamat'); ?></small>
                         </div>
 
@@ -120,9 +118,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat">
-                            <small class="text-danger"><?= form_error('alamat'); ?></small>
+                            <label for="tgl_buat">Tanggal di Buat</label>
+                            <input type="text" class="form-control datepicker" id="tgl_buat" name="tgl_buat" placeholder="Pilih Tanggal">
+                            <small class="text-danger"><?= form_error('tgl_buat'); ?></small>
                         </div>
                     </div>
                     <div class="modal-footer">
