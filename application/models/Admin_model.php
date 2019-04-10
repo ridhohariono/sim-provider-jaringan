@@ -140,4 +140,9 @@ class Admin_model extends CI_Model
     {
         return $this->db->get('pelanggan')->result_array();
     }
+
+    // LOKASI
+    public function getLokasi(){
+        return $this->db->get('lokasi')->result();
+    }
 }

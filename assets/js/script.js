@@ -232,6 +232,25 @@ function detailsLayanan(){
 	});
 }
 
+// LOKASI
+function tambahLokasi(){
+	$('.tambahData').on('click', function(){
+		$('#judulModal').html('Tambah Data Lokasi');
+		$('.modal-footer #submit').html('Tambah Data');
+		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_lokasi');
+		const divisi = $('#defaultDivisi').html();
+		const team = $('#defaultTeam').html();
+		const datel = $('#defaultDatel').val();
+		$('#id').val('');
+		$('#nik').val('');
+		$('#nama').val('');
+		$('#alamat').val('');
+		$('#divisi').val(divisi);
+		$('#team').val(team).attr('selected');
+		$('#datel').val(datel).attr('selected');
+	});
+}
+
 // Teknisi
 tambahTeknisi();
 editTeknisi();
@@ -246,3 +265,6 @@ detailsDatel();
 tambahLayanan();
 editLayanan();
 detailsLayanan();
+
+// Lokasi
+tambahLokasi();

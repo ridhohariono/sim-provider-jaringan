@@ -388,4 +388,123 @@ class Admin extends CI_Controller
         $this->load->view('admin/pelanggan', $data);
         $this->load->view('templates/footer'); 
     }
+    
+    // LOKASI
+    public function lokasi()
+    {
+        $data['title'] = 'Lokasi';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $data['lokasi_info'] = $this->Admin_model->getLokasi();
+        $data['sto_info'] = $this->Admin_model->getSto();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/lokasi', $data);
+        $this->load->view('templates/footer');
+    }
+    
+    public function lihat_lokasi(){
+        $this->load->library('googlemaps');
+
+        $config['center'] = '37.4419, -122.1419';
+        $config['zoom'] = 'auto';
+        $this->googlemaps->initialize($config);
+
+        $marker = array();
+        $marker['position'] = '-7.804498466205372, 110.36422538623049';
+        $marker['infowindow_content'] = 'ODP - 1!';
+        $marker['draggable'] = TRUE;
+        $marker['animation'] = 'DROP';
+        $this->googlemaps->add_marker($marker);
+        
+        $marker = array();
+        $marker['position'] = '-7.805859, 110.355986';
+        $marker['infowindow_content'] = 'ODP - 2';
+        $marker['draggable'] = TRUE;
+        $marker['animation'] = 'DROP';
+        $this->googlemaps->add_marker($marker);
+
+        $data['map'] = $this->googlemaps->create_map();
+
+        $data['title'] = 'Lihat Lokasi';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/lihat_lokasi', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function add_lokasi()
+    {
+        $this->form_validation->set_rules('nama_datel', 'Nama Datel', 'required|min_length[3]');
+        $this->form_validation->set_rules('lokasi', 'Lokasi Datel', 'required|min_length[5]');
+        $this->form_validation->set_rules('kakandatel', 'Kakan Datel', 'required');
+        if($this->form_validation->run() == true){
+
+            $data = [
+                'nm_datel' => $this->input->post('nama_datel', true),
+                'lokasi' => $this->input->post('lokasi', true),
+                'kakandatel' => $this->input->post('kakandatel', true),
+                'status' => "Aktif"
+            ];
+
+            $this->Admin_model->addDatel($data);
+            $this->session->set_flashdata('adm_action', 'Ditambahkan');
+            redirect('admin/datel');
+        }else{
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Datel Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/datel');
+        }
+    }
+
+    public function delete_lokasi()
+    {
+        $id = $this->input->get('id');
+        $this->Admin_model->deleteDatel($id);
+        $this->session->set_flashdata('adm_action', 'Di Hapus');
+        redirect('admin/datel');
+    }
+
+    public function edit_lokasi()
+    {
+        $id = $this->input->post('id_datel');
+        $this->form_validation->set_rules('nama_datel', 'Nama Datel', 'required|min_length[3]');
+        $this->form_validation->set_rules('lokasi', 'Lokasi Datel', 'required|min_length[5]');
+        $this->form_validation->set_rules('kakandatel', 'Kakan Datel', 'required');
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Datel Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/datel');
+        } else {
+
+            $data = [
+                'nm_datel' => $this->input->post('nama_datel', true),
+                'lokasi' => $this->input->post('lokasi', true),
+                'kakandatel' => $this->input->post('kakandatel', true),
+                'status' => $this->input->post('status', true)
+            ];
+
+            $this->Admin_model->updateDatel($data, $id);
+            $this->session->set_flashdata('adm_action', 'Di Ubah');
+            redirect('admin/datel');
+        }
+    }
+
+    public function lokasi_detailJson()
+    {
+        $id = $this->input->get('id');
+        echo json_encode($this->Admin_model->DatelJoinTeknisi($id)->num_rows());
+    }
 }
