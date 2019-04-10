@@ -9,7 +9,7 @@
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary tambahData float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus" id="tambahTeknisi"></i>
+            <button type="button" class="btn btn-primary tambahTeknisi float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus" id="tambahTeknisi"></i>
                 Tambah Teknisi
             </button>
         </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="" method="post">
+                <form action="<?=base_url('admin/teknisi')?>" method="post">
                     <input type="hidden" id="id" name="id">
                     <div class="form-group">
                         <label for="nik">NIK</label>
@@ -96,6 +96,11 @@
                         <label for="alamat">Alamat</label>
                         <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat">
                         <small class="text-danger"><?= form_error('alamat'); ?></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="email">
+                        <small class="text-danger"><?= form_error('email'); ?></small>
                     </div>
                     <div class="form-group">
                         <label for="divisi">Divisi</label>

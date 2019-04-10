@@ -9,7 +9,7 @@
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary tambahData float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
+            <button type="button" class="btn btn-primary tambahSto float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
                 Tambah Sto
             </button>
         </div>
@@ -48,7 +48,7 @@
                             <td><?= $row['lokasi'] ?></td>
                             <td><?= $row['nm_datel'] ?></td>
                             <td class="text-center">
-                                <a href="<?= base_url('admin/edit_sto?id=') . $row['id_sto']; ?>" class="btn btn-sm btn-primary mr-2"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                <a href="javascript:" class="btn btn-sm btn-primary mr-2 modalEditSto" id="modalEditSto" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_sto'];?>" data-url="<?= base_url('admin/getStoByIdJson?id='.$row['id_sto']);?>"><span class="fa fa-edit mr-1"></span>Edit</a>
                                 <a href="<?= base_url('admin/delete_sto?id=') . $row['id_sto'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
                         </tr>
                         <form action=""></form>
@@ -75,11 +75,13 @@
             </div>
             <div class="modal-body">
 
-                <form action="<?= base_url('admin/add_datel'); ?>" method="post">
+                <form action="<?= base_url('admin/add_sto'); ?>" method="post">
+                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="id_datel" name="id_datel">
                     <div class="form-group">
-                        <label for="nama_datel">Nama Datel</label>
-                        <input type="text" class="form-control" id="nama_datel" name="nama_datel" placeholder="Nama Daerah Telkom">
-                        <small class="text-danger"><?= form_error('nik'); ?></small>
+                        <label for="nama_sto">Nama STO</label>
+                        <input type="text" class="form-control" id="nama_sto" name="nama_sto" placeholder="Nama STO">
+                        <small class="text-danger"><?= form_error('nama_sto'); ?></small>
                     </div>
                     <div class="form-group">
                         <label for="lokasi">Lokasi</label>
@@ -87,14 +89,18 @@
                         <small class="text-danger"><?= form_error('lokasi'); ?></small>
                     </div>
                     <div class="form-group">
-                        <label for="kakandatel">KakanDatel</label>
-                        <input type="text" class="form-control" id="kakandatel" name="kakandatel" placeholder="Kepala Kantor Datel">
-                        <small class="text-danger"><?= form_error('kakandatel'); ?></small>
+                        <label for="datel_def">Datel</label>
+                        <select name="datel_def" id="datel_def" class="form-control">
+                            <?php foreach ($sto as $row): ?>
+                                <option id="" value="<?= $row['id_datel'];?>"><?= $row['nm_datel'];?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <small class="text-danger"><?= form_error('datel_def'); ?></small>
                     </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Tambah Datel</button>
+                <button type="submit" class="btn btn-primary" id="submit">Tambah STO</button>
                 </form>
             </div>
         </div>

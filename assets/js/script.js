@@ -28,7 +28,7 @@ $('.delete').on('click', function (e) {
 
 // TEKNISI
 function tambahTeknisi(){
-	$('.tambahData').on('click', function(){
+	$('.tambahTeknisi').on('click', function(){
 		$('#judulModal').html('Tambah Data Teknisi');
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_teknisi');
@@ -94,7 +94,7 @@ function detailsTeknisi(){
 // DATEL
 
 function tambahDatel(){
-	$('.tambahData').on('click', function(){
+	$('.tambahDatel').on('click', function(){
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_datel');
 		const defStatus = $('#defaultStatus').html();
@@ -166,7 +166,7 @@ function editDatel(){
 
 // LAYANAN
 function tambahLayanan(){
-	$('.tambahData').on('click', function(){
+	$('.tambahLayanan').on('click', function(){
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_layanan');
 		const defPaket = $('#defStatus').html();
@@ -232,6 +232,7 @@ function detailsLayanan(){
 	});
 }
 
+<<<<<<< Updated upstream
 // LOKASI
 function tambahLokasi(){
 	$('.tambahData').on('click', function(){
@@ -251,6 +252,52 @@ function tambahLokasi(){
 	});
 }
 
+=======
+// STO
+function editSto(){
+	$('.modalEditSto').on('click', function(){
+		$('#judulModal').html('Edit STO');
+		$('select[name=datel_def]').attr('disabled', 'disabled');
+		$('.modal-footer button[type=submit]').html('Edit Sto');
+		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_sto');
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+		$.ajax({
+			url: base_url,
+			method: 'post',
+			dataType: 'json',
+			success: function(data){
+				$('#id').val(data[0].id_sto);
+				$('#id_datel').val(data[0].id_datel);
+				$('#nama_sto').val(data[0].nm_sto);
+				$('#lokasi').val(data[0].lokasi);
+				$('#datel_def').val(data[0].id_datel);
+			}
+		});
+	})
+}
+
+function tambahSto(){
+	$('.tambahSto').on('click', function(){
+		$('#judulModal').html('Tambah STO');
+		$('.modal-footer #submit').html('Tambah Sto');
+		$('select[name=datel_def]').removeAttr('disabled');
+		const defSto = $('#datel_def option:first-child').val();
+		$('#id').val('');
+		$('#nama_sto').val('');
+		$('#lokasi').val('');
+		$('#datel_def').val(defSto);
+	});
+}
+
+ $(function(){
+  $(".datepicker").datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      todayHighlight: true,
+  });
+ });
+>>>>>>> Stashed changes
 // Teknisi
 tambahTeknisi();
 editTeknisi();
@@ -266,5 +313,11 @@ tambahLayanan();
 editLayanan();
 detailsLayanan();
 
+<<<<<<< Updated upstream
 // Lokasi
 tambahLokasi();
+=======
+// STO
+editSto();
+tambahSto();
+>>>>>>> Stashed changes

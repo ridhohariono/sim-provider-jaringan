@@ -13,8 +13,8 @@
  * @docs		http://biostall.com/wp-content/uploads/2010/07/Google_Maps_V3_API_Documentation.pdf
  */
  
-class Googlemaps {
-	
+class Googlemaps{
+
 	var $adsense					= FALSE; 					// Whether Google Adsense For Content should be enabled
 	var $adsenseChannelNumber		= ''; 						// The Adsense channel number for tracking the performance of this AdUnit
 	var $adsenseFormat				= 'HALF_BANNER';			// The format of the AdUnit
@@ -2259,5 +2259,6 @@ class Googlemaps {
 	}
 	
 }
+
 
 ?>

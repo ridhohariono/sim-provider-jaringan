@@ -9,7 +9,7 @@
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary tambahData float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
+            <button type="button" class="btn btn-primary tambahLayanan float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
                 Tambah Layanan
             </button>
         </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="<?= base_url('admin/add_layanan'); ?>" method="post">
+                <form action="" method="post">
                     <input type="hidden" id="id" name="id">
                     <div class="form-group">
                         <label for="nama_layanan">Nama layanan</label>

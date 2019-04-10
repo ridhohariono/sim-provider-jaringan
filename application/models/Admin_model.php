@@ -120,8 +120,17 @@ class Admin_model extends CI_Model
     public function getStoJoinDatel()
     {
        $this->db->select('*');
-       $this->db->from('sto');
-       $this->db->join('datel', 'datel.id_datel = sto.id_datel');
+       $this->db->from('datel');
+       $this->db->join('sto', 'sto.id_datel = datel.id_datel');
+       return $this->db->get()->result_array();
+    }
+
+    public function getStoJoinDatelById($id)
+    {
+       $this->db->select('*');
+       $this->db->from('datel');
+       $this->db->where('sto.id_datel', $id);
+       $this->db->join('sto', 'sto.id_datel = datel.id_datel');
        return $this->db->get()->result_array();
     }
 
@@ -135,14 +144,47 @@ class Admin_model extends CI_Model
         return $this->db->get_where('sto', ['id_sto' => $id])->result_array();
     }
 
+    public function updateSto($data, $id)
+    {
+        $this->db->set($data);
+        $this->db->where('id_sto', $id);
+        $this->db->update('sto');
+    }
+
+    public function deleteSto($id)
+    {
+        return $this->db->delete('sto', ['id_sto' => $id]);
+    }
+
+    public function AddSto($data)
+    {
+        return $this->db->insert('sto', $data);
+    }
+
     // PELANGGAN
     public function getPelanggan()
     {
-        return $this->db->get('pelanggan')->result_array();
+        $this->db->select('*');
+        $this->db->from('pelanggan AS P');
+        $this->db->join('sto AS S', 'P.id_sto = S.id_sto');
+        $this->db->join('layanan AS L', 'P.id_layanan = L.id_layanan');
+        $this->db->order_by('P.nm_pelanggan');
+        return $this->db->get()->result_array();
     }
 
+// <<<<<<< Updated upstream
     // LOKASI
     public function getLokasi(){
         return $this->db->get('lokasi')->result();
     }
+// =======
+    // public function getPelanggan()
+    // {
+    //     $this->db->select('*');
+    //     $this->db->from('sto AS S');
+    //     $this->db->join('pelanggan AS P', 'P.id_sto = S.id_sto');
+    //     $this->db->join('layanan AS L', 'P.id_layanan = L.id_layanan');
+    //     return $this->db->get()->result_array();
+    // }
+// >>>>>>> Stashed changes
 }

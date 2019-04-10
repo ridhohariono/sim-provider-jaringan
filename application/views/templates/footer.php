@@ -52,6 +52,7 @@
 
 <!-- Page level custom scripts -->
 <script src="<?= base_url('assets/') ?>js/demo/datatables-demo.js"></script>
+<script src="<?= base_url('assets/') ?>js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.8.1/dist/sweetalert2.all.min.js"></script>
 <script src="<?= base_url('assets/js/script.js') ?>"></script>
 <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAZfOINifqqRFD6Wj73LuV0tlwaxlKkEgo&callback=myMap" async defer></script>   -->

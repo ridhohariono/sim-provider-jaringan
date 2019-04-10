@@ -8,6 +8,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Admin_model');
+        $this->load->library('Googlemaps');
     }
 
     public function index()
@@ -42,6 +43,7 @@ class Admin extends CI_Controller
     {
         $this->form_validation->set_rules('nik', 'NIK', 'required|numeric');
         $this->form_validation->set_rules('nama', 'Nama', 'required|min_length[3]');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|min_length[10]');
         $this->form_validation->set_rules('divisi', 'Divisi', 'required');
         $this->form_validation->set_rules('team', 'Team', 'required');
@@ -50,6 +52,7 @@ class Admin extends CI_Controller
 
             $data = [
                 'nik' => $this->input->post('nik', true),
+                'email' => $this->input->post('email', true),
                 'nm_teknisi' => $this->input->post('nama', true),
                 'alamat' => $this->input->post('alamat', true),
                 'divisi' => $this->input->post('divisi', true),
@@ -329,7 +332,6 @@ class Admin extends CI_Controller
         $email = $this->session->userdata('email');
         $data['user'] = $this->Admin_model->getUserByMail($email);
         $data['sto'] = $this->Admin_model->getStoJoinDatel();
-        // var_dump($data['sto']); die;
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -337,39 +339,69 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function edit_sto()
+    public function add_Sto()
     {
-        $id = $this->input->get('id');
-        $data['title'] = 'Edit STO';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['sto'] = $this->Admin_model->getStoById($id);
-        var_dump($data['sto']); die;
-        $this->form_validation->set_rules('nama_layanan', 'Nama Layanan', 'required');
-        $this->form_validation->set_rules('paket', 'Paket', 'required');
-        $this->form_validation->set_rules('nm_paket', 'Nama Paket', 'required');
-        $this->form_validation->set_rules('kecepatan', 'Kecepatan', 'required');
-        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
+        $this->form_validation->set_rules('nama_sto', 'Nama Sto', 'required');
+        $this->form_validation->set_rules('lokasi', 'Lokasi', 'required');
+        $this->form_validation->set_rules('datel_def', 'Datel', 'required');
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/edit_layanan', $data);
-            $this->load->view('templates/footer');
+             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Sto Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/sto');
         } else {
 
             $data = [
-                'nm_layanan' => $this->input->post('nama_layanan', true),
-                'paket' => $this->input->post('paket', true),
-                'nm_paket' => $this->input->post('nm_paket', true),
-                'kecepatan' => $this->input->post('kecepatan', true)." Mbps",
-                'harga' => $this->input->post('harga', true)
+                'nm_sto' => $this->input->post('nama_sto', true),
+                'lokasi' => $this->input->post('lokasi', true),
+                'id_datel' => $this->input->post('datel_def')
             ];
-
-            $this->Admin_model->updateLayanan($data, $id);
-            $this->session->set_flashdata('adm_action', 'Di Ubah');
-            redirect('admin/layanan');
+            $this->Admin_model->AddSto($data);
+            $this->session->set_flashdata('adm_action', 'Di Tambahkan');
+            redirect('admin/sto');
         }
+    }
+
+    public function getStoByIdJson()
+    {
+        $id = $this->input->get('id');
+        echo json_encode($this->Admin_model->getStoJoinDatelById($id));
+    }
+
+    public function edit_sto()
+    {
+        $id = $this->input->post('id');
+        $this->form_validation->set_rules('nama_sto', 'Nama Sto', 'required');
+        $this->form_validation->set_rules('lokasi', 'Lokasi', 'required');
+        if ($this->form_validation->run() == false) {
+             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Sto Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/sto');
+        } else {
+
+            $dataSto = [
+                'nm_sto' => $this->input->post('nama_sto', true),
+                'lokasi' => $this->input->post('lokasi', true)
+            ];
+            $this->Admin_model->updateSto($dataSto, $id);
+            $this->session->set_flashdata('adm_action', 'Di Ubah');
+            redirect('admin/sto');
+        }
+    }
+
+    public function delete_sto()
+    {
+        $id = $this->input->get('id');
+        $this->Admin_model->deleteSto($id);
+        $this->session->set_flashdata('adm_action', 'Di Hapus');
+        redirect('admin/sto');
     }
 
     // PELANGGAN
@@ -381,7 +413,10 @@ class Admin extends CI_Controller
         $data['pelanggan'] = $this->Admin_model->getPelanggan();
         $data['layanan'] = $this->Admin_model->getLayanan();
         $data['sto'] = $this->Admin_model->getSto();
-        // print_r($data['sto']); die;
+        $data['datel'] = $this->Admin_model->getDatel();
+        // print_r($data['pelanggan']); die;   
+        $data['layanan'] = $this->Admin_model->getLayanan();
+        $data['sto'] = $this->Admin_model->getSto();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -405,7 +440,7 @@ class Admin extends CI_Controller
     }
     
     public function lihat_lokasi(){
-        $this->load->library('googlemaps');
+        // $this->load->library('Googlemaps');
 
         $config['center'] = '37.4419, -122.1419';
         $config['zoom'] = 'auto';

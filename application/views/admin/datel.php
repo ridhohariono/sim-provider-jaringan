@@ -9,7 +9,7 @@
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary tambahData float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
+            <button type="button" class="btn btn-primary tambahDatel float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
                 Tambah Datel
             </button>
         </div>

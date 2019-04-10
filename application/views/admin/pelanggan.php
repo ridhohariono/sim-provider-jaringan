@@ -25,10 +25,13 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama Pelanggan</th>
-                            <th>Alamat Pelanggan</th>
-                            <th>Email Pelanggan</th>
-                            <th>No Telp</th>
+                            <th>Alamat</th>
+                            <th>Port</th>
                             <th>Layanan</th>
+                            <th>Datel</th>
+                            <th>Tanggal</th>
+                            <th>Label</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,10 +39,13 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama Pelanggan</th>
-                            <th>Alamat Pelanggan</th>
-                            <th>Email Pelanggan</th>
-                            <th>No Telp</th>
+                            <th>Alamat</th>
+                            <th>Port</th>
                             <th>Layanan</th>
+                            <th>Datel</th>
+                            <th>Tanggal</th>
+                            <th>Label</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -48,15 +54,17 @@
                         <?php foreach ($pelanggan as $row) : ?>
                         <tr>
                             <td><?= $i; ?></td>
-                            <td><?= $row['nama'] ?></td>
+                            <td><?= $row['nm_pelanggan'] ?></td>
                             <td><?= $row['alamat'] ?></td>
-                            <td><?= $row['email'] ?></td>
-                            <td><?= $row['no_hp'] ?></td>
-                            <td><?= $row['layanan'] ?></td>
+                            <td><?= $row['port'] ?></td>
+                            <td><?= $row['nm_layanan'] ?></td>
+                            <td><?= $row['lokasi'] ?></td>
+                            <td><?= $row['tgl_psb'] ?></td>
+                            <td><?= $row['label'] ?></td>
                             <td><?= $row['status'] ?></td>
-                            <td style="width: 215px;"><a href="<?= base_url('admin/datel_detail?id=') . $row['id_datel']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
+                            <td style="width: 220px;"><a href="<?= base_url('admin/datel_detail?id=') . $row['id_datel']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
                                 <a href="<?= base_url('admin/edit_datel?id=') . $row['id_datel']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                <a href="<?= base_url('admin/delete_datel?id=') . $row['id_datel'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
+                                <a href="<?= base_url('admin/delete_datel?id=') . $row['id_datel'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a></td>
                         </tr>
                         <?php $i++; ?>
                         <?php endforeach; ?>
@@ -83,43 +91,54 @@
 
                 <form action="<?= base_url('admin/add_datel'); ?>" method="post">
                     <div class="form-group">
-                        <label for="nama_datel">Nama Pelanggan</label>
-                        <input type="text" class="form-control" id="nama_datel" name="nama_datel" placeholder="Nama Daerah Telkom">
-                        <small class="text-danger"><?= form_error('nik'); ?></small>
+                        <label for="nm_pelanggan">Nama Pelanggan</label>
+                        <input type="text" class="form-control" id="nm_pelanggan" name="nm_pelanggan" placeholder="Nama Pelanggan">
+                        <small class="text-danger"><?= form_error('nm_pelanggan'); ?></small>
                     </div>
                     <div class="form-group">
-                        <label for="Alamat">Alamat</label>
-                        <input type="text" class="form-control" id="Alamat" name="Alamat" placeholder="Alamat Pelanggan">
-                        <small class="text-danger"><?= form_error('lokasi'); ?></small>
+                        <label for="speedy">Speedy</label>
+                        <input type="text" class="form-control" id="speedy" name="speedy" placeholder="ex. Ti83joaskPajs">
+                        <small class="text-danger"><?= form_error('speedy'); ?></small>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com">
-                        <small class="text-danger"><?= form_error('kakandatel'); ?></small>
+                        <label for="voice">Voice</label>
+                        <input type="text" class="form-control" id="voice" name="voice" placeholder="ex. 564316975316">
+                        <small class="text-danger"><?= form_error('voice'); ?></small>
                     </div>
                     <div class="form-group">
-                        <label for="email">No Hp</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com">
-                        <small class="text-danger"><?= form_error('kakandatel'); ?></small>
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Pelangan">
+                        <small class="text-danger"><?= form_error('alamat'); ?></small>
                     </div>
                     <div class="form-group">
                         <label for="layanan">Layanan</label>
-                        <select name="layanan" id="layanan" class="form-control">
-                    <?php foreach ($layanan as $rows): ?>
-                            <option value="<?= $rows['id_layanan'];?>"><?= $rows['nm_layanan'];?></option>
-                    <?php endforeach ?>
+                        <select class="form-control" id="layanan" name="layanan">
+                        <?php foreach ($layanan as $row): ?>
+                            <option value="<?= $row['id_layanan'];?>"><?= $row['nm_layanan'];?></option>
+                        <?php endforeach ?>
                         </select>
-                        <small class="text-danger"><?= form_error('layanan'); ?></small>
                     </div>
                     <div class="form-group">
-                        <label for="sto">Sto/Kecamatan/Kota</label>
-                        <select name="sto" id="sto" class="form-control">
-                    <?php foreach ($sto as $rows): ?>
-                            <option value="<?= $rows['id_sto'];?>"><?= $rows['nm_sto'];?></option>
-                    <?php endforeach ?>
+                        <label for="sto">STO</label>
+                        <select class="form-control" id="sto" name="sto">
+                        <?php foreach ($sto as $row): ?>
+                            <option value="<?= $row['id_sto'];?>"><?= $row['nm_sto'];?></option>
+                        <?php endforeach ?>
                         </select>
-                        <small class="text-danger"><?= form_error('sto'); ?></small>
                     </div>
+                    <div class="form-group">
+                        <label for="tgl_psb">Jadwal Pasang</label>
+                        <input type="text" class="form-control datepicker" name="tgl_psb">
+                    </div>
+                    <script type="text/javascript">
+                     $(function(){
+                      $(".datepicker").datepicker({
+                          format: 'yyyy-mm-dd',
+                          autoclose: true,
+                          todayHighlight: true,
+                      });
+                     });
+                    </script>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
