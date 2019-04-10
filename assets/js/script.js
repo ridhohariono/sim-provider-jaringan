@@ -232,7 +232,6 @@ function detailsLayanan(){
 	});
 }
 
-<<<<<<< Updated upstream
 // LOKASI
 function tambahLokasi(){
 	$('.tambahData').on('click', function(){
@@ -252,7 +251,6 @@ function tambahLokasi(){
 	});
 }
 
-=======
 // STO
 function editSto(){
 	$('.modalEditSto').on('click', function(){
@@ -297,7 +295,6 @@ function tambahSto(){
       todayHighlight: true,
   });
  });
->>>>>>> Stashed changes
 // Teknisi
 tambahTeknisi();
 editTeknisi();
@@ -313,11 +310,8 @@ tambahLayanan();
 editLayanan();
 detailsLayanan();
 
-<<<<<<< Updated upstream
 // Lokasi
 tambahLokasi();
-=======
 // STO
 editSto();
 tambahSto();
->>>>>>> Stashed changes
