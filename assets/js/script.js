@@ -27,8 +27,8 @@ $('.delete').on('click', function (e) {
 });
 
 // TEKNISI
-function tambahTeknisi(){
-	$('.tambahTeknisi').on('click', function(){
+function tambahTeknisi() {
+	$('.tambahTeknisi').on('click', function () {
 		$('#judulModal').html('Tambah Data Teknisi');
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_teknisi');
@@ -46,8 +46,8 @@ function tambahTeknisi(){
 }
 
 
-function editTeknisi(){
-	$('.editModal').on('click', function(){
+function editTeknisi() {
+	$('.editModal').on('click', function () {
 		$('#judulModal').html('Edit Data Teknisi');
 		$('.modal-footer #submit').html('Edit Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_teknisi');
@@ -55,12 +55,12 @@ function editTeknisi(){
 		const base_url = $(this).data('url');
 		$.ajax({
 			url: base_url,
-			data:{
-				id:id
+			data: {
+				id: id
 			},
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
+			success: function (data) {
 				$('#id').val(data[0].id_teknisi);
 				$('#nik').val(data[0].nik);
 				$('#nama').val(data[0].nm_teknisi);
@@ -73,19 +73,19 @@ function editTeknisi(){
 	});
 }
 
-function detailsTeknisi(){
-	$('.detailsModal').on('click', function(){
+function detailsTeknisi() {
+	$('.detailsModal').on('click', function () {
 		const id = $(this).data('id');
 		const base_url = $(this).data('url');
 		$.ajax({
 			url: base_url,
-			data:{
-				id:id
+			data: {
+				id: id
 			},
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
-				$('#Details .modal-body').html('<section class="content"><h2 class="text-center mb-3">Detail Teknisi</h2><table class="table table-striped"><tr><th>NIK</th><td>'+ data[0].nik +'</td></tr><tr><th>Nama</th><td>'+ data[0].nm_teknisi +'</td></tr><tr><th>Alamat</th><td>'+ data[0].alamat +'</td></tr><tr><th>Divisi</th><td>'+ data[0].divisi +'</td></tr><tr><th>Team</th><td>'+ data[0].team +'</td></tr><tr><th>Datel</th><td>'+ data[0].nm_datel +'</td></tr><tr><th>Alamat Datel</th><td>'+ data[0].lokasi +'</td></tr></table></section>');
+			success: function (data) {
+				$('#Details .modal-body').html('<section class="content"><h2 class="text-center mb-3">Detail Teknisi</h2><table class="table table-striped"><tr><th>NIK</th><td>' + data[0].nik + '</td></tr><tr><th>Nama</th><td>' + data[0].nm_teknisi + '</td></tr><tr><th>Alamat</th><td>' + data[0].alamat + '</td></tr><tr><th>Divisi</th><td>' + data[0].divisi + '</td></tr><tr><th>Team</th><td>' + data[0].team + '</td></tr><tr><th>Datel</th><td>' + data[0].nm_datel + '</td></tr><tr><th>Alamat Datel</th><td>' + data[0].lokasi + '</td></tr></table></section>');
 			}
 		});
 	});
@@ -93,8 +93,8 @@ function detailsTeknisi(){
 
 // DATEL
 
-function tambahDatel(){
-	$('.tambahDatel').on('click', function(){
+function tambahDatel() {
+	$('.tambahDatel').on('click', function () {
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_datel');
 		const defStatus = $('#defaultStatus').html();
@@ -106,18 +106,18 @@ function tambahDatel(){
 	});
 }
 
-function detailsDatel(){
-	$('.detailsDatel').on('click', function(){
+function detailsDatel() {
+	$('.detailsDatel').on('click', function () {
 		const id = $(this).data('id');
 		const base_url = $(this).data('url');
 		$.ajax({
 			url: base_url,
-			data:{
-				id:id
+			data: {
+				id: id
 			},
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
+			success: function (data) {
 				$('tr:first-child #id_datel').html(data[0].id_datel);
 				$('tr:nth-child(2) #nm_datel').html(data[0].nm_datel);
 				$('tr:nth-child(3) #lokasi').html(data[0].lokasi);
@@ -125,24 +125,24 @@ function detailsDatel(){
 				$('tr:nth-child(5) #status').html(data[0].status);
 			}
 		});
-		const url2 = 'http://localhost/sim-indihome/admin/datel_detailJson?id='+id;
+		const url2 = 'http://localhost/sim-indihome/admin/datel_detailJson?id=' + id;
 		$.ajax({
 			url: url2,
 			method: 'post',
 			dataType: 'json',
-			success:function(data){
-				if(data > 0){
-					$('tr:nth-child(6) #teknisi').html(data +' Orang</td>');
-				}else{
+			success: function (data) {
+				if (data > 0) {
+					$('tr:nth-child(6) #teknisi').html(data + ' Orang</td>');
+				} else {
 					$('tr:nth-child(6) #teknisi').html('Belum ada Teknisi di Datel Ini!');
 				}
 			}
 		});
 	});
-}	
+}
 
-function editDatel(){
-	$('.editDatel').on('click', function(){
+function editDatel() {
+	$('.editDatel').on('click', function () {
 		$('#judulModal').html('Edit Data Datel');
 		$('.modal-footer button[type=submit]').html('Edit Datel');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_datel');
@@ -153,7 +153,7 @@ function editDatel(){
 			url: base_url,
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
+			success: function (data) {
 				$('#id').val(data[0].id_datel);
 				$('#nama_datel').val(data[0].nm_datel);
 				$('#lokasi').val(data[0].lokasi);
@@ -165,8 +165,8 @@ function editDatel(){
 }
 
 // LAYANAN
-function tambahLayanan(){
-	$('.tambahLayanan').on('click', function(){
+function tambahLayanan() {
+	$('.tambahLayanan').on('click', function () {
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_layanan');
 		const defPaket = $('#defStatus').html();
@@ -178,8 +178,8 @@ function tambahLayanan(){
 	});
 }
 
-function editLayanan(){
-	$('.editLayanan').on('click', function(){
+function editLayanan() {
+	$('.editLayanan').on('click', function () {
 		$('#judulModal').html('Edit Layanan');
 		$('.modal-footer button[type=submit]').html('Edit Layanan');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_layanan');
@@ -190,7 +190,7 @@ function editLayanan(){
 			url: base_url,
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
+			success: function (data) {
 				$('#id').val(data[0].id_layanan);
 				$('#nama_layanan').val(data[0].nm_layanan);
 				$('#paket').val(data[0].paket);
@@ -202,39 +202,38 @@ function editLayanan(){
 	});
 }
 
-function number_format(nStr)
-{
-    nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
+function number_format(nStr) {
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
 }
 
-function detailsLayanan(){
-	$('.Details').on('click', function(){
+function detailsLayanan() {
+	$('.Details').on('click', function () {
 		const id = $(this).data('id');
 		const base_url = $(this).data('url');
 		$.ajax({
 			url: base_url,
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
+			success: function (data) {
 				const nStr = data[0].harga;
 				const harga = number_format(nStr);
-				$('#Details .modal-body').html('<section class="content"><h1 class="text-center">Detail Layanan</h1><table class="table table-striped"><tr><th>ID Layanan</th><td>'+ data[0].id_layanan +'</td></tr><tr><th>Nama Layanan</th><td>'+ data[0].nm_layanan +'</td></tr><tr><th>Paket</th><td>'+ data[0].paket +'</td></tr><tr><th>Nama Paket</th><td>'+ data[0].nm_paket +'</td></tr><tr><th>Kecepatan</th><td>'+ data[0].kecepatan +'</td></tr><tr><th>Harga</th><td>Rp.'+ harga +'</td></tr><tr><th>Pelanggan</th><td>Belum Di bikin</td></tr></table></section>');
+				$('#Details .modal-body').html('<section class="content"><h1 class="text-center">Detail Layanan</h1><table class="table table-striped"><tr><th>ID Layanan</th><td>' + data[0].id_layanan + '</td></tr><tr><th>Nama Layanan</th><td>' + data[0].nm_layanan + '</td></tr><tr><th>Paket</th><td>' + data[0].paket + '</td></tr><tr><th>Nama Paket</th><td>' + data[0].nm_paket + '</td></tr><tr><th>Kecepatan</th><td>' + data[0].kecepatan + '</td></tr><tr><th>Harga</th><td>Rp.' + harga + '</td></tr><tr><th>Pelanggan</th><td>Belum Di bikin</td></tr></table></section>');
 			}
 		});
 	});
 }
 
 // LOKASI
-function tambahLokasi(){
-	$('.tambahData').on('click', function(){
+function tambahLokasi() {
+	$('.tambahData').on('click', function () {
 		$('#judulModal').html('Tambah Data Lokasi');
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_lokasi');
@@ -251,8 +250,8 @@ function tambahLokasi(){
 	});
 }
 
-function editLokasi(){
-	$('.editModal').on('click', function(){
+function editLokasi() {
+	$('.editModal').on('click', function () {
 		$('#judulModal').html('Edit Lokasi');
 		$('select[name=datel_def]').attr('disabled', 'disabled');
 		$('.modal-footer button[type=submit]').html('Edit Sto');
@@ -263,7 +262,7 @@ function editLokasi(){
 			url: base_url,
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
+			success: function (data) {
 				console.log(data);
 				$('#id').val(data[0].id_sto);
 				$('#id_datel').val(data[0].id_datel);
@@ -276,8 +275,8 @@ function editLokasi(){
 }
 
 // STO
-function editSto(){
-	$('.modalEditSto').on('click', function(){
+function editSto() {
+	$('.modalEditSto').on('click', function () {
 		$('#judulModal').html('Edit STO');
 		$('select[name=datel_def]').attr('disabled', 'disabled');
 		$('.modal-footer button[type=submit]').html('Edit Sto');
@@ -288,7 +287,7 @@ function editSto(){
 			url: base_url,
 			method: 'post',
 			dataType: 'json',
-			success: function(data){
+			success: function (data) {
 				$('#id').val(data[0].id_sto);
 				$('#id_datel').val(data[0].id_datel);
 				$('#nama_sto').val(data[0].nm_sto);
@@ -299,8 +298,8 @@ function editSto(){
 	})
 }
 
-function tambahSto(){
-	$('.tambahSto').on('click', function(){
+function tambahSto() {
+	$('.tambahSto').on('click', function () {
 		$('#judulModal').html('Tambah STO');
 		$('.modal-footer #submit').html('Tambah Sto');
 		$('select[name=datel_def]').removeAttr('disabled');
@@ -312,13 +311,45 @@ function tambahSto(){
 	});
 }
 
- $(function(){
-  $(".datepicker").datepicker({
-      format: 'yyyy-mm-dd',
-      autoclose: true,
-      todayHighlight: true,
-  });
- });
+function tambahPelanggan() {
+	$('.tambahPelanggan').on('click', function () {
+		$('.modal-footer #submit').html('Tambah Pelanggan');
+		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_pelanggan');
+		const hide = $('.div-layanan').hide();
+		if (hide) {
+			$('#paket').on('change', function () {
+				$('.div-layanan').show()
+				const id = $(this).find(':selected').attr('data-id');
+				$.ajax({
+					url: 'http://localhost/sim-indihome/admin/getJsonLayanan?id=' + id,
+					method: 'post',
+					dataType: 'json',
+					success: function (data) {
+						$('#layanan').html(`<option value="` + data[0].id_layanan + `">` + data[0].nm_layanan + `</option>`);
+					}
+				});
+			});
+		}
+		$('.div-odp').hide();
+		$('#id_datel').on('change', function () {
+			const idDatel = $(this).find(':selected').val();
+			if (idDatel > 0) {
+				$.ajax({
+					url: 'http://localhost/sim-indihome/admin/getOdcByDatelIdJson?id_datel=' + idDatel,
+					method: 'post',
+					dataType: 'json',
+					success: function (data) {
+						$('.div-odp').show();
+						$('#odp').val(data[0].nm_odp);
+					}
+				});
+			} else {
+				$('.div-odp').hide();
+			}
+		});
+	});
+}
+
 // Teknisi
 tambahTeknisi();
 editTeknisi();
@@ -339,3 +370,5 @@ tambahLokasi();
 // STO
 editSto();
 tambahSto();
+//PELANGGAN
+tambahPelanggan();

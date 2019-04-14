@@ -5,11 +5,11 @@
     <h1 class="h3 mb-2 text-gray-800">Data Telkom</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?= $this->session->flashdata('adm_gagal'); ?>
-    
+
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary tambahData float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
+            <button type="button" class="btn btn-primary tambahPelanggan float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
                 Tambah Pelanggan
             </button>
         </div>
@@ -52,21 +52,21 @@
                     <tbody>
                         <?php $i = 1; ?>
                         <?php foreach ($pelanggan as $row) : ?>
-                        <tr>
-                            <td><?= $i; ?></td>
-                            <td><?= $row['nm_pelanggan'] ?></td>
-                            <td><?= $row['alamat'] ?></td>
-                            <td><?= $row['port'] ?></td>
-                            <td><?= $row['nm_layanan'] ?></td>
-                            <td><?= $row['lokasi'] ?></td>
-                            <td><?= $row['tgl_psb'] ?></td>
-                            <td><?= $row['label'] ?></td>
-                            <td><?= $row['status'] ?></td>
-                            <td style="width: 220px;"><a href="<?= base_url('admin/pelanggan_detail?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                <a href="<?= base_url('admin/edit_pelanggan?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                <a href="<?= base_url('admin/delete_pelanggan?id=') . $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a></td>
-                        </tr>
-                        <?php $i++; ?>
+                            <tr>
+                                <td><?= $i; ?></td>
+                                <td><?= $row['nm_pelanggan'] ?></td>
+                                <td><?= $row['alamat'] ?></td>
+                                <td><?= $row['port'] ?></td>
+                                <td><?= $row['nm_layanan'] ?></td>
+                                <td><?= $row['lokasi'] ?></td>
+                                <td><?= $row['tgl_psb'] ?></td>
+                                <td><?= $row['label'] ?></td>
+                                <td><?= $row['status'] ?></td>
+                                <td style="width: 220px;"><a href="<?= base_url('admin/pelanggan_detail?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                    <a href="<?= base_url('admin/edit_pelanggan?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                    <a href="<?= base_url('admin/delete_pelanggan?id=') . $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a></td>
+                            </tr>
+                            <?php $i++; ?>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -111,24 +111,40 @@
                         <small class="text-danger"><?= form_error('alamat'); ?></small>
                     </div>
                     <div class="form-group">
+                        <label for="paket">Paket</label>
+                        <select class="form-control" id="paket" name="paket">
+                            <option value="">Pilih Paket*</option>
+                            <?php foreach ($layanan as $row) : ?>
+                                <option data-id="<?= $row['id_layanan']; ?>" value="<?= $row['paket']; ?>"><?= $row['paket']; ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="form-group div-layanan">
                         <label for="layanan">Layanan</label>
                         <select class="form-control" id="layanan" name="layanan">
-                        <?php foreach ($layanan as $row): ?>
-                            <option value="<?= $row['id_layanan'];?>"><?= $row['nm_layanan'];?></option>
-                        <?php endforeach ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="sto">STO</label>
                         <select class="form-control" id="sto" name="sto">
-                        <?php foreach ($sto as $row): ?>
-                            <option value="<?= $row['id_sto'];?>"><?= $row['nm_sto'];?></option>
-                        <?php endforeach ?>
+                            <?php foreach ($sto as $row) : ?>
+                                <option value="<?= $row['id_sto']; ?>"><?= $row['nm_sto']; ?></option>
+                            <?php endforeach ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tgl_psb">Jadwal Pasang</label>
-                        <input type="text" class="form-control datepicker" name="tgl_psb">
+                        <label for="id_datel">DATEL</label>
+                        <select name="id_datel" id="id_datel" class="form-control">
+                            <option>Pilih Datel*</option>
+                            <?php foreach ($datel as $row) : ?>
+                                <option value="<?= $row['id_datel']; ?>"><?= $row['nm_datel']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <small class="text-danger"><?= form_error('id_datel'); ?></small>
+                    </div>
+                    <div class="form-group div-odp">
+                        <label for="odp">ODP</label>
+                        <input type="text" class="form-control" id="odp" name="odp" readonly>
                     </div>
             </div>
             <div class="modal-footer">

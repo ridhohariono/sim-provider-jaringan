@@ -23,7 +23,7 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-// TEKNISI
+    // TEKNISI
 
     public function teknisi()
     {
@@ -48,7 +48,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('divisi', 'Divisi', 'required');
         $this->form_validation->set_rules('team', 'Team', 'required');
         $this->form_validation->set_rules('datel', 'Datel', 'required|numeric');
-        if($this->form_validation->run() == true){
+        if ($this->form_validation->run() == true) {
 
             $data = [
                 'nik' => $this->input->post('nik', true),
@@ -63,7 +63,7 @@ class Admin extends CI_Controller
             $this->Admin_model->addTeknisi($data);
             $this->session->set_flashdata('adm_action', 'Ditambahkan');
             redirect('admin/teknisi');
-        }else{
+        } else {
             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Data Teknisi Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -128,7 +128,7 @@ class Admin extends CI_Controller
         redirect('admin/teknisi');
     }
 
-// DATEL
+    // DATEL
 
     public function getJsonDatel()
     {
@@ -154,7 +154,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama_datel', 'Nama Datel', 'required|min_length[3]');
         $this->form_validation->set_rules('lokasi', 'Lokasi Datel', 'required|min_length[5]');
         $this->form_validation->set_rules('kakandatel', 'Kakan Datel', 'required');
-        if($this->form_validation->run() == true){
+        if ($this->form_validation->run() == true) {
 
             $data = [
                 'nm_datel' => $this->input->post('nama_datel', true),
@@ -166,7 +166,7 @@ class Admin extends CI_Controller
             $this->Admin_model->addDatel($data);
             $this->session->set_flashdata('adm_action', 'Ditambahkan');
             redirect('admin/datel');
-        }else{
+        } else {
             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Data Datel Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -220,7 +220,7 @@ class Admin extends CI_Controller
         echo json_encode($this->Admin_model->DatelJoinTeknisi($id)->num_rows());
     }
 
-// LAYANAN
+    // LAYANAN
     public function getJsonLayanan()
     {
         $id = $this->input->get('id');
@@ -247,20 +247,20 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nm_paket', 'Nama Paket', 'required');
         $this->form_validation->set_rules('kecepatan', 'Kecepatan', 'required|numeric');
         $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
-        if($this->form_validation->run() == true){
+        if ($this->form_validation->run() == true) {
 
             $data = [
                 'nm_layanan' => $this->input->post('nama_layanan', true),
                 'paket' => $this->input->post('paket', true),
                 'nm_paket' => $this->input->post('nm_paket', true),
-                'kecepatan' => $this->input->post('kecepatan', true)." Mbps",
+                'kecepatan' => $this->input->post('kecepatan', true) . " Mbps",
                 'harga' => $this->input->post('harga', true)
             ];
 
             $this->Admin_model->addLayanan($data);
             $this->session->set_flashdata('adm_action', 'Ditambahkan');
             redirect('admin/layanan');
-        }else{
+        } else {
             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Data Layanan Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -301,7 +301,7 @@ class Admin extends CI_Controller
                 'nm_layanan' => $this->input->post('nama_layanan', true),
                 'paket' => $this->input->post('paket', true),
                 'nm_paket' => $this->input->post('nm_paket', true),
-                'kecepatan' => $this->input->post('kecepatan', true)." Mbps",
+                'kecepatan' => $this->input->post('kecepatan', true) . " Mbps",
                 'harga' => $this->input->post('harga', true)
             ];
 
@@ -345,7 +345,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('lokasi', 'Lokasi', 'required');
         $this->form_validation->set_rules('datel_def', 'Datel', 'required');
         if ($this->form_validation->run() == false) {
-             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Data Sto Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -377,7 +377,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama_sto', 'Nama Sto', 'required');
         $this->form_validation->set_rules('lokasi', 'Lokasi', 'required');
         if ($this->form_validation->run() == false) {
-             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Data Sto Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -407,23 +407,105 @@ class Admin extends CI_Controller
     // PELANGGAN
     public function pelanggan()
     {
-        $data['title'] = 'Pelanggan';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['pelanggan'] = $this->Admin_model->getPelanggan();
-        $data['layanan'] = $this->Admin_model->getLayanan();
-        $data['sto'] = $this->Admin_model->getSto();
-        $data['datel'] = $this->Admin_model->getDatel();
-        // print_r($data['pelanggan']); die;   
-        $data['layanan'] = $this->Admin_model->getLayanan();
-        $data['sto'] = $this->Admin_model->getSto();
+        $data['title']      = 'Pelanggan';
+        $email              = $this->session->userdata('email');
+        $data['user']       = $this->Admin_model->getUserByMail($email);
+        $data['pelanggan']  = $this->Admin_model->getPelanggan();
+        $data['layanan']    = $this->Admin_model->getLayanan();
+        $data['sto']        = $this->Admin_model->getSto();
+        $data['datel']      = $this->Admin_model->getDatel();
+        $data['layanan']    = $this->Admin_model->getLayanan();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('admin/pelanggan', $data);
-        $this->load->view('templates/footer'); 
+        $this->load->view('templates/footer');
     }
-    
+
+    public function getOdcByDatelIdJson()
+    {
+        $id = $this->input->get('id_datel');
+        echo json_encode($this->Admin_model->getOdcByDatelId($id));
+    }
+
+    public function add_pelanggan()
+    {
+        $this->form_validation->set_rules('nm_pelanggan', 'Nama Pelanggan', 'required');
+        $this->form_validation->set_rules('speedy', 'Speedy', 'required');
+        $this->form_validation->set_rules('voice', 'Voice', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+        $this->form_validation->set_rules('layanan', 'Layanan', 'required');
+        $this->form_validation->set_rules('sto', 'Sto', 'required');
+        $this->form_validation->set_rules('id_datel', 'Datel', 'required');
+        $this->form_validation->set_rules('odp', 'ODP', 'required');
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Pelanggan Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/pelanggan');
+        } else {
+            $nam_odp = $this->input->post('odp');
+            $odp_result = $this->Admin_model->getOdpByName($nam_odp)[0];
+            $port = null;
+            if ($odp_result['port_1'] == 0 || $odp_result['port_2'] == 0 || $odp_result['port_3'] == 0 || $odp_result['port_4'] == 0 || $odp_result['port_5'] == 0 || $odp_result['port_6'] == 0 || $odp_result['port_7'] == 0 || $odp_result['port_8'] == 0) {
+                for ($i = 1; $i <= 8; $i++) {
+                    if ($odp_result['port_' . $i . ''] == 0) {
+                        $col_port = 'port_' . $i . '';
+                        $id_odp = $odp_result['id_odp'];
+                        $port .= $i;
+                        $this->Admin_model->UpdatePortOdp($col_port, $id_odp);
+                        return $this->dataPelanggan($port);
+                    }
+                }
+            } else {
+                $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Tidak Ada <strong>PORT</strong> yang tersedia di ODP tersebut, Silahkan Create ODP Baru!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+                redirect('admin/pelanggan');
+            }
+        }
+    }
+
+    public function dataPelanggan($port)
+    {
+        $data = [
+            'nm_pelanggan' => $this->input->post('nm_pelanggan', true),
+            'speedy' => $this->input->post('speedy', true),
+            'voice' => $this->input->post('voice', true),
+            'alamat' => $this->input->post('alamat', true),
+            'odp' => $this->input->post('odp', true),
+            'port' => $port,
+            'id_layanan' => $this->input->post('layanan', true),
+            'id_sto' => $this->input->post('sto', true),
+            'id_datel' => $this->input->post('id_datel', true),
+            'label' => "TEST",
+            'status' => "Tidak/Belum Aktif",
+            'tgl_psb' => date('Y/m/d'),
+        ];
+        // var_dump($data);
+        // die;
+        $paket = $this->input->post('paket');
+        if ($paket == "Indihome") {
+            $dataIndihome = [
+                'id_layanan' => $this->input->post('layanan', true),
+                'nm_pelanggan' => $this->input->post('nm_pelanggan', true),
+
+            ];
+        } else {
+            echo "Datin";
+        }
+        $this->Admin_model->AddPelanggan($data);
+        $this->session->set_flashdata('adm_action', 'Di Tambahkan');
+        redirect('admin/pelanggan');
+    }
+
+
     // LOKASI
     public function lokasi()
     {
@@ -438,9 +520,10 @@ class Admin extends CI_Controller
         $this->load->view('admin/lokasi', $data);
         $this->load->view('templates/footer');
     }
-    
-    public function lihat_lokasi(){
-        
+
+    public function lihat_lokasi()
+    {
+
         $config['center'] = '37.4419, -122.1419';
         $config['zoom'] = 'auto';
         $this->googlemaps->initialize($config);
@@ -451,12 +534,12 @@ class Admin extends CI_Controller
         foreach ($all_lokasi as $loc) {
             $marker = array();
             $marker['position'] = $loc->latitude . ',' . $loc->longtitude;
-            $marker['infowindow_content'] = $loc->nm_odp .' - '. $loc->nm_odc;
+            $marker['infowindow_content'] = $loc->nm_odp . ' - ' . $loc->nm_odc;
             $marker['draggable'] = TRUE;
             $marker['animation'] = 'DROP';
             $this->googlemaps->add_marker($marker);
         }
-        
+
 
         $data['map'] = $this->googlemaps->create_map();
 
@@ -479,7 +562,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('alamat', 'Alamat', 'required');
         $this->form_validation->set_rules('tgl_buat', 'Tanggal di Buat', 'required');
         $this->form_validation->set_rules('long', 'Longtitude', 'required');
-        if($this->form_validation->run() == true){
+        if ($this->form_validation->run() == true) {
 
             $data = [
                 'nm_odp' => $this->input->post('nama_odp', true),
@@ -495,7 +578,7 @@ class Admin extends CI_Controller
             $this->Admin_model->addLokasi($data);
             $this->session->set_flashdata('adm_action', 'Ditambahkan');
             redirect('admin/lokasi');
-        }else{
+        } else {
             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Data Lokasi Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">

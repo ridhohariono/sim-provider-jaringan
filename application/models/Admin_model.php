@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Admin_model extends CI_Model
 {
@@ -8,7 +8,7 @@ class Admin_model extends CI_Model
         return $this->db->get_where('user', ['email' => $email])->row_array();
     }
 
-// TEKNISI
+    // TEKNISI
 
     public function getTeknisi()
     {
@@ -49,7 +49,7 @@ class Admin_model extends CI_Model
         return $this->db->delete('teknisi', ['id_teknisi' => $id]);
     }
 
-// DATEL
+    // DATEL
 
     public function getDatel()
     {
@@ -112,26 +112,26 @@ class Admin_model extends CI_Model
     public function updateLayanan($data, $id)
     {
         $this->db->set($data);
-        $this->db->where('id_layanan',$id);
+        $this->db->where('id_layanan', $id);
         $this->db->update('layanan');
     }
 
     // STO
     public function getStoJoinDatel()
     {
-       $this->db->select('*');
-       $this->db->from('datel');
-       $this->db->join('sto', 'sto.id_datel = datel.id_datel');
-       return $this->db->get()->result_array();
+        $this->db->select('*');
+        $this->db->from('datel');
+        $this->db->join('sto', 'sto.id_datel = datel.id_datel');
+        return $this->db->get()->result_array();
     }
 
     public function getStoJoinDatelById($id)
     {
-       $this->db->select('*');
-       $this->db->from('datel');
-       $this->db->where('sto.id_datel', $id);
-       $this->db->join('sto', 'sto.id_datel = datel.id_datel');
-       return $this->db->get()->result_array();
+        $this->db->select('*');
+        $this->db->from('datel');
+        $this->db->where('sto.id_datel', $id);
+        $this->db->join('sto', 'sto.id_datel = datel.id_datel');
+        return $this->db->get()->result_array();
     }
 
     public function getSto()
@@ -172,17 +172,48 @@ class Admin_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-// <<<<<<< Updated upstream
+    public function AddPelanggan($data)
+    {
+        return $this->db->insert('pelanggan', $data);
+    }
+
+    // ODP
+    public function getOdcByDatelId($id)
+    {
+        $this->db->select('*');
+        $this->db->from('odp');
+        $this->db->where('id_datel', $id);
+        $this->db->order_by('id_odp', 'DESC');
+        $this->db->limit(1);
+        return $this->db->get()->result_array();
+    }
+
+    public function getOdpByName($name)
+    {
+        return $this->db->get_where('odp', ['nm_odp' => $name], 1)->result_array();
+    }
+
+    public function UpdatePortOdp($col_port, $id_odp)
+    {
+        $this->db->set($col_port, 1);
+        $this->db->where('id_odp', $id_odp);
+        $this->db->update('odp');
+    }
+
+    // <<<<<<< Updated upstream
     // LOKASI
-    public function getLokasi(){
+    public function getLokasi()
+    {
         return $this->db->get('lokasi')->result();
     }
 
-    public function addLokasi($data){
+    public function addLokasi($data)
+    {
         return $this->db->insert('lokasi', $data);
     }
 
-    public function deleteLokasi($id){
+    public function deleteLokasi($id)
+    {
         return $this->db->delete('lokasi', ['id_lokasi' => $id]);
     }
 
@@ -190,7 +221,7 @@ class Admin_model extends CI_Model
     {
         return $this->db->get_where('lokasi', ['id_lokasi' => $id])->result_array();
     }
-// =======
+    // =======
     // public function getPelanggan()
     // {
     //     $this->db->select('*');
@@ -199,5 +230,5 @@ class Admin_model extends CI_Model
     //     $this->db->join('layanan AS L', 'P.id_layanan = L.id_layanan');
     //     return $this->db->get()->result_array();
     // }
-// >>>>>>> Stashed changes
+    // >>>>>>> Stashed changes
 }
