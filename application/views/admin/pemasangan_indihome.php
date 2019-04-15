@@ -2,19 +2,12 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data STO</h1>
+    <h1 class="h3 mb-5 text-gray-800">Data Pemasangan Indihome</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?= $this->session->flashdata('adm_gagal'); ?>
-    
+
     <!-- DataTales Example -->
-    <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-primary tambahSto float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
-                Tambah Sto
-            </button>
-        </div>
-    </div>
-    <div class="card shadow mb-4">
+    <div class="card shadow mt-5">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Informasi STO</h6>
         </div>
@@ -24,35 +17,50 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Nama STO</th>
-                            <th>Lokasi STO</th>
+                            <th>Nama Pelanggan</th>
+                            <th>Alamat</th>
+                            <th>Lokasi</th>
+                            <th>Port</th>
+                            <th>Label</th>
                             <th>Datel</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>No.</th>
-                            <th>Nama STO</th>
-                            <th>Lokasi STO</th>
+                            <th>Nama Pelanggan</th>
+                            <th>Alamat</th>
+                            <th>Lokasi</th>
+                            <th>Port</th>
+                            <th>Label</th>
                             <th>Datel</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php $i = 1; ?>
-                        <?php foreach ($sto as $row) : ?>
-                        <tr>
-                            <td><?= $i; ?></td>
-                            <td><?= $row['nm_sto'] ?></td>
-                            <td><?= $row['lokasi'] ?></td>
-                            <td><?= $row['nm_datel'] ?></td>
-                            <td class="text-center">
-                                <a href="javascript:" class="btn btn-sm btn-primary mr-2 modalEditSto" id="modalEditSto" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_sto'];?>" data-url="<?= base_url('admin/getStoByIdJson?id='.$row['id_sto']);?>"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                <a href="<?= base_url('admin/delete_sto?id=') . $row['id_sto'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
-                        </tr>
-                        <form action=""></form>
-                        <?php $i++; ?>
+                        <?php foreach ($pIndihome as $row) : ?>
+                            <tr>
+                                <td><?= $i; ?></td>
+                                <td><?= $row['nm_pelanggan'] ?></td>
+                                <td><?= $row['alamat'] ?></td>
+                                <td><?= $row['id_lokasi'] ?></td>
+                                <td><?= $row['port'] ?></td>
+                                <td><?= $row['label'] ?></td>
+                                <td><?= $row['nm_datel'] ?></td>
+                                <td><?= $row['status'] ?></td>
+                                <td><?= $row['tgl_psb'] ?></td>
+                                <td class="text-center">
+                                    <a href="javascript:" class="btn btn-sm btn-primary mr-2 modalEditSto" id="modalEditSto" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_sto']; ?>" data-url="<?= base_url('admin/getStoByIdJson?id=' . $row['id_sto']); ?>"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                    <a href="<?= base_url('admin/delete_sto?id=') . $row['id_sto'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
+                            </tr>
+                            <form action=""></form>
+                            <?php $i++; ?>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -91,8 +99,8 @@
                     <div class="form-group">
                         <label for="datel_def">Datel</label>
                         <select name="datel_def" id="datel_def" class="form-control">
-                            <?php foreach ($sto as $row): ?>
-                                <option id="" value="<?= $row['id_datel'];?>"><?= $row['nm_datel'];?></option>
+                            <?php foreach ($sto as $row) : ?>
+                                <option id="" value="<?= $row['id_datel']; ?>"><?= $row['nm_datel']; ?></option>
                             <?php endforeach ?>
                         </select>
                         <small class="text-danger"><?= form_error('datel_def'); ?></small>

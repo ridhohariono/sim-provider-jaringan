@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data Telkom</h1>
+    <h1 class="h3 mb-2 text-gray-800">Data Pelanggan</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?= $this->session->flashdata('adm_gagal'); ?>
 
@@ -62,9 +62,11 @@
                                 <td><?= $row['tgl_psb'] ?></td>
                                 <td><?= $row['label'] ?></td>
                                 <td><?= $row['status'] ?></td>
-                                <td style="width: 220px;"><a href="<?= base_url('admin/pelanggan_detail?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                <td style="width: 220px;">
+                                    <a href="<?= base_url('admin/pelanggan_detail?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
                                     <a href="<?= base_url('admin/edit_pelanggan?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                    <a href="<?= base_url('admin/delete_pelanggan?id=') . $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a></td>
+                                    <a href="<?= base_url('admin/delete_pelanggan?id=') . $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a>
+                                </td>
                             </tr>
                             <?php $i++; ?>
                         <?php endforeach; ?>
@@ -145,6 +147,11 @@
                     <div class="form-group div-odp">
                         <label for="odp">ODP</label>
                         <input type="text" class="form-control" id="odp" name="odp" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Label</label>
+                        <input type="text" class="form-control" id="label" name="label" placeholder="Label">
+                        <small class="text-danger"><?= form_error('label'); ?></small>
                     </div>
             </div>
             <div class="modal-footer">

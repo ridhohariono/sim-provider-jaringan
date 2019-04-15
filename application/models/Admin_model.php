@@ -221,14 +221,26 @@ class Admin_model extends CI_Model
     {
         return $this->db->get_where('lokasi', ['id_lokasi' => $id])->result_array();
     }
-    // =======
-    // public function getPelanggan()
-    // {
-    //     $this->db->select('*');
-    //     $this->db->from('sto AS S');
-    //     $this->db->join('pelanggan AS P', 'P.id_sto = S.id_sto');
-    //     $this->db->join('layanan AS L', 'P.id_layanan = L.id_layanan');
-    //     return $this->db->get()->result_array();
-    // }
-    // >>>>>>> Stashed changes
+
+    // PEMASANGAN INDIHOME
+
+    public function getPIndihome()
+    {
+        $this->db->select('*');
+        $this->db->from('datel');
+        $this->db->join('pemasangan_indihome', 'datel.id_datel = pemasangan_indihome.id_datel');
+        $this->db->order_by('id_transaksi', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
+    public function insertIndihome($dataIndihome)
+    {
+        return $this->db->insert('pemasangan_indihome', $dataIndihome);
+    }
+
+    // PEMASANGAN DATIN
+    public function insertDatin($dataDatin)
+    {
+        return $this->db->insert('pemasangan_datin', $dataDatin);
+    }
 }
