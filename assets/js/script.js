@@ -26,6 +26,53 @@ $('.delete').on('click', function (e) {
 	})
 });
 
+const flashDataTeknisi = $('.flash-datateknisi').data('flashteknisi');
+if (flashDataTeknisi) {
+	Swal.fire({
+		title: 'Status',
+		text: 'Berhasil ' + flashDataTeknisi,
+		type: 'success'
+	});
+}
+
+$('.prosesPasang').on('click', function (e) {
+	e.preventDefault();
+	const href = $(this).attr('href');
+	Swal.fire({
+		title: 'Proses Pemasangan ?',
+		text: 'Status akan di Ubah Menjadi "Proses Pemasangan"',
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Proses',
+		closeOnConfirm: false
+	}).then((result) => {
+		if (result.value) {
+			document.location.href = href;
+		}
+	})
+});
+
+$('.onlinePasang').on('click', function (e) {
+	e.preventDefault();
+	const href = $(this).attr('href');
+	Swal.fire({
+		title: 'Mengaktifkan Pengguna ?',
+		text: "Sebelum Mengaktifkan pastikan anda telah selesai memasang Property",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Aktifkan',
+		closeOnConfirm: false
+	}).then((result) => {
+		if (result.value) {
+			document.location.href = href;
+		}
+	})
+});
+
 // TEKNISI
 function tambahTeknisi() {
 	$('.tambahTeknisi').on('click', function () {
@@ -464,24 +511,6 @@ function detailsPelanggan() {
 
 // Pemasangan Inidhome
 
-function mapsPIndihome() {
-	$('.mapsModalIndihome').on('click', function () {
-		const id = $(this).data('id');
-		const url = $(this).data('url');
-		$.ajax({
-			url: url,
-			data: {
-				id_transaksi: id
-			},
-			method: 'post',
-			dataType: 'html',
-			success: function (data) {
-				console.log(data);
-				$('.modal-body').html(data);
-			}
-		});
-	});
-}
 
 // Teknisi
 tambahTeknisi();
@@ -512,4 +541,3 @@ editPelanggan();
 detailsPelanggan();
 
 // PEMASANGAN INDIHOMe
-mapsPIndihome();

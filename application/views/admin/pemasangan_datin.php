@@ -4,6 +4,9 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-5 text-gray-800">Data Pemasangan Datin</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
+    <?php if ($this->session->flashdata('teknisi_action')) : ?>
+        <div class="flash-datateknisi" data-flashteknisi="<?= $this->session->flashdata('teknisi_action') ?>"></div>
+    <?php endif ?>
     <?= $this->session->flashdata('adm_gagal'); ?>
 
     <!-- DataTales Example -->
@@ -52,14 +55,18 @@
                                 <?php if ($this->session->userdata('role_id') == 1) : ?>
                                     <td style="width: 160px;">
                                         <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-map"></span> Maps</a>
+                                        <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                     </td>
                                 <?php else : ?>
                                     <td style="width: 240px;">
                                         <div class="mt-1">
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-info detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-spinner mr-1"></span>Proses</a>
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-map"></span> Maps</a>
+                                            <?php if ($row['status'] == "Sedang Request ke Teknisi") : ?>
+                                                <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=datin&status=Proses Pemasangan'); ?>" class="btn btn-sm btn-info prosesPasang"><span class="fa fa-spinner mr-1"></span>Proses</a>
+                                            <?php elseif ($row['status'] == "Proses Pemasangan") : ?>
+                                                <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=datin&status=Aktif'); ?>" class="btn btn-sm btn-warning onlinePasang"><span class="fa fa-signal mr-1"></span>Online</a>
+                                            <?php endif; ?>
+                                            <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                         </div>
                                     </td>
                                 <?php endif; ?>

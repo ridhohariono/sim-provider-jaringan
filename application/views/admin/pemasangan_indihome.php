@@ -4,6 +4,9 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-5 text-gray-800">Data Pemasangan Indihome</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
+    <?php if ($this->session->flashdata('teknisi_action')) : ?>
+        <div class="flash-datateknisi" data-flashteknisi="<?= $this->session->flashdata('teknisi_action') ?>"></div>
+    <?php endif ?>
     <?= $this->session->flashdata('adm_gagal'); ?>
 
     <!-- DataTales Example -->
@@ -52,14 +55,18 @@
                                 <?php if ($this->session->userdata('role_id') == 1) : ?>
                                     <td style="width: 160px;">
                                         <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                        <a href="javascript:" data-id="<?= $row['id_transaksi'] ?>" data-url="<?= base_url('admin/pIndihomeMaps/'); ?>" class="btn btn-sm btn-primary mapsModalIndihome" data-toggle="modal" data-target="#mapsModalIndihome"><span class="fa fa-map"></span> Maps</a>
+                                        <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                     </td>
                                 <?php else : ?>
                                     <td style="width: 240px;">
                                         <div class="mt-1">
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                            <a href="javascript:" data-id="<?= $row['id_transaksi'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-info detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-spinner mr-1"></span>Proses</a>
-                                            <a href="javascript:" data-id="<?= $row['id_transaksi'] ?>" data-url="<?= base_url('admin/pIndihomeMaps/'); ?>" class="btn btn-sm btn-primary mapsModalIndihome" data-toggle="modal" data-target="#mapsModalIndihome"><span class="fa fa-map"></span> Maps</a>
+                                            <?php if ($row['status'] == "Sedang Request ke Teknisi") : ?>
+                                                <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=indihome&status=Proses Pemasangan'); ?>" class="btn btn-sm btn-info prosesPasang"><span class="fa fa-spinner mr-1"></span>Proses</a>
+                                            <?php elseif ($row['status'] == "Proses Pemasangan") : ?>
+                                                <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=indihome&status=Aktif'); ?>" class="btn btn-sm btn-warning onlinePasang"><span class="fa fa-signal mr-1"></span>Online</a>
+                                            <?php endif; ?>
+                                            <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                         </div>
                                     </td>
                                 <?php endif; ?>
@@ -115,27 +122,6 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 <button type="submit" class="btn btn-primary" id="submit">Tambah STO</button>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Maps -->
-<div class="modal fade" id="mapsModalIndihome" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="judulModal">Peta Pemasangan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="map_canvas" style="width:500px;height:380px;">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

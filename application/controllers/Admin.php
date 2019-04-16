@@ -750,12 +750,11 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function pIndihomeMaps()
+    public function lokasi_pemasangan()
     {
-        $id_transaksi = $this->input->post('id_transaksi');
+        $id_transaksi = $this->input->get('id');
         $id_lokasi = $this->Admin_model->getPIdLokasiIndihome($id_transaksi);
         $lokasi = $this->Admin_model->getLokasiById($id_lokasi[0]['id_lokasi'])[0];
-
         $config['center'] = '37.4419, -122.1419';
         $config['zoom'] = 'auto';
         $this->googlemaps->initialize($config);
@@ -766,7 +765,16 @@ class Admin extends CI_Controller
         $marker['animation'] = 'DROP';
         $this->googlemaps->add_marker($marker);
         $maps = $this->googlemaps->create_map();
-        echo ($maps['html']);
+
+        $data['title']      = 'Pemasangan Indihome';
+        $email              = $this->session->userdata('email');
+        $data['user']       = $this->Admin_model->getUserByMail($email);
+        $data['map']       = $this->googlemaps->create_map();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/lokasi_pemasangan', $data);
+        $this->load->view('templates/footer');
     }
 
     // PEMASANGAN DATIN
@@ -776,11 +784,44 @@ class Admin extends CI_Controller
         $email              = $this->session->userdata('email');
         $data['user']       = $this->Admin_model->getUserByMail($email);
         $data['pDatin']  = $this->Admin_model->getPDatin();
-        // print_r($data['pIndihome']); die;
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('admin/pemasangan_datin', $data);
         $this->load->view('templates/footer');
+    }
+
+    // TEKNISI PEMASANGAN ACTION
+    public function proses_pemasangan()
+    {
+        $id_transaksi = $this->input->get('id');
+        $id_pelanggan = $this->input->get('id_pelanggan');
+        $id_teknisi = $this->session->userdata('id');
+        $layanan = $this->input->get('layanan');
+        $status = $this->input->get('status');
+        $dataPelanggan = [
+            'id_pelanggan' => $id_pelanggan,
+            'id_teknisi' => $id_teknisi,
+            'status'       => $status,
+        ];
+        if ($layanan == "indihome") {
+            $dataPIndihome = [
+                'id_transaksi' => $id_transaksi,
+                'id_teknisi' => $id_teknisi,
+                'status'       => $status
+            ];
+            $this->Admin_model->updateStatusPasangIndihome($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi);
+            $this->session->set_flashdata('teknisi_action', 'Di Update');
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            $dataPDatin = [
+                'id_transaksi' => $id_transaksi,
+                'id_teknisi' => $id_teknisi,
+                'status'       => $status
+            ];
+            $this->Admin_model->updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPDatin, $id_transaksi);
+            $this->session->set_flashdata('teknisi_action', 'Di Update');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
     }
 }

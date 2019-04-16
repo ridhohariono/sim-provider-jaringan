@@ -245,13 +245,15 @@ class Admin_model extends CI_Model
         return $this->db->delete('lokasi', ['id_lokasi' => $id]);
     }
 
-    public function updateLokasi($data, $id){
+    public function updateLokasi($data, $id)
+    {
         $this->db->set($data);
         $this->db->where('id_lokasi', $id);
         $this->db->update('lokasi');
     }
 
-    public function getLokasiDetails($id){
+    public function getLokasiDetails($id)
+    {
         $this->db->select('*');
         $this->db->from('lokasi');
         $this->db->join('sto', 'sto.id_sto = lokasi.id_sto');
@@ -288,16 +290,6 @@ class Admin_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    // PEMASANGAN DATIN
-    public function getPDatin()
-    {
-        $this->db->select('*');
-        $this->db->from('datel');
-        $this->db->join('pemasangan_datin', 'datel.id_datel = pemasangan_datin.id_datel');
-        $this->db->order_by('id_transaksi', 'DESC');
-        return $this->db->get()->result_array();
-    }
-
     public function insertIndihome($dataIndihome)
     {
         return $this->db->insert('pemasangan_indihome', $dataIndihome);
@@ -309,6 +301,43 @@ class Admin_model extends CI_Model
         $this->db->where('id_pelanggan', $id_pelanggan);
         $this->db->update('pemasangan_indihome');
     }
+
+    public function updateStatusPasangIndihome($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi)
+    {
+        // Update Status Pelanggan
+        $this->db->set($dataPelanggan);
+        $this->db->where('id_pelanggan', $id_pelanggan);
+        $this->db->update('pelanggan');
+
+        // Update Status Indihome
+        $this->db->set($dataPIndihome);
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->update('pemasangan_indihome');
+    }
+
+    public function updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi)
+    {
+        // Update Status Pelanggan
+        $this->db->set($dataPelanggan);
+        $this->db->where('id_pelanggan', $id_pelanggan);
+        $this->db->update('pelanggan');
+
+        // Update Status Indihome
+        $this->db->set($dataPIndihome);
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->update('pemasangan_datin');
+    }
+
+    // PEMASANGAN DATIN
+    public function getPDatin()
+    {
+        $this->db->select('*');
+        $this->db->from('datel');
+        $this->db->join('pemasangan_datin', 'datel.id_datel = pemasangan_datin.id_datel');
+        $this->db->order_by('id_transaksi', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
 
     // PEMASANGAN DATIN
     public function insertDatin($dataDatin)

@@ -59,8 +59,8 @@
                                 <td style="width: 300px;">
                                     <div class="mt-2">
                                         <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="btn btn-sm btn-warning editPelanggan" data-toggle="modal" data-target="#editData"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                        <a href="#" class="btn btn-sm btn-primary"><span class="fa fa-sticky-note"></span> Denda</a>
+                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="btn btn-sm btn-warning editPelanggan" data-toggle="modal" data-target="#editDataPelanggan"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary pelangganDenda" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-sticky-note"></span> Denda</a>
                                         <a href="#" class="btn btn-sm btn-danger delete"><span class="fa fa-plug"></span> Cabut</a>
                                     </div>
                                 </td>
@@ -162,7 +162,7 @@
 
 
 <!-- MODAL EDIT -->
-<div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
+<div class="modal fade" id="editDataPelanggan" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
