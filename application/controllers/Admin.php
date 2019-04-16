@@ -687,37 +687,46 @@ class Admin extends CI_Controller
 
     public function edit_lokasi()
     {
-        $id = $this->input->post('id_datel');
-        $this->form_validation->set_rules('nama_datel', 'Nama Datel', 'required|min_length[3]');
-        $this->form_validation->set_rules('lokasi', 'Lokasi Datel', 'required|min_length[5]');
-        $this->form_validation->set_rules('kakandatel', 'Kakan Datel', 'required');
+        $id = $this->input->post('id_lokasi');
+        $this->form_validation->set_rules('nama_odp', 'Nama ODP', 'required');
+        $this->form_validation->set_rules('nama_odc', 'Nama ODC', 'required');
+        $this->form_validation->set_rules('lat', 'Latitude', 'required');
+        $this->form_validation->set_rules('kapasitas', 'Kapasitas', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+        $this->form_validation->set_rules('tgl_buat', 'Tanggal di Buat', 'required');
+        $this->form_validation->set_rules('long', 'Longtitude', 'required');
+
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Data Datel Tidak <strong>Valid</strong> 
+                Data Lokasi Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
                 </div>');
-            redirect('admin/datel');
+            redirect('admin/lokasi');
         } else {
 
             $data = [
-                'nm_datel' => $this->input->post('nama_datel', true),
-                'lokasi' => $this->input->post('lokasi', true),
-                'kakandatel' => $this->input->post('kakandatel', true),
-                'status' => $this->input->post('status', true)
+                'nm_odp' => $this->input->post('nama_odp', true),
+                'nm_odc' => $this->input->post('nama_odc', true),
+                'latitude' => $this->input->post('lat', true),
+                'longtitude' => $this->input->post('long', true),
+                'kapasitas' => $this->input->post('kapasitas', true),
+                'alamat' => $this->input->post('alamat', true),
+                'id_sto' => $this->input->post('sto', true),
+                'tgl_dibuat' => $this->input->post('tgl_buat', true)
             ];
 
-            $this->Admin_model->updateDatel($data, $id);
+            $this->Admin_model->updateLokasi($data, $id);
             $this->session->set_flashdata('adm_action', 'Di Ubah');
-            redirect('admin/datel');
+            redirect('admin/lokasi');
         }
     }
 
     public function lokasi_detailJson()
     {
         $id = $this->input->get('id');
-        echo json_encode($this->Admin_model->DatelJoinTeknisi($id)->num_rows());
+        echo json_encode($this->Admin_model->getLokasiDetails($id));
     }
 
     public function getJsonLokasi()

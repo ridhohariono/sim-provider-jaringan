@@ -237,24 +237,20 @@ function tambahLokasi() {
 		$('#judulModal').html('Tambah Data Lokasi');
 		$('.modal-footer #submit').html('Tambah Data');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_lokasi');
-		const divisi = $('#defaultDivisi').html();
-		const team = $('#defaultTeam').html();
-		const datel = $('#defaultDatel').val();
-		$('#id').val('');
-		$('#nik').val('');
-		$('#nama').val('');
-		$('#alamat').val('');
-		$('#divisi').val(divisi);
-		$('#team').val(team).attr('selected');
-		$('#datel').val(datel).attr('selected');
+		$('#id_lokasi').val('');
+		$('#nama_odp').val('');
+		$('#lat').val('');
+		$('#long').val('');
+		$('#kapasitas').val('');
+		$('#tgl_buat').val('');
 	});
 }
 
 function editLokasi() {
 	$('.editModal').on('click', function () {
 		$('#judulModal').html('Edit Lokasi');
-		$('select[name=datel_def]').attr('disabled', 'disabled');
-		$('.modal-footer button[type=submit]').html('Edit Sto');
+		// $('select[name=datel_def]').attr('disabled', 'disabled');
+		$('.modal-footer button[type=submit]').html('Edit Lokasi');
 		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_lokasi');
 		const id = $(this).data('id');
 		const base_url = $(this).data('url');
@@ -263,16 +259,44 @@ function editLokasi() {
 			method: 'post',
 			dataType: 'json',
 			success: function (data) {
-				console.log(data);
-				$('#id').val(data[0].id_sto);
-				$('#id_datel').val(data[0].id_datel);
-				$('#nama_sto').val(data[0].nm_sto);
-				$('#lokasi').val(data[0].lokasi);
-				$('#datel_def').val(data[0].id_datel);
+				$('#id_lokasi').val(data[0].id_lokasi);
+				$('#nama_odp').val(data[0].nm_odp);
+				$('#nama_odc').val(data[0].nm_odc);
+				$('#lat').val(data[0].latitude);
+				$('#long').val(data[0].longtitude);
+				$('#kapasitas').val(data[0].kapasitas);
+				$('#tgl_buat').val(data[0].tgl_dibuat);
+				$('#sto').val(data[0].id_sto).attr('selected');
 			}
 		});
 	})
 }
+
+function detailsLokasi() {
+	$('.detailsLokasi').on('click', function () {
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+		$.ajax({
+			url: base_url,
+			data: {
+				id: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('.modal-body #nm_odp').html(data[0].nm_odp);
+				$('.modal-body #nm_odc').html(data[0].nm_odc);
+				$('.modal-body #lat').html(data[0].latitude);
+				$('.modal-body #long').html(data[0].longtitude);
+				$('.modal-body #kapasitas').html(data[0].kapasitas);
+				$('.modal-body #alamat').html(data[0].alamat);
+				$('.modal-body #detailssto').html(data[0].nm_sto + ' - ' + data[0].alamat);
+				$('.modal-body #tgl_buat').html(data[0].tgl_dibuat);
+			}
+		});
+	});
+}
+
 
 // STO
 function editSto() {
@@ -476,6 +500,9 @@ detailsLayanan();
 
 // Lokasi
 tambahLokasi();
+editLokasi();
+detailsLokasi();
+
 // STO
 editSto();
 tambahSto();

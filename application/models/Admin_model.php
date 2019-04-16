@@ -245,6 +245,20 @@ class Admin_model extends CI_Model
         return $this->db->delete('lokasi', ['id_lokasi' => $id]);
     }
 
+    public function updateLokasi($data, $id){
+        $this->db->set($data);
+        $this->db->where('id_lokasi', $id);
+        $this->db->update('lokasi');
+    }
+
+    public function getLokasiDetails($id){
+        $this->db->select('*');
+        $this->db->from('lokasi');
+        $this->db->join('sto', 'sto.id_sto = lokasi.id_sto');
+        $this->db->where('id_lokasi', $id);
+        return $this->db->get()->result();
+    }
+
     public function getLokasiById($id)
     {
         return $this->db->get_where('lokasi', ['id_lokasi' => $id])->result_array();

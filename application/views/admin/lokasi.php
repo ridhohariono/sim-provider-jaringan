@@ -42,7 +42,7 @@
                                 <td><?= $row->nm_odc ?></td>
                                 <td><?= $row->kapasitas ?></td>
                                 <td style="width: 215px;" class="justify-content-center">
-                                    <a href="javascript:" class="btn btn-sm btn-success detailsModal" data-toggle="modal" data-target="#Details" data-id="<?= $row->id_lokasi;?>" data-url="<?= base_url('admin/lokasi_detailJson?id='.$row->id_lokasi);?>"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                    <a href="javascript:" class="btn btn-sm btn-success detailsLokasi" data-toggle="modal" data-target="#detailsLokasi" data-id="<?= $row->id_lokasi;?>" data-url="<?= base_url('admin/lokasi_detailJson?id='.$row->id_lokasi);?>"><span class="fas fa-eye mr-1"></span>Detail</a>
                                     <a href="javascript:" class="btn btn-sm btn-primary editModal" data-toggle="modal" data-target="#tambahData" data-id="<?= $row->id_lokasi;?>" data-url="<?= base_url('admin/getJsonLokasi?id='.$row->id_lokasi);?>"><span class="fa fa-edit mr-1"></span>Edit</a>
                                     <a href="<?= base_url('admin/delete_lokasi?id=') . $row->id_lokasi ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
                                 </tr>
@@ -70,7 +70,7 @@
                 <div class="modal-body">
 
                     <form action="<?= base_url('admin/add_lokasi'); ?>" method="post">
-                        <input type="hidden" id="id" name="id_lokasi">
+                        <input type="hidden" id="id_lokasi" name="id_lokasi">
 
                         <div class="form-group">
                             <label for="nama_odp">Nama ODP</label>
@@ -134,50 +134,58 @@
 </div>
 
 <!-- MODAL DETAILS -->
-<div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="DetailsJudul">Details Datel</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
-  <div class="modal-body" id="DetailsDatel">
-    <section class="content">
-        <h1 class="text-center mb-5">Detail Datel</h1>
-                <table class="table table-striped">
-                    <tr>
-                        <th>ID Datel</th>
-                        <td id="id_datel">Default</td>
-                    </tr>
-                    <tr>
-                        <th>Nama Datel</th>
-                        <td id="nm_datel">Default</td>
-                    </tr>
-                    <tr>
-                        <th>Lokasi Datel</th>
-                        <td id="lokasi">Default</td>
-                    </tr>
-                    <tr>
-                        <th>Kepala Kantor Datel</th>
-                        <td id="kakandatel">Default</td>
-                    </tr>
-                    <tr>
-                        <th>Status Datel</th>
-                        <td id="status">Default</td>
-                    </tr>
-                    <tr>
-                        <th>Teknisi</th>
-                         <td class="text-danger" id="teknisi">default</td>   
-                    </tr>
-                </table>
-    </section>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
+<div class="modal fade" id="detailsLokasi" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetailsJudul">Details Lokasi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="detailsLokasi">
+                <section class="content">
+                    <h1 class="text-center mb-5">Detail Lokasi</h1>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Nama ODP</th>
+                            <td id="nm_odp">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Nama ODC</th>
+                            <td id="nm_odc">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Latitude</th>
+                            <td id="lat">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Longtitude</th>
+                            <td id="long">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Kapasitas</th>
+                            <td id="kapasitas">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat</th>
+                            <td id="alamat">default</td>
+                        </tr>
+                        <tr>
+                            <th>STO</th>
+                            <td id="detailssto">default</td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal dibuat</th>
+                            <td id="tgl_buat">default</td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- End of Main Content -- >                                                                                                                           
