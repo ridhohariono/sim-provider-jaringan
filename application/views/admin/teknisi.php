@@ -5,7 +5,7 @@
     <h1 class="h3 mb-2 text-gray-800">Data Teknisi</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?= $this->session->flashdata('adm_gagal'); ?>
-    
+
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
@@ -53,8 +53,8 @@
                                 <td><?= $row['team'] ?></td>
                                 <td style="width: 120px;"><?= $row['nm_datel'] ?></td>
                                 <td style="width: 215px;" class="justify-content-center">
-                                    <a href="javascript:" class="btn btn-sm btn-success detailsModal" data-toggle="modal" data-target="#Details" data-id="<?= $row['id_teknisi'];?>" data-url="<?= base_url('admin/teknisi_detailJson?id='.$row['id_teknisi']);?>"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                    <a href="javascript:" class="btn btn-sm btn-primary editModal" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_teknisi'];?>" data-url="<?= base_url('admin/getJsonTeknisi?id='.$row['id_teknisi']);?>"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                    <a href="javascript:" class="btn btn-sm btn-success detailsModal" data-toggle="modal" data-target="#Details" data-id="<?= $row['id_teknisi']; ?>" data-url="<?= base_url('admin/teknisi_detailJson?id=' . $row['id_teknisi']); ?>"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                    <a href="javascript:" class="btn btn-sm btn-primary editModal" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_teknisi']; ?>" data-url="<?= base_url('admin/getJsonTeknisi?id=' . $row['id_teknisi']); ?>"><span class="fa fa-edit mr-1"></span>Edit</a>
                                     <a href="<?= base_url('admin/delete_teknisi?id=') . $row['id_teknisi'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a>
                                 </td>
                             </tr>
@@ -80,7 +80,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="<?=base_url('admin/teknisi')?>" method="post">
+                <form action="<?= base_url('admin/teknisi') ?>" method="post">
                     <input type="hidden" id="id" name="id">
                     <div class="form-group">
                         <label for="nik">NIK</label>
@@ -126,17 +126,17 @@
                     <div class="form-group">
                         <label for="datel">Datel</label>
                         <select class="form-control" id="datel" name="datel">
-                            <?php foreach ($datel as $row): ?>
-                            <option id="defaultDatel" value="<?= $row['id_datel'];?>"><?= $row['nm_datel']?></option>
+                            <?php foreach ($datel as $row) : ?>
+                                <option id="defaultDatel" value="<?= $row['id_datel']; ?>"><?= $row['nm_datel'] ?></option>
                             <?php endforeach ?>
                         </select>
                         <small class="text-danger"><?= form_error('datel'); ?></small>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="submit">Tambah Data</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="submit">Tambah Data</button>
+            </div>
             </form>
         </div>
     </div>
@@ -144,20 +144,20 @@
 
 <!-- Modal -->
 <div class="modal fade" id="Details" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="DetailsJudul">Details Teknisi</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetailsJudul">Details Teknisi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="Details">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="modal-body" id="Details">
-        </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-</div>
-</div>
+    </div>
 </div>
 <!-- End of Main Content -- >                                                                                                                           

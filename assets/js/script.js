@@ -311,6 +311,7 @@ function tambahSto() {
 	});
 }
 
+// PELANGGAN
 function tambahPelanggan() {
 	$('.tambahPelanggan').on('click', function () {
 		$('.modal-footer #submit').html('Tambah Pelanggan');
@@ -350,6 +351,114 @@ function tambahPelanggan() {
 	});
 }
 
+function editPelanggan() {
+	$('.editPelanggan').on('click', function () {
+		$('.modal-footer #submit').html('Edit Pelanggan');
+		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_pelanggan');
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+
+		$.ajax({
+			url: base_url,
+			data: {
+				id_pelanggan: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('#id_pelanggan_edit').val(data[0].id_pelanggan);
+				$('#nm_pelanggan_edit').val(data[0].nm_pelanggan);
+				$('#speedy_edit').val(data[0].speedy);
+				$('#voice_edit').val(data[0].voice);
+				$('#alamat_edit').val(data[0].alamat);
+				$('#label_edit').val(data[0].label);
+				$('#layanan_edit').val(data[0].id_layanan);
+				$('#id_layanan_edit').val(data[0].id_layanan);
+			}
+		});
+
+	});
+}
+
+function detailsPelanggan() {
+	$('.detailsPelanggan').on('click', function () {
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+		$.ajax({
+			url: base_url,
+			data: {
+				id_pelanggan: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('.modal-body #nm_pelanggan').html(data[0].nm_pelanggan);
+				$('.modal-body #speedy').html(data[0].speedy);
+				$('.modal-body #voice').html(data[0].voice);
+				$('.modal-body #alamat').html(data[0].alamat);
+				$('.modal-body #odp').html(data[0].odp);
+				$('.modal-body #port').html(data[0].port);
+				$('.modal-body #paket').html(data[0].paket);
+				$('.modal-body #layanan').html(data[0].nm_layanan);
+				$('.modal-body #label').html(data[0].label);
+				$('.modal-body #status').html(data[0].status);
+				if (data[0].teknisi == null) {
+					$('.modal-body #teknisi').addClass('badge badge-danger');
+					$('.modal-body #teknisi').html('Belum Ada Teknisi yang Merespon Pemasangan');
+				} else {
+					$('.modal-body #teknisi').html(data[0].teknisi);
+				}
+				if (data[0].tgl_psb == null) {
+					$('.modal-body #tgl_psb').addClass('text-danger');
+					$('.modal-body #tgl_psb').html('Belum Terpasang/Aktif');
+				} else {
+					var date = new Date(data[0].tgl_psb);
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+					var bulanIn = [{
+						"1": "Januari",
+						"2": "February",
+						"3": "Maret",
+						"4": "April",
+						"5": "Mei",
+						"6": "Juni",
+						"7": "Juli",
+						"8": "Agustus",
+						"9": "September",
+						"10": "Oktober",
+						"11": "November",
+						"12": "December"
+					}];
+					var changeMont = bulanIn[0][month];
+					$('.modal-body #tgl_psb').html(day + ' - ' + changeMont + ' - ' + year);
+				}
+			}
+		});
+	});
+}
+
+// Pemasangan Inidhome
+
+function mapsPIndihome() {
+	$('.mapsModalIndihome').on('click', function () {
+		const id = $(this).data('id');
+		const url = $(this).data('url');
+		$.ajax({
+			url: url,
+			data: {
+				id_transaksi: id
+			},
+			method: 'post',
+			dataType: 'html',
+			success: function (data) {
+				console.log(data);
+				$('.modal-body').html(data);
+			}
+		});
+	});
+}
+
 // Teknisi
 tambahTeknisi();
 editTeknisi();
@@ -372,3 +481,8 @@ editSto();
 tambahSto();
 //PELANGGAN
 tambahPelanggan();
+editPelanggan();
+detailsPelanggan();
+
+// PEMASANGAN INDIHOMe
+mapsPIndihome();

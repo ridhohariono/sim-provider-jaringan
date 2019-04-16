@@ -5,7 +5,7 @@
     <h1 class="h3 mb-2 text-gray-800">Lihat Lokasi</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?= $this->session->flashdata('adm_gagal'); ?>
-    <?php echo $map['js'];?>
+    <?php echo $map['js']; ?>
 
     <!-- DataTales Example -->
     <div class="row">
@@ -20,12 +20,10 @@
             <h6 class="m-0 font-weight-bold text-primary">Informasi Lokasi</h6>
         </div>
         <div class="card-body">
-            <?php echo $map['html'];?>
+            <?php echo $map['html']; ?>
         </div>
 
     </div>
 </div>
-    <!-- /.container-fluid -->
-            <div id="map-canvas" class="map-canvas"></div>
-            
-                                                                                                                  
+<!-- /.container-fluid -->
+<div id="map-canvas" class="map-canvas"></div>

@@ -8,7 +8,7 @@
 
     <!-- DataTales Example -->
     <div class="row">
-        <div class="col">
+        <div class="col-lg-12">
             <button type="button" class="btn btn-primary tambahPelanggan float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
                 Tambah Pelanggan
             </button>
@@ -23,13 +23,11 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No.</th>
+                            <th>No</th>
                             <th>Nama Pelanggan</th>
-                            <th>Alamat</th>
                             <th>Port</th>
                             <th>Layanan</th>
                             <th>Datel</th>
-                            <th>Tanggal</th>
                             <th>Label</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -37,13 +35,11 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>No.</th>
+                            <th>No</th>
                             <th>Nama Pelanggan</th>
-                            <th>Alamat</th>
                             <th>Port</th>
                             <th>Layanan</th>
                             <th>Datel</th>
-                            <th>Tanggal</th>
                             <th>Label</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -53,19 +49,20 @@
                         <?php $i = 1; ?>
                         <?php foreach ($pelanggan as $row) : ?>
                             <tr>
-                                <td><?= $i; ?></td>
+                                <th><?= $i; ?></th>
                                 <td><?= $row['nm_pelanggan'] ?></td>
-                                <td><?= $row['alamat'] ?></td>
                                 <td><?= $row['port'] ?></td>
                                 <td><?= $row['nm_layanan'] ?></td>
                                 <td><?= $row['lokasi'] ?></td>
-                                <td><?= $row['tgl_psb'] ?></td>
                                 <td><?= $row['label'] ?></td>
                                 <td><?= $row['status'] ?></td>
-                                <td style="width: 220px;">
-                                    <a href="<?= base_url('admin/pelanggan_detail?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                    <a href="<?= base_url('admin/edit_pelanggan?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                    <a href="<?= base_url('admin/delete_pelanggan?id=') . $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a>
+                                <td style="width: 300px;">
+                                    <div class="mt-2">
+                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="btn btn-sm btn-warning editPelanggan" data-toggle="modal" data-target="#editData"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                        <a href="#" class="btn btn-sm btn-primary"><span class="fa fa-sticky-note"></span> Denda</a>
+                                        <a href="#" class="btn btn-sm btn-danger delete"><span class="fa fa-plug"></span> Cabut</a>
+                                    </div>
                                 </td>
                             </tr>
                             <?php $i++; ?>
@@ -81,7 +78,7 @@
 
 <!-- Modal Box -->
 <div class="modal fade" id="tambahData" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="judulModal">Tambah Pelanggan</h5>
@@ -162,5 +159,129 @@
         </div>
     </div>
 </div>
+
+
+<!-- MODAL EDIT -->
+<div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="judulModal">Edit Pelanggan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="<?= base_url('admin/add_pelanggan'); ?>" method="post">
+                    <input type="hidden" name="id_pelanggan" id="id_pelanggan_edit">
+                    <div class="form-group">
+                        <label for="nm_pelanggan">Nama Pelanggan</label>
+                        <input type="text" class="form-control" id="nm_pelanggan_edit" name="nm_pelanggan" placeholder="Nama Pelanggan">
+                        <small class="text-danger"><?= form_error('nm_pelanggan'); ?></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="speedy">Speedy</label>
+                        <input type="text" class="form-control" id="speedy_edit" name="speedy" placeholder="ex. Ti83joaskPajs">
+                        <small class="text-danger"><?= form_error('speedy'); ?></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="voice">Voice</label>
+                        <input type="text" class="form-control" id="voice_edit" name="voice" placeholder="ex. 564316975316">
+                        <small class="text-danger"><?= form_error('voice'); ?></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control" id="alamat_edit" name="alamat" placeholder="Alamat Pelangan">
+                        <small class="text-danger"><?= form_error('alamat'); ?></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Label</label>
+                        <input type="text" class="form-control" id="label_edit" name="label" placeholder="Label">
+                        <small class="text-danger"><?= form_error('label'); ?></small>
+                    </div>
+                    <input type="hidden" id="id_layanan_edit" name="id_layanan">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Edit Pelanggan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DETAILS -->
+<div class="modal fade" id="detailsPelanggan" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetailsJudul">Details Pelanggan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="DetailsDatel">
+                <section class="content">
+                    <h1 class="text-center mb-5">Detail Pelanggan</h1>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Nama Pelanggan</th>
+                            <td id="nm_pelanggan">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Speedy</th>
+                            <td id="speedy">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Voice</th>
+                            <td id="voice">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat</th>
+                            <td id="alamat">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Odp</th>
+                            <td id="odp">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Port</th>
+                            <td class="badge badge-pill badge-info" id="port">default</td>
+                        </tr>
+                        <tr>
+                            <th>Paket</th>
+                            <td id="paket">default</td>
+                        </tr>
+                        <tr>
+                            <th>Layanan</th>
+                            <td id="layanan">default</td>
+                        </tr>
+                        <tr>
+                            <th>Label</th>
+                            <td id="label">default</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td id="status">default</td>
+                        </tr>
+                        <tr>
+                            <th>Teknisi</th>
+                            <td id="teknisi">default</td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal Aktif</th>
+                            <td id="tgl_psb">default</td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 <!-- End of Main Content -- >                                                                                                                           

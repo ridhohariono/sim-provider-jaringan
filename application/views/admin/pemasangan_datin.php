@@ -2,14 +2,14 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-5 text-gray-800">Data Pemasangan Indihome</h1>
+    <h1 class="h3 mb-5 text-gray-800">Data Pemasangan Datin</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?= $this->session->flashdata('adm_gagal'); ?>
 
     <!-- DataTales Example -->
     <div class="card shadow mt-5">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Pemasangan Indihome</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Pemasangan Datin</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -40,7 +40,7 @@
                     </tfoot>
                     <tbody>
                         <?php $i = 1; ?>
-                        <?php foreach ($pIndihome as $row) : ?>
+                        <?php foreach ($pDatin as $row) : ?>
                             <tr>
                                 <td><?= $i; ?></td>
                                 <td><?= $row['nm_pelanggan'] ?></td>
@@ -52,14 +52,14 @@
                                 <?php if ($this->session->userdata('role_id') == 1) : ?>
                                     <td style="width: 160px;">
                                         <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                        <a href="javascript:" data-id="<?= $row['id_transaksi'] ?>" data-url="<?= base_url('admin/pIndihomeMaps/'); ?>" class="btn btn-sm btn-primary mapsModalIndihome" data-toggle="modal" data-target="#mapsModalIndihome"><span class="fa fa-map"></span> Maps</a>
+                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-map"></span> Maps</a>
                                     </td>
                                 <?php else : ?>
                                     <td style="width: 240px;">
                                         <div class="mt-1">
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                            <a href="javascript:" data-id="<?= $row['id_transaksi'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-info detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-spinner mr-1"></span>Proses</a>
-                                            <a href="javascript:" data-id="<?= $row['id_transaksi'] ?>" data-url="<?= base_url('admin/pIndihomeMaps/'); ?>" class="btn btn-sm btn-primary mapsModalIndihome" data-toggle="modal" data-target="#mapsModalIndihome"><span class="fa fa-map"></span> Maps</a>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-info detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-spinner mr-1"></span>Proses</a>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-map"></span> Maps</a>
                                         </div>
                                     </td>
                                 <?php endif; ?>
@@ -115,27 +115,6 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 <button type="submit" class="btn btn-primary" id="submit">Tambah STO</button>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Maps -->
-<div class="modal fade" id="mapsModalIndihome" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="judulModal">Peta Pemasangan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="map_canvas" style="width:500px;height:380px;">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
