@@ -405,6 +405,21 @@ class Admin extends CI_Controller
     }
 
     // PELANGGAN
+    public function make_pelanggan_pdf(){
+        $data['title']      = 'Pelanggan';
+        $email              = $this->session->userdata('email');
+        $data['user']       = $this->Admin_model->getUserByMail($email);
+        $data['pelanggan']  = $this->Admin_model->getPelanggan();
+        $data['layanan']    = $this->Admin_model->getLayanan();
+        $data['sto']        = $this->Admin_model->getSto();
+        $data['datel']      = $this->Admin_model->getDatel();
+        $data['layanan']    = $this->Admin_model->getLayanan();
+
+        $this->load->helper('dompdf');
+        $view_file = $this->load->view('admin/pelanggan_list_pdf', $data, true);
+        pdf_create($view_file, 'Daftar Pelanggan');
+    }
+
     public function pelanggan()
     {
         $data['title']      = 'Pelanggan';

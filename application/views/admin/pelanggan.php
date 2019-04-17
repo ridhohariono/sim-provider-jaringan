@@ -9,6 +9,7 @@
     <!-- DataTales Example -->
     <div class="row">
         <div class="col-lg-12">
+            <a class="btn btn-primary" href="<?= base_url('admin/make_pelanggan_pdf/'); ?>" role="button">Pdf</a>
             <button type="button" class="btn btn-primary tambahPelanggan float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
                 Tambah Pelanggan
             </button>
