@@ -61,7 +61,7 @@
                                     <td style="width: 240px;">
                                         <div class="mt-1">
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                            <?php if ($row['status'] == "Sedang Request ke Teknisi") : ?>
+                                            <?php if ($row['status'] == "Tidak/Belum Terpasang") : ?>
                                                 <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=datin&status=Proses Pemasangan'); ?>" class="btn btn-sm btn-info prosesPasang"><span class="fa fa-spinner mr-1"></span>Proses</a>
                                             <?php elseif ($row['status'] == "Proses Pemasangan") : ?>
                                                 <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=datin&status=Aktif'); ?>" class="btn btn-sm btn-warning onlinePasang"><span class="fa fa-signal mr-1"></span>Online</a>

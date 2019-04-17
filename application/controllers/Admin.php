@@ -488,7 +488,7 @@ class Admin extends CI_Controller
             'label' => $this->input->post('label'),
             'status' => "Tidak/Belum Aktif",
         ];
-        // $this->Admin_model->AddPelanggan($data);
+        $this->Admin_model->AddPelanggan($data);
         $get_id = $this->Admin_model->getIdPelanggan()[0];
         $id_sto = $this->input->post('sto', true);
         $get_lokasi_id = $this->Admin_model->getLokasiBySto($id_sto)[0];
@@ -777,6 +777,9 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function detailPIndihomeJson()
+    { }
+
     // PEMASANGAN DATIN
     public function pemasangan_datin()
     {
@@ -799,16 +802,24 @@ class Admin extends CI_Controller
         $id_teknisi = $this->session->userdata('id');
         $layanan = $this->input->get('layanan');
         $status = $this->input->get('status');
+        $nm_teknisi = $this->session->userdata('name');
         $dataPelanggan = [
             'id_pelanggan' => $id_pelanggan,
-            'id_teknisi' => $id_teknisi,
+            'id_teknisi'   => $id_teknisi,
+            'nm_teknisi'   => $nm_teknisi,
             'status'       => $status,
+            'tgl_psb'      => date('Y-m-d')
         ];
+        if ($status == "Aktif") {
+            $status = "Selesai";
+        }
         if ($layanan == "indihome") {
             $dataPIndihome = [
                 'id_transaksi' => $id_transaksi,
                 'id_teknisi' => $id_teknisi,
-                'status'       => $status
+                'nm_teknisi'   => $nm_teknisi,
+                'status'       => $status,
+                'tgl_psb'      => date('Y-m-d')
             ];
             $this->Admin_model->updateStatusPasangIndihome($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi);
             $this->session->set_flashdata('teknisi_action', 'Di Update');
@@ -817,11 +828,21 @@ class Admin extends CI_Controller
             $dataPDatin = [
                 'id_transaksi' => $id_transaksi,
                 'id_teknisi' => $id_teknisi,
-                'status'       => $status
+                'nm_teknisi'   => $nm_teknisi,
+                'status'       => $status,
+                'tgl_psb'      => date('Y-m-d')
             ];
             $this->Admin_model->updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPDatin, $id_transaksi);
             $this->session->set_flashdata('teknisi_action', 'Di Update');
             redirect($_SERVER['HTTP_REFERER']);
         }
+    }
+
+    public function delete_pemasangan()
+    {
+        $id_transaksi = $this->input->get('id');
+        $this->Admin_model->deletePemasanganIndihome($id_transaksi);
+        $this->session->set_flashdata('adm_action', 'Di Hapus');
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

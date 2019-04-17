@@ -54,17 +54,19 @@
                                 <td><?= $row['status'] ?></td>
                                 <?php if ($this->session->userdata('role_id') == 1) : ?>
                                     <td style="width: 160px;">
-                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPemasangan" data-toggle="modal" data-target="#detailsPIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
                                         <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                     </td>
                                 <?php else : ?>
                                     <td style="width: 240px;">
                                         <div class="mt-1">
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                            <?php if ($row['status'] == "Sedang Request ke Teknisi") : ?>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPemasangan" data-toggle="modal" data-target="#detailsPIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                            <?php if ($row['status'] == "Tidak/Belum Terpasang") : ?>
                                                 <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=indihome&status=Proses Pemasangan'); ?>" class="btn btn-sm btn-info prosesPasang"><span class="fa fa-spinner mr-1"></span>Proses</a>
                                             <?php elseif ($row['status'] == "Proses Pemasangan") : ?>
                                                 <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=indihome&status=Aktif'); ?>" class="btn btn-sm btn-warning onlinePasang"><span class="fa fa-signal mr-1"></span>Online</a>
+                                            <?php elseif ($row['status'] == "Selesai") : ?>
+                                                <a href="<?= base_url('admin/delete_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Hapus</a>
                                             <?php endif; ?>
                                             <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                         </div>
@@ -122,6 +124,77 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 <button type="submit" class="btn btn-primary" id="submit">Tambah STO</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL DETAILS -->
+<div class="modal fade" id="detailsPIndihome" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetailsJudul">Details Pemasangan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="DetailsDatel">
+                <section class="content">
+                    <h1 class="text-center mb-5">Detail Pemasangan Indihome</h1>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Nama Pelanggan</th>
+                            <td id="nm_pelanggan">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Speedy</th>
+                            <td id="speedy">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Voice</th>
+                            <td id="voice">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat</th>
+                            <td id="alamat">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Odp</th>
+                            <td id="odp">Default</td>
+                        </tr>
+                        <tr>
+                            <th>Port</th>
+                            <td class="badge badge-pill badge-info" id="port">default</td>
+                        </tr>
+                        <tr>
+                            <th>Paket</th>
+                            <td id="paket">default</td>
+                        </tr>
+                        <tr>
+                            <th>Layanan</th>
+                            <td id="layanan">default</td>
+                        </tr>
+                        <tr>
+                            <th>Label</th>
+                            <td id="label">default</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td id="status">default</td>
+                        </tr>
+                        <tr>
+                            <th>Teknisi</th>
+                            <td id="teknisi">default</td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal Aktif</th>
+                            <td id="tgl_psb">default</td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

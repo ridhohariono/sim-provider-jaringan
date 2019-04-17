@@ -315,6 +315,12 @@ class Admin_model extends CI_Model
         $this->db->update('pemasangan_indihome');
     }
 
+    public function deletePemasanganIndihome($id)
+    {
+        return $this->db->delete('pemasangan_indihome', ['id_transaksi' => $id]);
+    }
+
+    // PEMASANGAN DATIN
     public function updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi)
     {
         // Update Status Pelanggan
@@ -328,7 +334,6 @@ class Admin_model extends CI_Model
         $this->db->update('pemasangan_datin');
     }
 
-    // PEMASANGAN DATIN
     public function getPDatin()
     {
         $this->db->select('*');
@@ -338,8 +343,6 @@ class Admin_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-
-    // PEMASANGAN DATIN
     public function insertDatin($dataDatin)
     {
         return $this->db->insert('pemasangan_datin', $dataDatin);

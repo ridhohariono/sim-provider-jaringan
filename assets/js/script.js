@@ -473,11 +473,13 @@ function detailsPelanggan() {
 				$('.modal-body #layanan').html(data[0].nm_layanan);
 				$('.modal-body #label').html(data[0].label);
 				$('.modal-body #status').html(data[0].status);
-				if (data[0].teknisi == null) {
+				console.log(data);
+				if (data[0].nm_teknisi == null) {
 					$('.modal-body #teknisi').addClass('badge badge-danger');
 					$('.modal-body #teknisi').html('Belum Ada Teknisi yang Merespon Pemasangan');
 				} else {
-					$('.modal-body #teknisi').html(data[0].teknisi);
+					$('.modal-body #teknisi').removeClass('badge badge-danger');
+					$('.modal-body #teknisi').html(data[0].nm_teknisi);
 				}
 				if (data[0].tgl_psb == null) {
 					$('.modal-body #tgl_psb').addClass('text-danger');
