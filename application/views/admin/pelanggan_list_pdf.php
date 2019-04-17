@@ -23,7 +23,7 @@
             <table style="width: 100%; vertical-align: middle;">
                 <tr>
                     <td style="width: 35px;">
-                        <img style="width: 50px;height: 50px" src="<?= base_url() ?>/assets/img/asiaa.png" alt="" class="img-circle"/>
+                        <img style="width: 50px;height: 50px" src="<?= base_url() ?>assets/img/asiaa.png" alt="" class="img-circle"/>
                     </td>
                     <td>
                         <p style="margin-left: 10px; font: 14px lighter;">Sistem Informasi Validasi</p>
