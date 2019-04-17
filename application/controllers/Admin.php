@@ -9,6 +9,7 @@ class Admin extends CI_Controller
         parent::__construct();
         $this->load->model('Admin_model');
         $this->load->library('Googlemaps');
+        
     }
 
     public function index()
@@ -406,6 +407,7 @@ class Admin extends CI_Controller
 
     // PELANGGAN
     public function make_pelanggan_pdf(){
+        $this->load->library('pdfgenerator');
         $data['title']      = 'Pelanggan';
         $email              = $this->session->userdata('email');
         $data['user']       = $this->Admin_model->getUserByMail($email);
@@ -415,9 +417,9 @@ class Admin extends CI_Controller
         $data['datel']      = $this->Admin_model->getDatel();
         $data['layanan']    = $this->Admin_model->getLayanan();
 
-        $this->load->helper('dompdf');
-        $view_file = $this->load->view('admin/pelanggan_list_pdf', $data, true);
-        pdf_create($view_file, 'Daftar Pelanggan');
+        $html = $this->load->view('admin/pelanggan_list_pdf', $data, true);
+        $filename = 'Daftar_Pelanggan_'.time();
+        $this->pdfgenerator->generate($html, $filename, true, 'A4', 'portrait');
     }
 
     public function pelanggan()
