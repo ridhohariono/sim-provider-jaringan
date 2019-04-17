@@ -382,6 +382,7 @@ function tambahSto() {
 	});
 }
 
+<<<<<<< Updated upstream
 // PELANGGAN
 function tambahPelanggan() {
 	$('.tambahPelanggan').on('click', function () {
@@ -507,13 +508,41 @@ function detailsPelanggan() {
 					$('.modal-body #tgl_psb').html(day + ' - ' + changeMont + ' - ' + year);
 				}
 			}
+=======
+function tambahPelanggan(){
+	$('.tambahPelanggan').on('click', function(){
+		$('.modal-footer #submit').html('Tambah Pelanggan');
+		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/add_pelanggan');
+		$('#paket').on('change', function(){
+			const id = $(this).find(':selected').attr('data-id');
+			const hide = $('#layanan');
+
+			$.ajax({
+				url: 'http://localhost/sim-indihome/admin/getJsonLayanan?id='+id,
+				method: 'post',
+				dataType: 'json',
+				success: function(data){
+					$('#div-layanan').html(`
+						<div class="form-group">
+                        <label for="layanan">Layanan</label>
+                        <select class="form-control" id="layanan" name="layanan">
+                                <option value="`+ data[0].id_layanan +`">`+ data[0].nm_layanan +`</option>
+                        </select>
+                    </div>
+					`);
+				}
+			});
+>>>>>>> Stashed changes
 		});
 	});
 }
 
+<<<<<<< Updated upstream
 // Pemasangan Inidhome
 
 
+=======
+>>>>>>> Stashed changes
 // Teknisi
 tambahTeknisi();
 editTeknisi();
@@ -538,8 +567,12 @@ detailsLokasi();
 editSto();
 tambahSto();
 //PELANGGAN
+<<<<<<< Updated upstream
 tambahPelanggan();
 editPelanggan();
 detailsPelanggan();
 
 // PEMASANGAN INDIHOMe
+=======
+tambahPelanggan(); 
+>>>>>>> Stashed changes

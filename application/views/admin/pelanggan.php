@@ -50,6 +50,7 @@
                         <?php $i = 1; ?>
                         <?php foreach ($pelanggan as $row) : ?>
                             <tr>
+<<<<<<< Updated upstream
                                 <th><?= $i; ?></th>
                                 <td><?= $row['nm_pelanggan'] ?></td>
                                 <td><?= $row['port'] ?></td>
@@ -74,6 +75,20 @@
                                         </div>
                                     </td>
                                 <?php endif; ?>
+=======
+                                <td><?= $i; ?></td>
+                                <td><?= $row['nm_pelanggan'] ?></td>
+                                <td><?= $row['alamat'] ?></td>
+                                <td><?= $row['port'] ?></td>
+                                <td><?= $row['nm_layanan'] ?></td>
+                                <td><?= $row['lokasi'] ?></td>
+                                <td><?= $row['tgl_psb'] ?></td>
+                                <td><?= $row['label'] ?></td>
+                                <td><?= $row['status'] ?></td>
+                                <td style="width: 220px;"><a href="<?= base_url('admin/pelanggan_detail?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-success"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                    <a href="<?= base_url('admin/edit_pelanggan?id=') . $row['id_pelanggan']; ?>" class="btn btn-sm btn-primary"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                    <a href="<?= base_url('admin/delete_pelanggan?id=') . $row['id_pelanggan'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Denda</a></td>
+>>>>>>> Stashed changes
                             </tr>
                             <?php $i++; ?>
                         <?php endforeach; ?>
@@ -131,6 +146,12 @@
                     <div class="form-group div-layanan">
                         <label for="layanan">Layanan</label>
                         <select class="form-control" id="layanan" name="layanan">
+<<<<<<< Updated upstream
+=======
+                            <?php foreach ($layanan as $row) : ?>
+                                <option value="<?= $row['id_layanan']; ?>"><?= $row['nm_layanan']; ?></option>
+                            <?php endforeach ?>
+>>>>>>> Stashed changes
                         </select>
                     </div>
                     <div class="form-group">
@@ -139,6 +160,7 @@
                             <?php foreach ($sto as $row) : ?>
                                 <option value="<?= $row['id_sto']; ?>"><?= $row['nm_sto']; ?></option>
                             <?php endforeach ?>
+<<<<<<< Updated upstream
                         </select>
                     </div>
                     <div class="form-group">
@@ -148,6 +170,8 @@
                             <?php foreach ($datel as $row) : ?>
                                 <option value="<?= $row['id_datel']; ?>"><?= $row['nm_datel']; ?></option>
                             <?php endforeach; ?>
+=======
+>>>>>>> Stashed changes
                         </select>
                         <small class="text-danger"><?= form_error('id_datel'); ?></small>
                     </div>
@@ -160,6 +184,18 @@
                         <input type="text" class="form-control" id="label" name="label" placeholder="Label">
                         <small class="text-danger"><?= form_error('label'); ?></small>
                     </div>
+<<<<<<< Updated upstream
+=======
+                    <script type="text/javascript">
+                        $(function() {
+                            $(".datepicker").datepicker({
+                                format: 'yyyy-mm-dd',
+                                autoclose: true,
+                                todayHighlight: true,
+                            });
+                        });
+                    </script>
+>>>>>>> Stashed changes
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
