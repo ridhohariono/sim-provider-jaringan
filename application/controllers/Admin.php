@@ -9,7 +9,6 @@ class Admin extends CI_Controller
         parent::__construct();
         $this->load->model('Admin_model');
         $this->load->library('Googlemaps');
-        
     }
 
     public function index()
@@ -406,7 +405,8 @@ class Admin extends CI_Controller
     }
 
     // PELANGGAN
-    public function make_pelanggan_pdf(){
+    public function make_pelanggan_pdf()
+    {
         $this->load->library('pdfgenerator');
         $data['title']      = 'Pelanggan';
         $email              = $this->session->userdata('email');
@@ -418,13 +418,12 @@ class Admin extends CI_Controller
         $data['layanan']    = $this->Admin_model->getLayanan();
 
         $html = $this->load->view('admin/pelanggan_list_pdf', $data, true);
-        $filename = 'Daftar_Pelanggan_'.time();
+        $filename = 'Daftar_Pelanggan_' . time();
         $this->pdfgenerator->generate($html, $filename, true, 'A4', 'portrait');
     }
 
     public function pelanggan()
     {
-<<<<<<< Updated upstream
         $data['title']      = 'Pelanggan';
         $email              = $this->session->userdata('email');
         $data['user']       = $this->Admin_model->getUserByMail($email);
@@ -433,16 +432,6 @@ class Admin extends CI_Controller
         $data['sto']        = $this->Admin_model->getSto();
         $data['datel']      = $this->Admin_model->getDatel();
         $data['layanan']    = $this->Admin_model->getLayanan();
-=======
-        $data['title'] = 'Pelanggan';
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->Admin_model->getUserByMail($email);
-        $data['pelanggan'] = $this->Admin_model->getPelanggan();
-        $data['layanan'] = $this->Admin_model->getLayanan();
-        $data['sto'] = $this->Admin_model->getSto();
-        $data['datel'] = $this->Admin_model->getDatel(); 
-        $data['layanan'] = $this->Admin_model->getLayanan();
->>>>>>> Stashed changes
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -565,27 +554,16 @@ class Admin extends CI_Controller
         echo json_encode($this->Admin_model->getPelangganById($id_pelanggan));
     }
 
-<<<<<<< Updated upstream
     public function edit_pelanggan()
-=======
-    public function add_pelanggan()
->>>>>>> Stashed changes
     {
         $this->form_validation->set_rules('nm_pelanggan', 'Nama Pelanggan', 'required');
         $this->form_validation->set_rules('speedy', 'Speedy', 'required');
         $this->form_validation->set_rules('voice', 'Voice', 'required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-<<<<<<< Updated upstream
         $this->form_validation->set_rules('label', 'Label', 'required');
         $id_pelanggan = $this->input->post('id_pelanggan');
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-=======
-        $this->form_validation->set_rules('layanan', 'Layanan', 'required');
-        $this->form_validation->set_rules('sto', 'Sto', 'required');
-        if ($this->form_validation->run() == false) {
-             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
->>>>>>> Stashed changes
                 Data Pelanggan Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -593,7 +571,6 @@ class Admin extends CI_Controller
                 </div>');
             redirect('admin/pelanggan');
         } else {
-<<<<<<< Updated upstream
             $data = [
                 'nm_pelanggan' => $this->input->post('nm_pelanggan', true),
                 'speedy' => $this->input->post('speedy', true),
@@ -609,7 +586,7 @@ class Admin extends CI_Controller
                     'nm_pelanggan' => $this->input->post('nm_pelanggan', true),
                     'alamat' => $this->input->post('alamat'),
                     'label' => $this->input->post('label'),
-                    'status' => "Sedang Request ke Teknisi",
+                    'status' => "Tidak/Belum Terpasang",
                 ];
                 $this->Admin_model->UpdateIndihome($dataIndihome, $id_pelanggan);
             } else {
@@ -617,7 +594,7 @@ class Admin extends CI_Controller
                     'nm_pelanggan' => $this->input->post('nm_pelanggan', true),
                     'alamat' => $this->input->post('alamat'),
                     'label' => $this->input->post('label'),
-                    'status' => "Sedang Request ke Teknisi",
+                    'status' => "Tidak/Belum Terpasang",
                 ];
                 $this->Admin_model->UpdateDatin($dataDatin, $id_pelanggan);
             }
@@ -634,40 +611,6 @@ class Admin extends CI_Controller
     }
 
 
-=======
-
-            // $data = [
-            //     'nm_pelanggan' => $this->input->post('nm_pelanggan', true),
-            //     'speedy' => $this->input->post('speedy', true),
-            //     'voice' => $this->input->post('voice', true),
-            //     'alamat' => $this->input->post('alamat', true),
-            //     'odp' => $this->input->post('voice', true),
-            //     'port' => 1,
-            //     'id_layanan' => $this->input->post('layanan', true),
-            //     'id_sto' => $this->input->post('sto', true),
-            //     'id_datel' => $this->input->post('datel', true),
-            //     'label' => $this->input->post('voice', true),
-            //     'status' => "Tidak/Belum Aktif",
-            //     'tgl_psb' => $this->input->post('voice', true),
-            // ];
-            // $paket = $this->input->post('paket');
-            // if ($paket == "Indihome") {
-            //    $dataIndihome = [
-            //         'id_layanan' = $this->input->post('layanan', true),
-            //         'nm_pelanggan' = $this->input->post('nm_pelanggan', true),
-                    
-            //    ]
-            // }else{
-            //     echo "Datin";            
-            // }
-            // die;
-            // $this->Admin_model->AddPelanggan($data);
-            // $this->session->set_flashdata('adm_action', 'Di Tambahkan');
-            // redirect('admin/pelanggan');
-        }
-    }
-    
->>>>>>> Stashed changes
     // LOKASI
     public function lokasi()
     {
