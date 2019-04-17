@@ -62,7 +62,9 @@
                                         <div class="mt-2">
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="btn btn-sm btn-warning editPelanggan" data-toggle="modal" data-target="#editDataPelanggan"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary pelangganDenda" data-toggle="modal" data-target="#detailsPelanggan"><span class="fa fa-sticky-note"></span> Denda</a>
+                                            <?php if ($row['denda'] == 0) : ?>
+                                                <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary pelangganDenda" data-toggle="modal" data-target="#pelangganDenda"><span class="fa fa-sticky-note"></span> Denda</a>
+                                            <?php endif; ?>
                                             <a href="#" class="btn btn-sm btn-danger delete"><span class="fa fa-plug"></span> Cabut</a>
                                         </div>
                                     </td>
@@ -293,5 +295,95 @@
     </div>
 </div>
 
+<!-- Modal Denda -->
+<div class="modal fade" id="pelangganDenda" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="judulModal">Pengajuan Denda</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="<?= base_url('admin/denda_pelanggan'); ?>" method="post">
+                    <input type="hidden" id="id_pelanggan_denda" name="id_pelanggan_denda">
+                    <input type="hidden" id="id_layanan_denda" name="id_layanan_denda">
+                    <div class="form-group">
+                        <label for="nm_pelanggan_denda">Nama Pelanggan</label>
+                        <input type="text" class="form-control" id="nm_pelanggan_denda" name="nm_pelanggan_denda" placeholder="Nama Pelanggan" readonly>
+                        <small class="text-danger"><?= form_error('nm_pelanggan'); ?></small>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="paket_denda">Paket</label>
+                            <input type="text" class="form-control" id="paket_denda" name="paket_denda" placeholder="Nama Paket" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="layanan_denda">Layanan</label>
+                            <input type="text" class="form-control" id="layanan_denda" name="layanan_denda" placeholder="Nama Layanan" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group div-odp">
+                        <label for="odp_denda">ODP</label>
+                        <input type="text" class="form-control" id="odp_denda" name="odp_denda" readonly>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="tgl_mulai">Tanggal Mulai</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                </div>
+                                <input type="text" class="form-control datePicker" id="tgl_mulai" name="tgl_mulai" placeholder="Periode Awal Denda">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="tgl_mulai">Tanggal Akhir</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                                </div>
+                                <input type="text" class="form-control datePicker" id="tgl_akhir" name="tgl_akhir" placeholder="Periode Akhir Denda">
+                            </div>
+                        </div>
+                    </div>
+                    <label for="harga">Jumlah Denda</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Rp.</div>
+                        </div>
+                        <input type="text" class="form-control" id="jmlh_denda" placeholder="ex. 180000" name="jmlh_denda">
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan_denda">Keterangan</label>
+                        <textarea class="form-control" name="keterangan_denda" id="keterangan_denda" cols="30" rows="3"></textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $(".datePicker").datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: false,
+        });
+        $("#tgl_mulai").on('changeDate', function(selected) {
+            var startDate = new Date(selected.date.valueOf());
+            $("#tgl_akhir").datepicker('setStartDate', startDate);
+            if ($("#tgl_mulai").val() > $("#tgl_akhir").val()) {
+                $("#tgl_akhir").val($("#tgl_mulai").val());
+            }
+        });
+    });
+</script>
 </div>
 <!-- End of Main Content -- >                                                                                                                           

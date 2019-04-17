@@ -249,18 +249,6 @@ function editLayanan() {
 	});
 }
 
-function number_format(nStr) {
-	nStr += '';
-	x = nStr.split('.');
-	x1 = x[0];
-	x2 = x.length > 1 ? '.' + x[1] : '';
-	var rgx = /(\d+)(\d{3})/;
-	while (rgx.test(x1)) {
-		x1 = x1.replace(rgx, '$1' + ',' + '$2');
-	}
-	return x1 + x2;
-}
-
 function detailsLayanan() {
 	$('.Details').on('click', function () {
 		const id = $(this).data('id');
@@ -473,7 +461,6 @@ function detailsPelanggan() {
 				$('.modal-body #layanan').html(data[0].nm_layanan);
 				$('.modal-body #label').html(data[0].label);
 				$('.modal-body #status').html(data[0].status);
-				console.log(data);
 				if (data[0].nm_teknisi == null) {
 					$('.modal-body #teknisi').addClass('badge badge-danger');
 					$('.modal-body #teknisi').html('Belum Ada Teknisi yang Merespon Pemasangan');
@@ -511,8 +498,152 @@ function detailsPelanggan() {
 	});
 }
 
-// Pemasangan Inidhome
+// Pemasangan Indihome
+function detailPemasangan() {
+	$('.detailsPemasangan').on('click', function () {
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+		$.ajax({
+			url: base_url,
+			data: {
+				id_pelanggan: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('.modal-body #nm_pelanggan_t').html(data[0].nm_pelanggan);
+				$('.modal-body #speedy_t').html(data[0].speedy);
+				$('.modal-body #voice_t').html(data[0].voice);
+				$('.modal-body #alamat_t').html(data[0].alamat);
+				$('.modal-body #odp_t').html(data[0].odp);
+				$('.modal-body #port_t').html(data[0].port);
+				$('.modal-body #paket_t').html(data[0].paket);
+				$('.modal-body #layanan_t').html(data[0].nm_layanan);
+				$('.modal-body #label_t').html(data[0].label);
+				$('.modal-body #status_t').html(data[0].status);
+				if (data[0].nm_teknisi == null) {
+					$('.modal-body #teknisi_t').addClass('badge badge-danger');
+					$('.modal-body #teknisi_t').html('Belum Ada Teknisi yang Merespon Pemasangan');
+				} else {
+					$('.modal-body #teknisi_t').removeClass('badge badge-danger');
+					$('.modal-body #teknisi_t').html(data[0].nm_teknisi);
+				}
+				if (data[0].tgl_psb == null) {
+					$('.modal-body #tgl_psb_t').addClass('text-danger');
+					$('.modal-body #tgl_psb_t').html('Belum Terpasang/Aktif');
+				} else {
+					var date = new Date(data[0].tgl_psb);
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+					var bulanIn = [{
+						"1": "Januari",
+						"2": "February",
+						"3": "Maret",
+						"4": "April",
+						"5": "Mei",
+						"6": "Juni",
+						"7": "Juli",
+						"8": "Agustus",
+						"9": "September",
+						"10": "Oktober",
+						"11": "November",
+						"12": "December"
+					}];
+					var changeMont = bulanIn[0][month];
+					$('.modal-body #tgl_psb_t').html(day + ' - ' + changeMont + ' - ' + year);
+				}
+			}
+		});
+	});
+}
 
+function pelangganDenda() {
+	$('.pelangganDenda').on('click', function () {
+		const id = $(this).data('id');
+		const url = $(this).data('url');
+
+		$.ajax({
+			url: url,
+			data: {
+				id_pelanggan: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('#id_pelanggan_denda').val(data[0].id_pelanggan);
+				$('#id_layanan_denda').val(data[0].id_layanan);
+				$('#nm_pelanggan_denda').val(data[0].nm_pelanggan);
+				$('#paket_denda').val(data[0].paket);
+				$('#layanan_denda').val(data[0].nm_layanan);
+				$('#odp_denda').val(data[0].odp);
+			}
+		});
+	});
+}
+
+function detailsDenda() {
+	$('.detailsDenda').on('click', function () {
+		const id = $(this).data('id');
+		const url = $(this).data('url');
+		$.ajax({
+			url: url,
+			data: {
+				id_pelanggan: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				const denda = number_format(data[0].denda);
+				$('.modal-body #nm_pelanggan').html(data[0].nm_pelanggan);
+				$('.modal-body #paket').html(data[0].paket);
+				$('.modal-body #layanan').html(data[0].layanan);
+				$('.modal-body #odp').html(data[0].odp);
+				$('.modal-body #port').html(data[0].port);
+				$('.modal-body #lama_nunggak').html(data[0].lama_nunggak + " Hari");
+				$('.modal-body #denda').html("Rp." + denda + ",-");
+				$('.modal-body #keterangan').html(data[0].keterangan);
+				console.log(data);
+			}
+		});
+	});
+}
+
+function editDenda() {
+	$('.editDenda').on('click', function () {
+		const id = $(this).data('id');
+		const url = $(this).data('url');
+		$.ajax({
+			url: url,
+			data: {
+				id_denda: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('#id_pelanggan_denda').val(data[0].id_denda);
+				$('#id_denda').val(data[0].id_denda);
+				$('#nm_pelanggan_denda').val(data[0].nm_pelanggan);
+				$('#paket_denda').val(data[0].paket);
+				$('#layanan_denda').val(data[0].layanan);
+				$('#jmlh_denda').val(data[0].denda);
+				$('#keterangan_denda').val(data[0].keterangan);
+			}
+		});
+	});
+}
+
+function number_format(nStr) {
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
 
 // Teknisi
 tambahTeknisi();
@@ -541,5 +672,11 @@ tambahSto();
 tambahPelanggan();
 editPelanggan();
 detailsPelanggan();
+pelangganDenda();
 
 // PEMASANGAN INDIHOMe
+detailPemasangan();
+
+// DENDA
+detailsDenda();
+editDenda();

@@ -55,7 +55,7 @@
                                 <?php if ($this->session->userdata('role_id') == 1) : ?>
                                     <td style="width: 160px;">
                                         <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPemasangan" data-toggle="modal" data-target="#detailsPIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                        <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
+                                        <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome'); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                     </td>
                                 <?php else : ?>
                                     <td style="width: 240px;">
@@ -68,7 +68,7 @@
                                             <?php elseif ($row['status'] == "Selesai") : ?>
                                                 <a href="<?= base_url('admin/delete_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Hapus</a>
                                             <?php endif; ?>
-                                            <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
+                                            <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome'); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                         </div>
                                     </td>
                                 <?php endif; ?>
@@ -144,51 +144,51 @@
                     <table class="table table-striped">
                         <tr>
                             <th>Nama Pelanggan</th>
-                            <td id="nm_pelanggan">Default</td>
+                            <td id="nm_pelanggan_t">Default</td>
                         </tr>
                         <tr>
                             <th>Speedy</th>
-                            <td id="speedy">Default</td>
+                            <td id="speedy_t">Default</td>
                         </tr>
                         <tr>
                             <th>Voice</th>
-                            <td id="voice">Default</td>
+                            <td id="voice_t">Default</td>
                         </tr>
                         <tr>
                             <th>Alamat</th>
-                            <td id="alamat">Default</td>
+                            <td id="alamat_t">Default</td>
                         </tr>
                         <tr>
                             <th>Odp</th>
-                            <td id="odp">Default</td>
+                            <td id="odp_t">Default</td>
                         </tr>
                         <tr>
                             <th>Port</th>
-                            <td class="badge badge-pill badge-info" id="port">default</td>
+                            <td class="badge badge-pill badge-info" id="port_t">default</td>
                         </tr>
                         <tr>
                             <th>Paket</th>
-                            <td id="paket">default</td>
+                            <td id="paket_t">default</td>
                         </tr>
                         <tr>
                             <th>Layanan</th>
-                            <td id="layanan">default</td>
+                            <td id="layanan_t">default</td>
                         </tr>
                         <tr>
                             <th>Label</th>
-                            <td id="label">default</td>
+                            <td id="label_t">default</td>
                         </tr>
                         <tr>
                             <th>Status</th>
-                            <td id="status">default</td>
+                            <td id="status_t">default</td>
                         </tr>
                         <tr>
                             <th>Teknisi</th>
-                            <td id="teknisi">default</td>
+                            <td id="teknisi_t">default</td>
                         </tr>
                         <tr>
                             <th>Tanggal Aktif</th>
-                            <td id="tgl_psb">default</td>
+                            <td id="tgl_psb_t">default</td>
                         </tr>
                     </table>
                 </section>

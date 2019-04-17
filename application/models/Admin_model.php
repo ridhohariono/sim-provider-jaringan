@@ -206,6 +206,50 @@ class Admin_model extends CI_Model
         $this->db->update('pelanggan');
     }
 
+    public function updatePelangganDenda($id_pelanggan, $val)
+    {
+        $this->db->set($val);
+        $this->db->where('id_pelanggan', $id_pelanggan);
+        $this->db->update('pelanggan');
+    }
+
+    // DENDA
+    public function insertDenda($data)
+    {
+        return $this->db->insert('denda', $data);
+    }
+
+    public function updateDenda($data, $id_denda)
+    {
+        $this->db->set($data);
+        $this->db->where('id_denda', $id_denda);
+        $this->db->update('denda');
+    }
+
+    public function deleteDende($id_denda)
+    {
+        return $this->db->delete('denda', ['id_denda' => $id_denda]);
+    }
+
+    public function getDenda()
+    {
+        return $this->db->get('denda')->result_array();
+    }
+
+    public function getDendaById($id_denda)
+    {
+        return $this->db->get_where('denda', ['id_denda' => $id_denda])->result_array();
+    }
+
+    public function dendaJoinPelanggan($id_pelanggan)
+    {
+        $this->db->select('*');
+        $this->db->from('pelanggan');
+        $this->db->where('pelanggan.id_pelanggan', $id_pelanggan);
+        $this->db->join('denda', 'denda.id_pelanggan = pelanggan.id_pelanggan');
+        return $this->db->get()->result_array();
+    }
+
     // ODP
     public function getOdcByDatelId($id)
     {
@@ -286,6 +330,14 @@ class Admin_model extends CI_Model
     {
         $this->db->select('id_lokasi');
         $this->db->from('pemasangan_indihome');
+        $this->db->where('id_transaksi', $id_transaksi);
+        return $this->db->get()->result_array();
+    }
+
+    public function getPIdLokasiDatin($id_transaksi)
+    {
+        $this->db->select('id_lokasi');
+        $this->db->from('pemasangan_datin');
         $this->db->where('id_transaksi', $id_transaksi);
         return $this->db->get()->result_array();
     }

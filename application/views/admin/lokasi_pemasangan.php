@@ -27,5 +27,6 @@
 
     </div>
 </div>
+</div>
 <!-- /.container-fluid -->
-<div id="map-canvas" class="map-canvas"></div>
+<!-- <div id="map-canvas" class="map-canvas"></div> -->

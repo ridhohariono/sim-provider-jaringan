@@ -511,7 +511,6 @@ class Admin extends CI_Controller
         $get_lokasi_id = $this->Admin_model->getLokasiBySto($id_sto)[0];
         $id_lokasi = $get_lokasi_id['id_lokasi'];
         $id_pelanggan = $get_id['id_pelanggan'];
-        $getLayanan = $this->Admin_model->getLayananById($this->input->post('id_layanan'));
         $paket = $this->input->post('paket');
         if ($paket == "Indihome") {
             $dataIndihome = [
@@ -610,6 +609,109 @@ class Admin extends CI_Controller
         echo json_encode($this->Admin_model->getPByIdJsonJoin($id_pelanggan));
     }
 
+    public function denda_pelanggan()
+    {
+        $this->form_validation->set_rules('id_pelanggan_denda', 'id_pelanggan_denda', 'required');
+        $this->form_validation->set_rules('id_layanan_denda', 'id_layanan_denda', 'required');
+        $this->form_validation->set_rules('nm_pelanggan_denda', 'Nama Pelanggan', 'required');
+        $this->form_validation->set_rules('paket_denda', 'Paket', 'required');
+        $this->form_validation->set_rules('layanan_denda', 'Layanan', 'required');
+        $this->form_validation->set_rules('odp_denda', 'ODP', 'required');
+        $this->form_validation->set_rules('tgl_mulai', 'Tanggal Mulai', 'required');
+        $this->form_validation->set_rules('tgl_akhir', 'Tanggal Akhir', 'required');
+        $this->form_validation->set_rules('jmlh_denda', 'Jumlah Denda', 'required|numeric');
+        $this->form_validation->set_rules('keterangan_denda', 'Keterangan', 'required');
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Denda Pelanggan Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            $tgl_mulai = new DateTime($this->input->post('tgl_mulai'));
+            $tgl_akhir = new DateTime($this->input->post('tgl_akhir'));
+            $selisih   = $tgl_mulai->diff($tgl_akhir);
+            $id_pelanggan = $this->input->post('id_pelanggan_denda', true);
+            $data = [
+                'id_pelanggan' => $id_pelanggan,
+                'nm_pelanggan' => $this->input->post('nm_pelanggan_denda', true),
+                'paket'        => $this->input->post('paket_denda', true),
+                'layanan'      => $this->input->post('layanan_denda', true),
+                'lama_nunggak' => $selisih->days,
+                'denda'        => $this->input->post('jmlh_denda', true),
+                'id_layanan' => $this->input->post('id_layanan_denda', true),
+                'keterangan'   => $this->input->post('keterangan_denda', true)
+            ];
+            $val = ['denda' => 1];
+            $this->Admin_model->updatePelangganDenda($id_pelanggan, $val);
+            $this->Admin_model->insertDenda($data);
+            $this->session->set_flashdata('adm_action', 'Di Tambahkan');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
+
+    // HALAMAN DENDA
+    public function denda()
+    {
+        $data['title'] = 'Denda';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $data['denda'] = $this->Admin_model->getDenda();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/denda', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function details_dendaJson()
+    {
+        $id_pelanggan = $this->input->post('id_pelanggan');
+        echo json_encode($this->Admin_model->dendaJoinPelanggan($id_pelanggan));
+    }
+
+    public function edit_dendaJson()
+    {
+        $id_denda = $this->input->post('id_denda');
+        echo json_encode($this->Admin_model->getDendaById($id_denda));
+    }
+
+    public function edit_dendaSubmit()
+    {
+        $this->form_validation->set_rules('jmlh_denda', 'Jumlah Denda', 'required|numeric');
+        $this->form_validation->set_rules('keterangan_denda', 'Keterangan', 'required');
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Denda Pelanggan Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            $id_denda = $this->input->post('id_denda');
+            $data = [
+                'denda' => $this->input->post('jmlh_denda', true),
+                'keterangan' => $this->input->post('keterangan_denda', true)
+            ];
+            $this->Admin_model->updateDenda($data, $id_denda);
+            $this->session->set_flashdata('adm_action', 'Di Ubah');
+            redirect('admin/denda');
+        }
+    }
+
+    public function delete_denda()
+    {
+        $id_denda = $this->input->get('id_denda');
+        $id_pelanggan = $this->input->get('id_pelanggan');
+        $val = ['denda' => 0];
+        $this->Admin_model->deleteDende($id_denda);
+        $this->Admin_model->updatePelangganDenda($id_pelanggan, $val);
+        $this->session->set_flashdata('adm_action', 'Di Hapus');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 
     // LOKASI
     public function lokasi()
@@ -628,7 +730,6 @@ class Admin extends CI_Controller
 
     public function lihat_lokasi()
     {
-
         $config['center'] = '37.4419, -122.1419';
         $config['zoom'] = 'auto';
         $this->googlemaps->initialize($config);
@@ -770,7 +871,15 @@ class Admin extends CI_Controller
     public function lokasi_pemasangan()
     {
         $id_transaksi = $this->input->get('id');
-        $id_lokasi = $this->Admin_model->getPIdLokasiIndihome($id_transaksi);
+        $from   = $this->input->get('from');
+        if ($from == "indihome") {
+            $id_lokasi = $this->Admin_model->getPIdLokasiIndihome($id_transaksi);
+        } elseif ($from == "datin") {
+            $id_lokasi = $this->Admin_model->getPIdLokasiDatin($id_transaksi);
+        } else {
+            echo "Error!";
+            die;
+        }
         $lokasi = $this->Admin_model->getLokasiById($id_lokasi[0]['id_lokasi'])[0];
         $config['center'] = '37.4419, -122.1419';
         $config['zoom'] = 'auto';
@@ -781,7 +890,6 @@ class Admin extends CI_Controller
         $marker['draggable'] = TRUE;
         $marker['animation'] = 'DROP';
         $this->googlemaps->add_marker($marker);
-        $maps = $this->googlemaps->create_map();
 
         $data['title']      = 'Pemasangan Indihome';
         $email              = $this->session->userdata('email');
