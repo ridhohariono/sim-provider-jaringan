@@ -12,30 +12,6 @@
             <i class="fa fa-bars"></i>
           </button>
 
-          
-          <li class="nav">
-          <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-th-list"></i>
-          <span>Okupansi</span></a>
-          </li>
-
-          <li class="nav">
-          <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-info"></i>
-          <span>Service Info</span></a>
-          </li>
-
-          <li class="nav">
-          <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-tag"></i>
-          <span>Label Info</span></a>
-          </li>
-
-          <li class="nav">
-          <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-print"></i>
-          <span>Report</span></a>
-          </li>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
