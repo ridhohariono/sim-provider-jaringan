@@ -399,4 +399,42 @@ class Admin_model extends CI_Model
     {
         return $this->db->insert('pemasangan_datin', $dataDatin);
     }
+
+    public function getAll_odp(){
+        $this->db->select('odp.id_odp, odp.nm_odp, odc.nm_odc, datel.nm_datel');
+        $this->db->from('odp');
+        $this->db->join('odc', 'odc.id_odc = odp.id_odc');
+        $this->db->join('datel', 'datel.id_datel = odp.id_datel');
+        return $this->db->get()->result_array();
+    }
+
+    public function getAll_odc(){
+        return $this->db->get('odc')->result();
+    }
+
+    public function Addodp($data)
+    {
+        return $this->db->insert('odp', $data);
+    }
+
+    public function del_odp($id)
+    {
+        return $this->db->delete('odp', ['id_odp' => $id]);
+    }
+
+    public function getAll_odpbyId($id){
+        $this->db->select('odp.*, odc.nm_odc, datel.nm_datel, (port_1+port_2+port_3+port_4+port_5+port_6+port_7+port_8) as port_used');
+        $this->db->from('odp');
+        $this->db->join('odc', 'odc.id_odc = odp.id_odc');
+        $this->db->join('datel', 'datel.id_datel = odp.id_datel');
+        $this->db->where('odp.id_odp', $id);
+        return $this->db->get()->result_array();
+    }
+
+    public function updateODP($data, $id)
+    {
+        $this->db->set($data);
+        $this->db->where('id_odp', $id);
+        $this->db->update('odp');
+    }
 }

@@ -645,6 +645,71 @@ function number_format(nStr) {
 	return x1 + x2;
 }
 
+function tambahOdp() {
+	$('.tambahOdp').on('click', function () {
+		$('#judulModal').html('Tambah ODP');
+		$('.modal-footer #submit').html('Tambah ODP');
+		$('select[name=datel_def]').removeAttr('disabled');
+		$('select[name=cmb_odc]').removeAttr('disabled');
+		const defSto = $('#datel_def option:first-child').val();
+		const defodc = $('#cmb_odc option:first-child').val();
+		$('#nm_odp').val('');
+		$('#datel_def').val(defSto);
+		$('#cmb_odc').val(defodc);
+	});
+}
+
+function detailsOdp() {
+	$('.detailsOdp').on('click', function () {
+		const id = $(this).data('id');
+		const url = $(this).data('url');
+		$.ajax({
+			url: url,
+			data: {
+				id_odp: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				const denda = number_format(data[0].denda);
+				$('.modal-body #nama_odp').html(data[0].nm_odp);
+				$('.modal-body #nama_odc').html(data[0].nm_odc);
+				$('.modal-body #nama_datel').html(data[0].nm_datel);
+				$('.modal-body #port_terpakai').html(data[0].port_used);
+				$('.modal-body #port_tersedia').html(8 - (data[0].port_used));
+			}
+		});
+	});
+}
+
+function editodp() {
+	$('.modalEditODP').on('click', function () {
+		$('#judulModal').html('Edit ODP');
+		$('select[name=datel_def]').attr('disabled', 'disabled');
+		$('select[name=cmb_odc]').attr('disabled', 'disabled');
+		$('.modal-footer button[type=submit]').html('Edit odp');
+		$('.modal-body form').attr('action', 'http://localhost/sim-indihome/admin/edit_odp');
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+		$.ajax({
+			url: base_url,
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('#id').val(data[0].id_odp);
+				$('#nm_odp').val(data[0].nm_odp);
+				$('#datel_def').val(data[0].id_odc);
+				$('#cmb_odc').val(data[0].id_odp);
+			}
+		});
+	})
+}
+
+// ODP
+tambahOdp();
+detailsOdp();
+editodp();
+
 // Teknisi
 tambahTeknisi();
 editTeknisi();
@@ -668,6 +733,7 @@ detailsLokasi();
 // STO
 editSto();
 tambahSto();
+
 //PELANGGAN
 tambahPelanggan();
 editPelanggan();

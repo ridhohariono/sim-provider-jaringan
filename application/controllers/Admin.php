@@ -1044,4 +1044,85 @@ class Admin extends CI_Controller
             }
         }
     }
+
+    public function odp(){
+        $data['title'] = 'ODP';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $data['odp'] = $this->Admin_model->getAll_odp();
+        $data['odc_info'] = $this->Admin_model->getAll_odc();
+        $data['datel_info'] = $this->Admin_model->getDatel();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/odp', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function add_odp()
+    {
+        $this->form_validation->set_rules('nm_odp', 'Nama odp', 'required');
+        $this->form_validation->set_rules('cmb_odc', 'ODC', 'required');
+        $this->form_validation->set_rules('datel_def', 'Datel', 'required');
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data ODP Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/odp');
+        } else {
+
+            $data = [
+                'nm_odp' => $this->input->post('nm_odp', true),
+                'id_odc' => $this->input->post('cmb_odc', true),
+                'id_datel' => $this->input->post('datel_def')
+            ];
+
+            $this->Admin_model->Addodp($data);
+            $this->session->set_flashdata('adm_action', 'Di Tambahkan');
+            redirect('admin/odp');
+        }
+    }
+
+    public function delete_odp()
+    {
+        $id = $this->input->get('id');
+        $this->Admin_model->del_odp($id);
+        $this->session->set_flashdata('adm_action', 'Di Hapus');
+        redirect('admin/odp');
+    }
+
+    public function getJsonODP()
+    {
+        $id = $this->input->get('id');
+        echo json_encode($this->Admin_model->getAll_odpbyId($id));
+    }
+
+    public function edit_odp()
+    {
+        $id = $this->input->post('id');
+        $this->form_validation->set_rules('nm_odp', 'Nama ODP', 'required|min_length[3]');
+
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data ODP Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/odp');
+        } else {
+
+            $data = [
+                'nm_odp' => $this->input->post('nm_odp', true)
+            ];
+
+            $this->Admin_model->updateODP($data, $id);
+            $this->session->set_flashdata('adm_action', 'Di Ubah');
+            redirect('admin/odp');
+        }
+    }
 }
