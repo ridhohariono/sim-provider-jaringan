@@ -652,6 +652,18 @@ class Admin extends CI_Controller
         }
     }
 
+    public function myprofile(){
+        $data['title'] = 'My Profile';
+
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/myprofile', $data);
+        $this->load->view('templates/footer');
+    }
+
     // HALAMAN DENDA
     public function denda()
     {
@@ -982,5 +994,54 @@ class Admin extends CI_Controller
         $this->Admin_model->deletePemasanganIndihome($id_transaksi);
         $this->session->set_flashdata('adm_action', 'Di Hapus');
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function ganti_password(){
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->db->get_where('user', array('email' => $email))->row_array();
+        $this->form_validation->set_rules('psw_lama', 'Current Password', 'required|trim');
+        $this->form_validation->set_rules('psw_baru', 'New Password', 'required|trim|min_length[3]|matches[psw_baru2]');
+        $this->form_validation->set_rules('psw_baru2', 'New Password 2', 'required|trim|min_length[3]|matches[psw_baru]');
+
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Password Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('admin/myprofile');
+        } else {
+            $psw_lama = $this->input->post('psw_lama');
+            $psw_baru = $this->input->post('psw_baru');
+            $psw_baru2 = $this->input->post('psw_baru2');
+            if (!password_verify($psw_lama, $data['user']['password'])) {
+                $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Password Lama Tidak <strong>Valid</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+                redirect('admin/myprofile');
+            } else {
+                if ($psw_lama == $psw_baru) {
+                    $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Password baru tidak boleh sama dengan password lama !
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>');
+                    redirect('admin/myprofile');
+                } else {
+                    $password_hash = password_hash($psw_baru, PASSWORD_DEFAULT);
+                    $this->db->set('password', $password_hash);
+                    $this->db->where('email', $email);
+                    $this->db->update('user');
+
+                    $this->session->set_flashdata('adm_action', 'Di Ubah');
+                    redirect('admin/myprofile');
+                }
+            }
+        }
     }
 }

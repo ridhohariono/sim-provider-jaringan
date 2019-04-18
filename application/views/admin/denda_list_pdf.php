@@ -53,9 +53,9 @@
                 <?php
                 $key = 1;
                 $total_amount = 0;
+                $total_denda = 0;
                 ?>
                 <?php if (!empty($denda)): foreach ($denda as $row) : ?>
-
                         <tr class="table_tr2">
                             <td><?= $key ?></td>   
                             <td><?= $row['nm_pelanggan'] ?></td>
@@ -66,8 +66,13 @@
                         </tr>
                         <?php
                         $key++;
+                        $total_denda = $total_denda + $row['denda'];
                     endforeach;
                     ?>
+                    <tr class="table_tr2">
+                        <td colspan="5" align="right"><b>Jumlah : </b></td>
+                        <td>Rp.<?= number_format($total_denda); ?>,-</td>
+                    </tr>
                 <?php else : ?>
                     <td colspan="3">
                         <strong>Tidak Ada Data Yang Ditampilkan!</strong>
