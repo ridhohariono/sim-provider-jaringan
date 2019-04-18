@@ -26,9 +26,9 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Pelanggan</th>
-                            <th>Port</th>
+                            <th>Speedy</th>
                             <th>Layanan</th>
-                            <th>Datel</th>
+                            <th>Alamat</th>
                             <th>Label</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -38,9 +38,9 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Pelanggan</th>
-                            <th>Port</th>
+                            <th>Speedy</th>
                             <th>Layanan</th>
-                            <th>Datel</th>
+                            <th>Alamat</th>
                             <th>Label</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -52,30 +52,36 @@
                             <tr>
                                 <th><?= $i; ?></th>
                                 <td><?= $row['nm_pelanggan'] ?></td>
-                                <td><?= $row['port'] ?></td>
+                                <td><?= $row['speedy'] ?></td>
                                 <td><?= $row['nm_layanan'] ?></td>
-                                <td><?= $row['lokasi'] ?></td>
+                                <td><?= $row['alamat'] ?></td>
                                 <td><?= $row['label'] ?></td>
                                 <td><?= $row['status'] ?></td>
-                                <?php if ($row['status'] == "Aktif") : ?>
-                                    <td style="width: 300px;">
-                                        <div class="mt-2">
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="btn btn-sm btn-warning editPelanggan" data-toggle="modal" data-target="#editDataPelanggan"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                            <?php if ($row['denda'] == 0) : ?>
-                                                <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-primary pelangganDenda" data-toggle="modal" data-target="#pelangganDenda"><span class="fa fa-sticky-note"></span> Denda</a>
+                                <td style="width: 130px;">
+                                    <?php if ($row['status'] == "Aktif") : ?>
+                                        <div>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="badge badge-sm badge-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="badge badge-sm badge-warning editPelanggan" data-toggle="modal" data-target="#editDataPelanggan"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                            <?php if ($row['denda'] == 1 && $row['status'] == 'Aktif') : ?>
+                                                <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" aria-disabled="true" class=" badge badge-sm badge-secondary" disabled><span class="fa fa-sticky-note"></span> Denda</a>
+                                            <?php else : ?>
+                                                <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="badge badge-sm badge-primary pelangganDenda" data-toggle="modal" data-target="#pelangganDenda"><span class="fa fa-sticky-note"></span> Denda</a>
                                             <?php endif; ?>
-                                            <a href="#" class="btn btn-sm btn-danger delete"><span class="fa fa-plug"></span> Cabut</a>
+                                            <a href="javascript:" class="badge badge-sm badge-danger cabutPelanggan" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" data-toggle="modal" data-target="#cabutPelanggan"><span class="fa fa-plug"></span> Cabut</a>
                                         </div>
-                                    </td>
-                                <?php else : ?>
-                                    <td style="width: 150px;">
-                                        <div class="mt-2">
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="btn btn-sm btn-warning editPelanggan" data-toggle="modal" data-target="#editDataPelanggan"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                    <?php else : ?>
+                                        <div>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="badge badge-sm badge-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="badge badge-sm badge-warning editPelanggan" data-toggle="modal" data-target="#editDataPelanggan"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" aria-disabled="true" class=" badge badge-sm badge-secondary" disabled><span class="fa fa-sticky-note"></span> Denda</a>
+                                            <?php if ($row['denda'] == 1 || $row['denda'] == 0 && $row['status'] == 'Di Cabut') :  ?>
+                                                <a href="<?= base_url('admin/delete_pelanggan?id=' . $row['id_pelanggan']); ?>" class="badge badge-sm badge-danger delete"><span class="fa fa-trash"></span> Hapus</a>
+                                            <?php else : ?>
+                                                <a href="#" class="badge badge-sm badge-secondary" aria-disabled="true" disabled><span class="fa fa-plug"></span> Cabut</a>
+                                            <?php endif; ?>
                                         </div>
-                                    </td>
-                                <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
                             <?php $i++; ?>
                         <?php endforeach; ?>
@@ -385,5 +391,66 @@
         });
     });
 </script>
+
+<!-- CABUT PELANGGAN -->
+<!-- Modal Box -->
+<div class="modal fade" id="cabutPelanggan" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="judulModal">Cabut Layanan Pelanggan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="<?= base_url('admin/cabut_pelanggan'); ?>" method="post">
+                    <input type="hidden" id="id_layanan_cabut" name="id_layanan_cabut">
+                    <input type="hidden" id="id_pelanggan_cabut" name="id_pelanggan_cabut">
+                    <input type="hidden" id="id_sto_cabut" name="id_sto_cabut">
+                    <input type="hidden" id="id_datel_cabut" name="id_datel_cabut">
+                    <input type="hidden" id="port_cabut" name="port_cabut">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="nm_pelanggan_cabut">Nama Pelanggan</label>
+                            <input type="text" class="form-control" id="nm_pelanggan_cabut" name="nm_pelanggan_cabut" placeholder="Nama Pelanggan" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="odp_cabut">ODP</label>
+                            <input type="text" class="form-control" id="odp_cabut" name="odp_cabut" placeholder="Nama ODP" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat_cabut">Alamat</label>
+                        <input type="text" class="form-control" id="alamat_cabut" name="alamat_cabut" placeholder="Alamat Pelangan" readonly>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="paket_cabut">Paket</label>
+                            <input type="text" class="form-control" id="paket_cabut" name="paket_cabut" placeholder="Nama Paket" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nm_layanan_cabut">Layanan</label>
+                            <input type="text" class="form-control" id="nm_layanan_cabut" name="nm_layanan_cabut" placeholder="Nama Layanan" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="label_cabut">Label</label>
+                        <input type="text" class="form-control" id="label_cabut" name="label_cabut" placeholder="Label" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan_cabut">Keterangan</label>
+                        <textarea name="keterangan_cabut" id="keterangan_cabut" class="form-control" cols="30" rows="3"></textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <!-- End of Main Content -- >                                                                                                                           

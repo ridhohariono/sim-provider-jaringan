@@ -7,6 +7,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library('form_validation');
+		$this->load->model('Admin_model');
 	}
 
 	public function index()
@@ -86,22 +87,29 @@ class Auth extends CI_Controller
 			$this->load->view('auth/registration');
 			$this->load->view('templates/auth_footer');
 		} else {
-			$data = [
-				'name' => htmlspecialchars($this->input->post('name', true)),
-				'email' => htmlspecialchars($this->input->post('email', true)),
-				'image' => 'default.jpg',
-				'password' => password_hash(
-					$this->input->post('password1'),
-					PASSWORD_DEFAULT
-				),
-				'role_id' => 2,
-				'is_active' => 1,
-				'date_created' => time()
-			];
-
-			$this->db->insert('user', $data);
-			$this->session->set_flashdata('message', '<div class="alert alert-success" 
-				role="alert">Selamat! Akun anda telah dibuat. Silahkan Masuk!</div>');
+			// CEK EMAIL ADA ATAU TIDAK DI TABLE TEKNISI
+			$email = $this->input->post('email', true);
+			$cekEmail = $this->Admin_model->getTeknisiByEmail($email);
+			if ($cekEmail > 0) {
+				$data = [
+					'name' => htmlspecialchars($this->input->post('name', true)),
+					'email' => htmlspecialchars($this->input->post('email', true)),
+					'image' => 'default.jpg',
+					'password' => password_hash(
+						$this->input->post('password1'),
+						PASSWORD_DEFAULT
+					),
+					'role_id' => 2,
+					'is_active' => 1,
+					'date_created' => time()
+				];
+				$this->db->insert('user', $data);
+				$this->session->set_flashdata('message', '<div class="alert alert-success" 
+					role="alert">Selamat! Akun anda telah dibuat. Silahkan Masuk!</div>');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" 
+					role="alert">Email anda belum terdaftar sebagai Teknisi, Silahkan Hubungi Admin!</div>');
+			}
 			redirect('auth');
 		}
 	}

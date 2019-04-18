@@ -35,6 +35,11 @@ class Admin_model extends CI_Model
         return $this->db->get_where('teknisi', ['id_teknisi' => $id])->result_array();
     }
 
+    public function getTeknisiByEmail($email)
+    {
+        return $this->db->get_where('teknisi', ['email' => $email])->num_rows();
+    }
+
     public function TeknisiJoinDatel($id)
     {
         $this->db->select('*');
@@ -206,9 +211,21 @@ class Admin_model extends CI_Model
         $this->db->update('pelanggan');
     }
 
+    public function deletePelanggan($id_pelanggan)
+    {
+        return $this->db->delete('pelanggan', ['id_pelanggan' => $id_pelanggan]);
+    }
+
     public function updatePelangganDenda($id_pelanggan, $val)
     {
         $this->db->set($val);
+        $this->db->where('id_pelanggan', $id_pelanggan);
+        $this->db->update('pelanggan');
+    }
+
+    public function updateStatusCabut($status, $id_pelanggan)
+    {
+        $this->db->set($status);
         $this->db->where('id_pelanggan', $id_pelanggan);
         $this->db->update('pelanggan');
     }
@@ -367,7 +384,25 @@ class Admin_model extends CI_Model
         $this->db->update('pemasangan_indihome');
     }
 
-    public function deletePemasanganIndihome($id)
+    public function deletePemasanganSelesai($table, $id)
+    {
+        return $this->db->delete($table, ['id_transaksi' => $id]);
+    }
+
+    public function updateStatusCabutIndihome($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi)
+    {
+        // Update Status Pelanggan
+        $this->db->set($dataPelanggan);
+        $this->db->where('id_pelanggan', $id_pelanggan);
+        $this->db->update('pelanggan');
+
+        // Update Status Indihome
+        $this->db->set($dataPIndihome);
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->update('pencabutan_indihome');
+    }
+
+    public function deletePencabutanIndihome($id)
     {
         return $this->db->delete('pemasangan_indihome', ['id_transaksi' => $id]);
     }
@@ -398,5 +433,19 @@ class Admin_model extends CI_Model
     public function insertDatin($dataDatin)
     {
         return $this->db->insert('pemasangan_datin', $dataDatin);
+    }
+
+    // PENCABUTAN INDIHOME
+    public function insertPencabutan($table, $dataCabut)
+    {
+        return $this->db->insert($table, $dataCabut);
+    }
+
+    public function getCDatin()
+    {
+        $this->db->select('*');
+        $this->db->from('datel');
+        $this->db->join('pencabutan_indihome', 'pencabutan_indihome.id_datel = datel.id_datel');
+        return $this->db->get()->result_array();
     }
 }
