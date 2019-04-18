@@ -290,6 +290,13 @@ class Admin_model extends CI_Model
         $this->db->update('odp');
     }
 
+    public function UpdatePortOdpNull($col_port, $odp)
+    {
+        $this->db->set($col_port, 0);
+        $this->db->where('nm_odp', $odp);
+        $this->db->update('odp');
+    }
+
     // LOKASI
     public function getLokasi()
     {
@@ -389,6 +396,11 @@ class Admin_model extends CI_Model
         return $this->db->delete($table, ['id_transaksi' => $id]);
     }
 
+    public function deletePencabutanSelesai($table, $id)
+    {
+        return $this->db->delete($table, ['id_transaksi' => $id]);
+    }
+
     public function updateStatusCabutIndihome($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi)
     {
         // Update Status Pelanggan
@@ -402,13 +414,7 @@ class Admin_model extends CI_Model
         $this->db->update('pencabutan_indihome');
     }
 
-    public function deletePencabutanIndihome($id)
-    {
-        return $this->db->delete('pemasangan_indihome', ['id_transaksi' => $id]);
-    }
-
-    // PEMASANGAN DATIN
-    public function updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPIndihome, $id_transaksi)
+    public function updateStatusCabutDatin($dataPelanggan, $id_pelanggan, $dataPDatin, $id_transaksi)
     {
         // Update Status Pelanggan
         $this->db->set($dataPelanggan);
@@ -416,7 +422,46 @@ class Admin_model extends CI_Model
         $this->db->update('pelanggan');
 
         // Update Status Indihome
-        $this->db->set($dataPIndihome);
+        $this->db->set($dataPDatin);
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->update('pencabutan_datin');
+    }
+
+    public function deletePencabutanIndihome($id)
+    {
+        return $this->db->delete('pemasangan_indihome', ['id_transaksi' => $id]);
+    }
+
+    public function getCDatinJoinP($id_pelanggan)
+    {
+        $this->db->select('*');
+        $this->db->from('pencabutan_datin');
+        $this->db->where('pencabutan_datin.id_pelanggan', $id_pelanggan);
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pencabutan_datin.id_pelanggan');
+        $this->db->join('layanan', 'layanan.id_layanan = pelanggan.id_layanan');
+        return $this->db->get()->result_array();
+    }
+
+    public function getCIndihomeJoinP($id_pelanggan)
+    {
+        $this->db->select('*');
+        $this->db->from('pencabutan_indihome');
+        $this->db->where('pencabutan_indihome.id_pelanggan', $id_pelanggan);
+        $this->db->join('pelanggan', 'pelanggan.id_pelanggan = pencabutan_indihome.id_pelanggan');
+        $this->db->join('layanan', 'layanan.id_layanan = pelanggan.id_layanan');
+        return $this->db->get()->result_array();
+    }
+
+    // PEMASANGAN DATIN
+    public function updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPDatin, $id_transaksi)
+    {
+        // Update Status Pelanggan
+        $this->db->set($dataPelanggan);
+        $this->db->where('id_pelanggan', $id_pelanggan);
+        $this->db->update('pelanggan');
+
+        // Update Status Indihome
+        $this->db->set($dataPDatin);
         $this->db->where('id_transaksi', $id_transaksi);
         $this->db->update('pemasangan_datin');
     }
@@ -479,11 +524,19 @@ class Admin_model extends CI_Model
         return $this->db->insert($table, $dataCabut);
     }
 
-    public function getCDatin()
+    public function getCIndihome()
     {
         $this->db->select('*');
         $this->db->from('datel');
         $this->db->join('pencabutan_indihome', 'pencabutan_indihome.id_datel = datel.id_datel');
+        return $this->db->get()->result_array();
+    }
+
+    public function getCDatin()
+    {
+        $this->db->select('*');
+        $this->db->from('datel');
+        $this->db->join('pencabutan_datin', 'pencabutan_datin.id_datel = datel.id_datel');
         return $this->db->get()->result_array();
     }
 }

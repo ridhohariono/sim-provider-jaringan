@@ -709,7 +709,8 @@ class Admin extends CI_Controller
         }
     }
 
-    public function myprofile(){
+    public function myprofile()
+    {
         $data['title'] = 'My Profile';
 
         $email = $this->session->userdata('email');
@@ -997,12 +998,38 @@ class Admin extends CI_Controller
         $data['title']      = 'Pemasangan Indihome';
         $email              = $this->session->userdata('email');
         $data['user']       = $this->Admin_model->getUserByMail($email);
-        $data['cDatin']  = $this->Admin_model->getCDatin();
+        $data['cIndihome']  = $this->Admin_model->getCIndihome();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('admin/pencabutan_indihome', $data);
         $this->load->view('templates/footer');
+    }
+
+    // PENCABUTAN DATIN
+    public function pencabutan_datin()
+    {
+        $data['title']      = 'Pemasangan Indihome';
+        $email              = $this->session->userdata('email');
+        $data['user']       = $this->Admin_model->getUserByMail($email);
+        $data['cDatin']  = $this->Admin_model->getCDatin();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/pencabutan_datin', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function getCDatinJoinP()
+    {
+        $id_pelanggan = $this->input->post('id_pelanggan');
+        echo json_encode($this->Admin_model->getCDatinJoinP($id_pelanggan));
+    }
+
+    public function getCIndihomeJoinP()
+    {
+        $id_pelanggan = $this->input->post('id_pelanggan');
+        echo json_encode($this->Admin_model->getCIndihomeJoinP($id_pelanggan));
     }
 
     // TEKNISI PEMASANGAN ACTION
@@ -1057,6 +1084,12 @@ class Admin extends CI_Controller
         $layanan = $this->input->get('layanan');
         $status = $this->input->get('status');
         $nm_teknisi = $this->session->userdata('name');
+        if ($status == "Di Cabut") {
+            $pelanggan = $this->Admin_model->getPelangganById($id_pelanggan)[0];
+            $col_port = "port_" . $pelanggan['port'];
+            $odp = $pelanggan['odp'];
+            $this->Admin_model->UpdatePortOdpNull($col_port, $odp);
+        }
         $dataPelanggan = [
             'id_pelanggan' => $id_pelanggan,
             'id_teknisi'   => $id_teknisi,
@@ -1075,8 +1108,6 @@ class Admin extends CI_Controller
                 'status'       => $status,
                 'tgl_psb'      => date('Y-m-d')
             ];
-            // var_dump($status);
-            // die;
             $this->Admin_model->updateStatusCabutIndihome($dataPelanggan, $id_pelanggan, $dataCIndihome, $id_transaksi);
             $this->session->set_flashdata('teknisi_action', 'Di Update');
             redirect($_SERVER['HTTP_REFERER']);
@@ -1088,7 +1119,7 @@ class Admin extends CI_Controller
                 'status'       => $status,
                 'tgl_psb'      => date('Y-m-d')
             ];
-            $this->Admin_model->updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPDatin, $id_transaksi);
+            $this->Admin_model->updateStatusCabutDatin($dataPelanggan, $id_pelanggan, $dataPDatin, $id_transaksi);
             $this->session->set_flashdata('teknisi_action', 'Di Update');
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -1107,14 +1138,30 @@ class Admin extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function ganti_password(){
+    public function delete_pencabutan()
+    {
+        $id_transaksi = $this->input->get('id');
+        if ($this->input->get('from') == "indihome") {
+            $table = "pencabutan_indihome";
+        } else {
+            $table = "pencabutan_datin";
+        }
+        $this->Admin_model->deletePencabutanSelesai($table, $id_transaksi);
+        $this->session->set_flashdata('adm_action', 'Di Hapus');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // CHANGE PASSWORD
+
+    public function ganti_password()
+    {
         $email = $this->session->userdata('email');
         $data['user'] = $this->db->get_where('user', array('email' => $email))->row_array();
         $this->form_validation->set_rules('psw_lama', 'Current Password', 'required|trim');
         $this->form_validation->set_rules('psw_baru', 'New Password', 'required|trim|min_length[3]|matches[psw_baru2]');
         $this->form_validation->set_rules('psw_baru2', 'New Password 2', 'required|trim|min_length[3]|matches[psw_baru]');
 
-        if($this->form_validation->run() == false){
+        if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Data Password Tidak <strong>Valid</strong> 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">

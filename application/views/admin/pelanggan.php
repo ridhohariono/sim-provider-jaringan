@@ -9,7 +9,6 @@
     <!-- DataTales Example -->
     <div class="row">
         <div class="col-lg-12">
-            <a class="btn btn-primary" href="<?= base_url('admin/make_pelanggan_pdf/'); ?>" role="button">Pdf</a>
             <button type="button" class="btn btn-primary tambahPelanggan float-right mb-1" data-toggle="modal" data-target="#tambahData"><i class="fa fa-plus"></i>
                 Tambah Pelanggan
             </button>
@@ -74,7 +73,7 @@
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="badge badge-sm badge-success detailsPelanggan" data-toggle="modal" data-target="#detailsPelanggan"><span class="fas fa-eye mr-1"></span>Detail</a>
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJson/'); ?>" class="badge badge-sm badge-warning editPelanggan" data-toggle="modal" data-target="#editDataPelanggan"><span class="fa fa-edit mr-1"></span>Edit</a>
                                             <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" aria-disabled="true" class=" badge badge-sm badge-secondary" disabled><span class="fa fa-sticky-note"></span> Denda</a>
-                                            <?php if ($row['denda'] == 1 || $row['denda'] == 0 && $row['status'] == 'Di Cabut') :  ?>
+                                            <?php if ($row['status'] == 'Di Cabut') :  ?>
                                                 <a href="<?= base_url('admin/delete_pelanggan?id=' . $row['id_pelanggan']); ?>" class="badge badge-sm badge-danger delete"><span class="fa fa-trash"></span> Hapus</a>
                                             <?php else : ?>
                                                 <a href="#" class="badge badge-sm badge-secondary" aria-disabled="true" disabled><span class="fa fa-plug"></span> Cabut</a>

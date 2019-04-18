@@ -39,7 +39,7 @@ $('.prosesPasang').on('click', function (e) {
 	e.preventDefault();
 	const href = $(this).attr('href');
 	Swal.fire({
-		title: 'Proses Pemasangan ?',
+		title: 'Proses Task ?',
 		text: 'Status akan di Ubah Menjadi "Prosses"',
 		type: 'warning',
 		showCancelButton: true,
@@ -682,9 +682,10 @@ function cabutPelanggan() {
 }
 
 function detailsPencabutan() {
-	$('.detailsPemasangan').on('click', function () {
+	$('.detailsPencabutan').on('click', function () {
 		const id = $(this).data('id');
 		const base_url = $(this).data('url');
+		console.log(id);
 		$.ajax({
 			url: base_url,
 			data: {
@@ -693,6 +694,7 @@ function detailsPencabutan() {
 			method: 'post',
 			dataType: 'json',
 			success: function (data) {
+				console.log(data);
 				$('.modal-body #nm_pelanggan_t').html(data[0].nm_pelanggan);
 				$('.modal-body #speedy_t').html(data[0].speedy);
 				$('.modal-body #voice_t').html(data[0].voice);
@@ -701,15 +703,8 @@ function detailsPencabutan() {
 				$('.modal-body #port_t').html(data[0].port);
 				$('.modal-body #paket_t').html(data[0].paket);
 				$('.modal-body #layanan_t').html(data[0].nm_layanan);
-				$('.modal-body #label_t').html(data[0].label);
-				$('.modal-body #status_t').html(data[0].status);
-				if (data[0].nm_teknisi == null) {
-					$('.modal-body #teknisi_t').addClass('badge badge-danger');
-					$('.modal-body #teknisi_t').html('Belum Ada Teknisi yang Merespon Pemasangan');
-				} else {
-					$('.modal-body #teknisi_t').removeClass('badge badge-danger');
-					$('.modal-body #teknisi_t').html(data[0].nm_teknisi);
-				}
+				$('.modal-body #keterangan_t').html(data[0].keterangan);
+				$('.modal-body #teknisi_t').html(data[0].nm_teknisi);
 				if (data[0].tgl_psb == null) {
 					$('.modal-body #tgl_psb_t').addClass('text-danger');
 					$('.modal-body #tgl_psb_t').html('Belum Terpasang/Aktif');

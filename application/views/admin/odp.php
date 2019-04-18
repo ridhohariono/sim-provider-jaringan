@@ -5,7 +5,7 @@
     <h1 class="h3 mb-2 text-gray-800">Data ODP</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?= $this->session->flashdata('adm_gagal'); ?>
-    
+
     <!-- DataTales Example -->
     <div class="row">
         <div class="col">
@@ -42,18 +42,18 @@
                     <tbody>
                         <?php $i = 1; ?>
                         <?php foreach ($odp as $row) : ?>
-                        <tr>
-                            <td><?= $i; ?></td>
-                            <td><?= $row['nm_odp'] ?></td>
-                            <td><?= $row['nm_odc'] ?></td>
-                            <td><?= $row['nm_datel'] ?></td>
-                            <td class="text-center">
-                                <a href="javascript:" class="btn btn-sm btn-primary mr-2 modalEditODP" id="modalEditODP" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_odp'];?>" data-url="<?= base_url('admin/getJsonODP?id='.$row['id_odp']);?>"><span class="fa fa-edit mr-1"></span>Edit</a>
-                                <a href="javascript" class="btn btn-sm btn-success detailsOdp" data-toggle="modal" data-target="#DetailsModal" data-id="<?= $row['id_odp']; ?>" data-url="<?= base_url('admin/getJsonODP?id=' . $row['id_odp']); ?>"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                <a href="<?= base_url('admin/delete_odp?id=') . $row['id_odp'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
-                        </tr>
-                        <form action=""></form>
-                        <?php $i++; ?>
+                            <tr>
+                                <td><?= $i; ?></td>
+                                <td><?= $row['nm_odp'] ?></td>
+                                <td><?= $row['nm_odc'] ?></td>
+                                <td><?= $row['nm_datel'] ?></td>
+                                <td class="text-center">
+                                    <a href="javascript:" class="btn btn-sm btn-primary mr-2 modalEditODP" id="modalEditODP" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_odp']; ?>" data-url="<?= base_url('admin/getJsonODP?id=' . $row['id_odp']); ?>"><span class="fa fa-edit mr-1"></span>Edit</a>
+                                    <a href="javascript" class="btn btn-sm btn-success detailsOdp" data-toggle="modal" data-target="#DetailsModal" data-id="<?= $row['id_odp']; ?>" data-url="<?= base_url('admin/getJsonODP?id=' . $row['id_odp']); ?>"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                    <a href="<?= base_url('admin/delete_odp?id=') . $row['id_odp'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
+                            </tr>
+                            <form action=""></form>
+                            <?php $i++; ?>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -75,7 +75,6 @@
                 </button>
             </div>
             <div class="modal-body">
-
                 <form action="<?= base_url('admin/add_odp'); ?>" method="post">
                     <input type="hidden" class="form-control" id="id" name="id">
 
@@ -88,8 +87,8 @@
                     <div class="form-group">
                         <label for="odc">ODC</label>
                         <select name="cmb_odc" id="cmb_odc" class="form-control">
-                            <?php foreach ($odc_info as $row): ?>
-                                <option id="" value="<?= $row->id_odc;?>"><?= $row->nm_odc;?></option>
+                            <?php foreach ($odc_info as $row) : ?>
+                                <option id="" value="<?= $row->id_odc; ?>"><?= $row->nm_odc; ?></option>
                             <?php endforeach ?>
                         </select>
                         <small class="text-danger"><?= form_error('odc'); ?></small>
@@ -98,8 +97,8 @@
                     <div class="form-group">
                         <label for="datel_def">Datel</label>
                         <select name="datel_def" id="datel_def" class="form-control">
-                            <?php foreach ($datel_info as $row): ?>
-                                <option id="" value="<?= $row['id_datel'];?>"><?= $row['nm_datel'];?></option>
+                            <?php foreach ($datel_info as $row) : ?>
+                                <option id="" value="<?= $row['id_datel']; ?>"><?= $row['nm_datel']; ?></option>
                             <?php endforeach ?>
                         </select>
                         <small class="text-danger"><?= form_error('datel_def'); ?></small>

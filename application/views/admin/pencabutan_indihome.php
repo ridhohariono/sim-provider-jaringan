@@ -43,7 +43,7 @@
                     </tfoot>
                     <tbody>
                         <?php $i = 1; ?>
-                        <?php foreach ($cDatin as $row) : ?>
+                        <?php foreach ($cIndihome as $row) : ?>
                             <tr>
                                 <td><?= $i; ?></td>
                                 <td><?= $row['nm_pelanggan'] ?></td>
@@ -54,19 +54,19 @@
                                 <td><?= $row['status'] ?></td>
                                 <?php if ($this->session->userdata('role_id') == 1) : ?>
                                     <td style="width: 160px;">
-                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPencabutan" data-toggle="modal" data-target="#detailsPIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                        <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getCIndihomeJoinP/'); ?>" class="btn btn-sm btn-success detailsPencabutan" data-toggle="modal" data-target="#detailsCIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
                                         <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome&lok=' . $row['id_lokasi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                     </td>
                                 <?php else : ?>
                                     <td style="width: 240px;">
                                         <div class="mt-1">
-                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPencabutan" data-toggle="modal" data-target="#detailsPIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                            <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getCIndihomeJoinP/'); ?>" class="btn btn-sm btn-success detailsPencabutan" data-toggle="modal" data-target="#detailsCIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
                                             <?php if ($row['status'] == "Request Pencabutan") : ?>
                                                 <a href="<?= base_url('admin/proses_pencabutan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=indihome&status=Proses Pencabutan'); ?>" class="btn btn-sm btn-info prosesPasang"><span class="fa fa-spinner mr-1"></span>Proses</a>
                                             <?php elseif ($row['status'] == "Proses Pencabutan") : ?>
                                                 <a href="<?= base_url('admin/proses_pencabutan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=indihome&status=Di Cabut'); ?>" class="btn btn-sm btn-warning cabutSelesai"><span class="fa fa-check mr-1"></span>Selesai</a>
                                             <?php elseif ($row['status'] == "Selesai") : ?>
-                                                <a href="<?= base_url('admin/delete_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Hapus</a>
+                                                <a href="<?= base_url('admin/delete_pencabutan?id=' . $row['id_transaksi'] . '&from=indihome'); ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Hapus</a>
                                             <?php endif; ?>
                                             <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome&lok=' . $row['id_lokasi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                         </div>
@@ -84,7 +84,7 @@
 </div>
 <!-- /.container-fluid -->
 <!-- MODAL DETAILS -->
-<div class="modal fade" id="detailsPIndihome" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
+<div class="modal fade" id="detailsCIndihome" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -129,16 +129,8 @@
                             <td id="layanan_t">default</td>
                         </tr>
                         <tr>
-                            <th>Label</th>
-                            <td id="label_t">default</td>
-                        </tr>
-                        <tr>
-                            <th>Status</th>
-                            <td id="status_t">default</td>
-                        </tr>
-                        <tr>
-                            <th>Teknisi</th>
-                            <td id="teknisi_t">default</td>
+                            <th>Keterangan</th>
+                            <td id="keterangan_t">default</td>
                         </tr>
                         <tr>
                             <th>Tanggal Aktif</th>
