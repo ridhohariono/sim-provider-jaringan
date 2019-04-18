@@ -547,6 +547,53 @@ class Admin extends CI_Controller
         redirect('admin/pelanggan');
     }
 
+    public function cabut_pelanggan()
+    {
+        $this->form_validation->set_rules('nm_pelanggan_cabut', 'Nama Pelanggan', 'required');
+        $this->form_validation->set_rules('odp_cabut', 'ODP', 'required');
+        $this->form_validation->set_rules('alamat_cabut', 'Alamat Pelanggan', 'required');
+        $this->form_validation->set_rules('nm_layanan_cabut', 'Layanan', 'required');
+        $this->form_validation->set_rules('label_cabut', 'Label', 'required');
+        $this->form_validation->set_rules('keterangan_cabut', 'Keterangan', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('adm_gagal', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Pencabutan<strong>Tidak Valid</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button></div>');
+            redirect('admin/pelanggan');
+        } else {
+            $id_layanan = $this->input->post('id_layanan_cabut', true);
+            $id_pelanggan = $this->input->post('id_pelanggan_cabut', true);
+            $id_sto = $this->input->post('id_sto_cabut', true);
+            $id_datel = $this->input->post('id_datel_cabut', true);
+            $get_lokasi_id = $this->Admin_model->getLokasiBySto($id_sto)[0];
+            $id_lokasi = $get_lokasi_id['id_lokasi'];
+            $dataCabut = [
+                'id_layanan'   => $id_layanan,
+                'id_pelanggan' => $id_pelanggan,
+                'nm_pelanggan' => $this->input->post('nm_pelanggan_cabut', true),
+                'alamat'       => $this->input->post('alamat_cabut', true),
+                'id_lokasi'    => $id_lokasi,
+                'port'         => $this->input->post('port_cabut', true),
+                'label'        => $this->input->post('label_cabut', true),
+                'keterangan'   => $this->input->post('keterangan_cabut', true),
+                'id_sto'       => $this->input->post('id_sto_cabut', true),
+                'id_datel'     => $id_datel,
+                'status'       => "Request Pencabutan",
+            ];
+            if ($this->input->post('paket_cabut') == "Indihome") {
+                $table = "pencabutan_indihome";
+            } else {
+                $table = "pencabutan_datin";
+            }
+            $status = ['status' => "Request Pencabutan"];
+            $this->Admin_model->updateStatusCabut($status, $id_pelanggan);
+            $this->Admin_model->insertPencabutan($table, $dataCabut);
+            $this->session->set_flashdata('adm_action', 'Di Submit');
+            redirect('admin/pelanggan');
+        }
+    }
+
     public function getPelangganByIdJson()
     {
         $id_pelanggan = $this->input->post('id_pelanggan');
@@ -608,6 +655,16 @@ class Admin extends CI_Controller
         $id_pelanggan = $this->input->post('id_pelanggan');
         echo json_encode($this->Admin_model->getPByIdJsonJoin($id_pelanggan));
     }
+
+    public function delete_pelanggan()
+    {
+        $id_pelanggan = $this->input->get('id');
+        $this->Admin_model->deletePelanggan($id_pelanggan);
+        $this->session->set_flashdata('adm_action', 'Di Hapus');
+        redirect('admin/pelanggan');
+    }
+
+    // DENDA
 
     public function denda_pelanggan()
     {
@@ -897,15 +954,8 @@ class Admin extends CI_Controller
     {
         $id_transaksi = $this->input->get('id');
         $from   = $this->input->get('from');
-        if ($from == "indihome") {
-            $id_lokasi = $this->Admin_model->getPIdLokasiIndihome($id_transaksi);
-        } elseif ($from == "datin") {
-            $id_lokasi = $this->Admin_model->getPIdLokasiDatin($id_transaksi);
-        } else {
-            echo "Error!";
-            die;
-        }
-        $lokasi = $this->Admin_model->getLokasiById($id_lokasi[0]['id_lokasi'])[0];
+        $lok = $this->input->get('lok');
+        $lokasi = $this->Admin_model->getLokasiById($lok)[0];
         $config['center'] = '37.4419, -122.1419';
         $config['zoom'] = 'auto';
         $this->googlemaps->initialize($config);
@@ -927,9 +977,6 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function detailPIndihomeJson()
-    { }
-
     // PEMASANGAN DATIN
     public function pemasangan_datin()
     {
@@ -941,6 +988,20 @@ class Admin extends CI_Controller
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('admin/pemasangan_datin', $data);
+        $this->load->view('templates/footer');
+    }
+
+    //PENCABUTAN INDIHOME
+    public function pencabutan_indihome()
+    {
+        $data['title']      = 'Pemasangan Indihome';
+        $email              = $this->session->userdata('email');
+        $data['user']       = $this->Admin_model->getUserByMail($email);
+        $data['cDatin']  = $this->Admin_model->getCDatin();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/pencabutan_indihome', $data);
         $this->load->view('templates/footer');
     }
 
@@ -988,10 +1049,60 @@ class Admin extends CI_Controller
         }
     }
 
+    public function proses_pencabutan()
+    {
+        $id_transaksi = $this->input->get('id');
+        $id_pelanggan = $this->input->get('id_pelanggan');
+        $id_teknisi = $this->session->userdata('id');
+        $layanan = $this->input->get('layanan');
+        $status = $this->input->get('status');
+        $nm_teknisi = $this->session->userdata('name');
+        $dataPelanggan = [
+            'id_pelanggan' => $id_pelanggan,
+            'id_teknisi'   => $id_teknisi,
+            'nm_teknisi'   => $nm_teknisi,
+            'status'       => $status,
+            'tgl_psb'      => date('Y-m-d')
+        ];
+        if ($status == "Di Cabut") {
+            $status = "Selesai";
+        }
+        if ($layanan == "indihome") {
+            $dataCIndihome = [
+                'id_transaksi' => $id_transaksi,
+                'id_teknisi' => $id_teknisi,
+                'nm_teknisi'   => $nm_teknisi,
+                'status'       => $status,
+                'tgl_psb'      => date('Y-m-d')
+            ];
+            // var_dump($status);
+            // die;
+            $this->Admin_model->updateStatusCabutIndihome($dataPelanggan, $id_pelanggan, $dataCIndihome, $id_transaksi);
+            $this->session->set_flashdata('teknisi_action', 'Di Update');
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            $dataPDatin = [
+                'id_transaksi' => $id_transaksi,
+                'id_teknisi' => $id_teknisi,
+                'nm_teknisi'   => $nm_teknisi,
+                'status'       => $status,
+                'tgl_psb'      => date('Y-m-d')
+            ];
+            $this->Admin_model->updateStatusPasangDatin($dataPelanggan, $id_pelanggan, $dataPDatin, $id_transaksi);
+            $this->session->set_flashdata('teknisi_action', 'Di Update');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
+
     public function delete_pemasangan()
     {
         $id_transaksi = $this->input->get('id');
-        $this->Admin_model->deletePemasanganIndihome($id_transaksi);
+        if ($this->input->get('from') == "indihome") {
+            $table = "pemasangan_indihome";
+        } else {
+            $table = "pemasangan_datin";
+        }
+        $this->Admin_model->deletePemasanganSelesai($table, $id_transaksi);
         $this->session->set_flashdata('adm_action', 'Di Hapus');
         redirect($_SERVER['HTTP_REFERER']);
     }

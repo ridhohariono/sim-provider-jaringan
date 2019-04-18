@@ -50,7 +50,7 @@
                                 <td><?= $row['lokasi'] ?></td>
                                 <td><?= $row['kakandatel'] ?></td>
                                 <td><?= $row['status'] ?></td>
-                                <td style="width: 215px;"><a href="javascript" class="btn btn-sm btn-success detailsDatel" data-toggle="modal" data-target="#DetailsModal" data-id="<?= $row['id_datel']; ?>" data-url="<?= base_url('admin/getJsonDatel?id=' . $row['id_datel']); ?>"><span class="fas fa-eye mr-1"></span>Detail</a>
+                                <td><a href="javascript" class="btn btn-sm btn-success detailsDatel" data-toggle="modal" data-target="#DetailsModal" data-id="<?= $row['id_datel']; ?>" data-url="<?= base_url('admin/getJsonDatel?id=' . $row['id_datel']); ?>"><span class="fas fa-eye mr-1"></span>Detail</a>
                                     <a href="javascript:" class="btn btn-sm btn-primary editDatel" data-toggle="modal" data-target="#tambahData" data-id="<?= $row['id_datel']; ?>" data-url="<?= base_url('admin/getJsonDatel?id=' . $row['id_datel']); ?>"><span class="fa fa-edit mr-1"></span>Edit</a>
                                     <a href="<?= base_url('admin/delete_datel?id=') . $row['id_datel'] ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Trash</a></td>
                             </tr>

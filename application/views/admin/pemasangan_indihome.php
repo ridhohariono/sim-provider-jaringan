@@ -55,7 +55,7 @@
                                 <?php if ($this->session->userdata('role_id') == 1) : ?>
                                     <td style="width: 160px;">
                                         <a href="javascript:" data-id="<?= $row['id_pelanggan'] ?>" data-url="<?= base_url('admin/getPelangganByIdJsonJoin/'); ?>" class="btn btn-sm btn-success detailsPemasangan" data-toggle="modal" data-target="#detailsPIndihome"><span class="fas fa-eye mr-1"></span>Detail</a>
-                                        <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome'); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
+                                        <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome&lok=' . $row['id_lokasi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                     </td>
                                 <?php else : ?>
                                     <td style="width: 240px;">
@@ -66,14 +66,13 @@
                                             <?php elseif ($row['status'] == "Proses Pemasangan") : ?>
                                                 <a href="<?= base_url('admin/proses_pemasangan?id=' . $row['id_transaksi'] . '&id_pelanggan=' . $row['id_pelanggan'] . '&layanan=indihome&status=Aktif'); ?>" class="btn btn-sm btn-warning onlinePasang"><span class="fa fa-signal mr-1"></span>Online</a>
                                             <?php elseif ($row['status'] == "Selesai") : ?>
-                                                <a href="<?= base_url('admin/delete_pemasangan?id=' . $row['id_transaksi']); ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Hapus</a>
+                                                <a href="<?= base_url('admin/delete_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome'); ?>" class="btn btn-sm btn-danger delete"><span class="fa fa-trash mr-1"></span>Hapus</a>
                                             <?php endif; ?>
-                                            <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome'); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
+                                            <a href="<?= base_url('admin/lokasi_pemasangan?id=' . $row['id_transaksi'] . '&from=indihome&lok=' . $row['id_lokasi']); ?>" class="btn btn-sm btn-primary"><span class="fa fa-map"></span> Maps</a>
                                         </div>
                                     </td>
                                 <?php endif; ?>
                             </tr>
-                            <form action=""></form>
                             <?php $i++; ?>
                         <?php endforeach; ?>
                     </tbody>
@@ -84,50 +83,6 @@
 
 </div>
 <!-- /.container-fluid -->
-
-<!-- Modal Box -->
-<div class="modal fade" id="tambahData" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="judulModal">Tambah Sto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <form action="<?= base_url('admin/add_sto'); ?>" method="post">
-                    <input type="hidden" id="id" name="id">
-                    <input type="hidden" id="id_datel" name="id_datel">
-                    <div class="form-group">
-                        <label for="nama_sto">Nama STO</label>
-                        <input type="text" class="form-control" id="nama_sto" name="nama_sto" placeholder="Nama STO">
-                        <small class="text-danger"><?= form_error('nama_sto'); ?></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="lokasi">Lokasi</label>
-                        <input type="text" class="form-control" id="lokasi" name="lokasi" placeholder="Lokasi Datel">
-                        <small class="text-danger"><?= form_error('lokasi'); ?></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="datel_def">Datel</label>
-                        <select name="datel_def" id="datel_def" class="form-control">
-                            <?php foreach ($sto as $row) : ?>
-                                <option id="" value="<?= $row['id_datel']; ?>"><?= $row['nm_datel']; ?></option>
-                            <?php endforeach ?>
-                        </select>
-                        <small class="text-danger"><?= form_error('datel_def'); ?></small>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary" id="submit">Tambah STO</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- MODAL DETAILS -->
 <div class="modal fade" id="detailsPIndihome" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -140,7 +95,6 @@
             </div>
             <div class="modal-body" id="DetailsDatel">
                 <section class="content">
-                    <h1 class="text-center mb-5">Detail Pemasangan Indihome</h1>
                     <table class="table table-striped">
                         <tr>
                             <th>Nama Pelanggan</th>

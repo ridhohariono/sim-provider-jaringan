@@ -40,7 +40,7 @@ $('.prosesPasang').on('click', function (e) {
 	const href = $(this).attr('href');
 	Swal.fire({
 		title: 'Proses Pemasangan ?',
-		text: 'Status akan di Ubah Menjadi "Proses Pemasangan"',
+		text: 'Status akan di Ubah Menjadi "Prosses"',
 		type: 'warning',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
@@ -65,6 +65,25 @@ $('.onlinePasang').on('click', function (e) {
 		confirmButtonColor: '#3085d6',
 		cancelButtonColor: '#d33',
 		confirmButtonText: 'Aktifkan',
+		closeOnConfirm: false
+	}).then((result) => {
+		if (result.value) {
+			document.location.href = href;
+		}
+	})
+});
+
+$('.cabutSelesai').on('click', function (e) {
+	e.preventDefault();
+	const href = $(this).attr('href');
+	Swal.fire({
+		title: 'Menyatakan Selesai',
+		text: "Pastikan anda telah selesai mencabut Property",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Selesai',
 		closeOnConfirm: false
 	}).then((result) => {
 		if (result.value) {
@@ -633,6 +652,94 @@ function editDenda() {
 	});
 }
 
+function cabutPelanggan() {
+	$('.cabutPelanggan').on('click', function () {
+		const id = $(this).data('id');
+		const url = $(this).data('url');
+		$.ajax({
+			url: url,
+			data: {
+				id_pelanggan: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data);
+				$('#id_layanan_cabut').val(data[0].id_layanan);
+				$('#port_cabut').val(data[0].port);
+				$('#id_pelanggan_cabut').val(data[0].id_pelanggan);
+				$('#id_sto_cabut').val(data[0].id_sto);
+				$('#id_datel_cabut').val(data[0].id_datel);
+				$('#nm_pelanggan_cabut').val(data[0].nm_pelanggan);
+				$('#odp_cabut').val(data[0].odp);
+				$('#alamat_cabut').val(data[0].alamat);
+				$('#paket_cabut').val(data[0].paket);
+				$('#nm_layanan_cabut').val(data[0].nm_layanan);
+				$('#label_cabut').val(data[0].label);
+			}
+		});
+	});
+}
+
+function detailsPencabutan() {
+	$('.detailsPemasangan').on('click', function () {
+		const id = $(this).data('id');
+		const base_url = $(this).data('url');
+		$.ajax({
+			url: base_url,
+			data: {
+				id_pelanggan: id
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (data) {
+				$('.modal-body #nm_pelanggan_t').html(data[0].nm_pelanggan);
+				$('.modal-body #speedy_t').html(data[0].speedy);
+				$('.modal-body #voice_t').html(data[0].voice);
+				$('.modal-body #alamat_t').html(data[0].alamat);
+				$('.modal-body #odp_t').html(data[0].odp);
+				$('.modal-body #port_t').html(data[0].port);
+				$('.modal-body #paket_t').html(data[0].paket);
+				$('.modal-body #layanan_t').html(data[0].nm_layanan);
+				$('.modal-body #label_t').html(data[0].label);
+				$('.modal-body #status_t').html(data[0].status);
+				if (data[0].nm_teknisi == null) {
+					$('.modal-body #teknisi_t').addClass('badge badge-danger');
+					$('.modal-body #teknisi_t').html('Belum Ada Teknisi yang Merespon Pemasangan');
+				} else {
+					$('.modal-body #teknisi_t').removeClass('badge badge-danger');
+					$('.modal-body #teknisi_t').html(data[0].nm_teknisi);
+				}
+				if (data[0].tgl_psb == null) {
+					$('.modal-body #tgl_psb_t').addClass('text-danger');
+					$('.modal-body #tgl_psb_t').html('Belum Terpasang/Aktif');
+				} else {
+					var date = new Date(data[0].tgl_psb);
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+					var bulanIn = [{
+						"1": "Januari",
+						"2": "February",
+						"3": "Maret",
+						"4": "April",
+						"5": "Mei",
+						"6": "Juni",
+						"7": "Juli",
+						"8": "Agustus",
+						"9": "September",
+						"10": "Oktober",
+						"11": "November",
+						"12": "December"
+					}];
+					var changeMont = bulanIn[0][month];
+					$('.modal-body #tgl_psb_t').html(day + ' - ' + changeMont + ' - ' + year);
+				}
+			}
+		});
+	});
+}
+
 function number_format(nStr) {
 	nStr += '';
 	x = nStr.split('.');
@@ -739,6 +846,7 @@ tambahPelanggan();
 editPelanggan();
 detailsPelanggan();
 pelangganDenda();
+cabutPelanggan();
 
 // PEMASANGAN INDIHOMe
 detailPemasangan();
@@ -746,3 +854,6 @@ detailPemasangan();
 // DENDA
 detailsDenda();
 editDenda();
+
+// PENCABUTAN
+detailsPencabutan()
