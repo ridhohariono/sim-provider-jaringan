@@ -29,15 +29,39 @@
                 $query_submenu = $this->db->query("SELECT * FROM user_sub_menu WHERE user_sub_menu.menu_id = '$m[id]' AND is_active = '1'")->result_array();
 
                 foreach ($query_submenu as $m_sub) {
-                ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url($m_sub['url']) ?>">
+                    if (($m_sub['parent']) == 0) {
+                        ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url($m_sub['url']) ?>">
+                                <i class="<?= $m_sub['icon']; ?>"></i>
+                                <span><?= $m_sub['title']; ?></span></a>
+                        </li>
+                        <?php
+                    } elseif (($m_sub['parent']) == 1) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse<?= $m_sub['url'] ?>" aria-expanded="true" aria-controls="collapse<?= $m_sub['url'] ?>">
                             <i class="<?= $m_sub['icon']; ?>"></i>
-                            <span><?= $m_sub['title']; ?></span></a>
+                            <span><?= $m_sub['title']; ?></span>
+                            </a>
+                            <div id="collapse<?= $m_sub['url'] ?>" class="collapse" aria-labelledby="heading<?= $m_sub['url'] ?>" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+
+                        <?php
+                        $query_childmenu = $this->db->query("SELECT * FROM user_sub_menu WHERE user_sub_menu.parent = '$m_sub[id]' AND is_active = '1'")->result_array();
+
+                        foreach ($query_childmenu as $m_child) { ?>
+                            <a class="collapse-item" href="<?= base_url($m_child['url']) ?>"><?= $m_child['title'] ?></a>
+                        <?php } ?>
+
+                        </div>
+                        </div>
                     </li>
-                <?php
+<?php
+                    }
                 }
-        } ?>
+            } ?>
+
+            
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
