@@ -15,8 +15,8 @@
         </div>
     </div>
     <div class="card shadow mb-4">
-        <div class="card-header py-3 bg-gray-800">
-            <h6 class="m-0 font-weight-bold text-white">Informasi STO</h6>
+        <div class="card-header py-3 ">
+            <h6 class="m-0 font-weight-bold text-primary">Informasi STO</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">

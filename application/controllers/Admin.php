@@ -736,13 +736,28 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function denda_details_pdf(){
+        $data['title'] = 'Laporan Denda Pelanggan';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/lap_denda_details', $data);
+        $this->load->view('templates/footer');
+    }
+
     public function make_denda_pdf()
     {
         $this->load->library('pdfgenerator');
         $data['title']      = 'Denda Pelanggan';
         $email              = $this->session->userdata('email');
         $data['user']       = $this->Admin_model->getUserByMail($email);
-        $data['denda']      = $this->Admin_model->getDenda();
+
+        $tgl_mulai = $this->input->post('tgl_mulai');
+        $tgl_akhir = $this->input->post('tgl_akhir');
+        $data['denda']      = $this->Admin_model->getDenda($tgl_mulai, $tgl_akhir);
 
         $html = $this->load->view('admin/denda_list_pdf', $data, true);
         $filename = 'Daftar_Denda-Pelanggan_' . time();

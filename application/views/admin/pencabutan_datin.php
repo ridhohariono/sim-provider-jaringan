@@ -11,8 +11,8 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mt-5">
-        <div class="card-header py-3 bg-gray-800">
-            <h6 class="m-0 font-weight-bold text-white">Pencabutan Datin</h6>
+        <div class="card-header py-3 ">
+            <h6 class="m-0 font-weight-bold text-primary">Pencabutan Datin</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
