@@ -15,6 +15,7 @@
               <div class="col-lg">
                 <div class="p-5">
                   <div class="text-center">
+                    <img src="<?= base_url(); ?>assets/img/640px-Telkom_Indonesia_2013.svg.png" width="40%" class="rounded mb-5" alt="Logo">
                     <h1 class="h4 text-gray-900 mb-4">Selamat Datang di Sistem Informasi Validasi!</h1>
                   </div>
 
