@@ -9,6 +9,8 @@ class Admin extends CI_Controller
         parent::__construct();
         $this->load->model('Admin_model');
         $this->load->library('Googlemaps');
+        $this->load->helper('date');
+        $this->load->helper('admin_helper');
     }
 
     public function index()
@@ -691,6 +693,8 @@ class Admin extends CI_Controller
             $tgl_akhir = new DateTime($this->input->post('tgl_akhir'));
             $selisih   = $tgl_mulai->diff($tgl_akhir);
             $id_pelanggan = $this->input->post('id_pelanggan_denda', true);
+
+            date_default_timezone_set('Asia/Jakarta');
             $data = [
                 'id_pelanggan' => $id_pelanggan,
                 'nm_pelanggan' => $this->input->post('nm_pelanggan_denda', true),
@@ -699,7 +703,8 @@ class Admin extends CI_Controller
                 'lama_nunggak' => $selisih->days,
                 'denda'        => $this->input->post('jmlh_denda', true),
                 'id_layanan' => $this->input->post('id_layanan_denda', true),
-                'keterangan'   => $this->input->post('keterangan_denda', true)
+                'keterangan'   => $this->input->post('keterangan_denda', true),
+                'tgl_denda' => date('Y-m-d H:i:s')
             ];
             $val = ['denda' => 1];
             $this->Admin_model->updatePelangganDenda($id_pelanggan, $val);
@@ -757,7 +762,9 @@ class Admin extends CI_Controller
 
         $tgl_mulai = $this->input->post('tgl_mulai');
         $tgl_akhir = $this->input->post('tgl_akhir');
-        $data['denda']      = $this->Admin_model->getDenda($tgl_mulai, $tgl_akhir);
+        $data['denda']      = $this->Admin_model->getDendabyTanggal($tgl_mulai, $tgl_akhir);
+        $data['tgl_mulai'] = $tgl_mulai;
+        $data['tgl_akhir'] = $tgl_akhir;
 
         $html = $this->load->view('admin/denda_list_pdf', $data, true);
         $filename = 'Daftar_Denda-Pelanggan_' . time();

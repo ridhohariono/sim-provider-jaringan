@@ -20,4 +20,8 @@
 
 </head>
 
-<body class="bg-gradient-success"> 
+<body class="" 
+style="background-image:url(<?= base_url('assets/'); ?>img/assian.png);
+background-repeat:no-repeat;
+background-size:contain;
+background-position:center;"> 

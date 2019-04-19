@@ -248,9 +248,17 @@ class Admin_model extends CI_Model
         return $this->db->delete('denda', ['id_denda' => $id_denda]);
     }
 
-    public function getDenda()
-    {
+    public function getDenda(){
         return $this->db->get('denda')->result_array();
+    }
+
+    public function getDendabyTanggal($tgl_mulai, $tgl_akhir)
+    {
+        // return $this->db->query("SELECT * FROM denda WHERE DATE(tgl_denda) BETWEEN '$tgl_mulai' AND '$tgl_akhir'")->result_array();
+        $this->db->select('*');
+        $this->db->from('denda');
+        $this->db->where("DATE(tgl_denda) BETWEEN '$tgl_mulai' AND '$tgl_akhir'");
+        return $this->db->get()->result_array();
     }
 
     public function getDendaById($id_denda)

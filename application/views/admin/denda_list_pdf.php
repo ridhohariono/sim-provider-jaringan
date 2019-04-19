@@ -36,7 +36,7 @@
             <div style="width: 100%; background-color: rgb(224, 224, 224); padding: 1px 0px 5px 15px;">                
                 <table style="width: 100%;">                    
                     <tr style="font-size: 20px;  text-align: center">
-                        <td style="padding: 10px;">Daftar Denda Pelanggan</td>
+                        <td style="padding: 10px;">Daftar Denda Pelanggan Pertanggal <?= tgl_indo($tgl_mulai) ?> s/d <?= tgl_indo($tgl_akhir) ?></td>
                     </tr>                                    
                 </table>
             </div>
