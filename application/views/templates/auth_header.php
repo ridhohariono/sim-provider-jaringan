@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <title><?= $title; ?></title>
+    <link rel="shortcut icon" href="<?= base_url(); ?>assets/img/640px-Telkom_Indonesia_2013.svg.png">
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url('assets/'); ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,8 +21,7 @@
 
 </head>
 
-<body class="" 
-style="background-image:url(<?= base_url('assets/'); ?>img/assian.png);
+<body class="" style="background-image:url(<?= base_url('assets/'); ?>img/assian.png);
 background-repeat:no-repeat;
 background-size:contain;
-background-position:center;"> 
+background-position:center;">
