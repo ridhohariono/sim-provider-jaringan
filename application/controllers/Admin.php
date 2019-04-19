@@ -411,17 +411,31 @@ class Admin extends CI_Controller
     {
         $this->load->library('pdfgenerator');
         $data['title']      = 'Pelanggan';
+
+        $tgl_mulai = $this->input->post('tgl_mulai');
+        $tgl_akhir = $this->input->post('tgl_akhir');
+        $data['tgl_mulai'] = $tgl_mulai;
+        $data['tgl_akhir'] = $tgl_akhir;
+
         $email              = $this->session->userdata('email');
         $data['user']       = $this->Admin_model->getUserByMail($email);
-        $data['pelanggan']  = $this->Admin_model->getPelanggan();
-        $data['layanan']    = $this->Admin_model->getLayanan();
-        $data['sto']        = $this->Admin_model->getSto();
-        $data['datel']      = $this->Admin_model->getDatel();
-        $data['layanan']    = $this->Admin_model->getLayanan();
+        $data['pelanggan']  = $this->Admin_model->getPelangganbytanggal($tgl_mulai, $tgl_akhir);
 
         $html = $this->load->view('admin/pelanggan_list_pdf', $data, true);
         $filename = 'Daftar_Pelanggan_' . time();
         $this->pdfgenerator->generate($html, $filename, true, 'A4', 'portrait');
+    }
+
+    public function pelanggan_details_pdf(){
+        $data['title'] = 'Laporan Pelanggan';
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->Admin_model->getUserByMail($email);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/lap_pelanggan_details', $data);
+        $this->load->view('templates/footer');
     }
 
     public function pelanggan()

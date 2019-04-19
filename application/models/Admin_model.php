@@ -177,6 +177,17 @@ class Admin_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function getPelangganbytanggal($tgl_mulai, $tgl_akhir)
+    {
+        $this->db->select('*');
+        $this->db->from('pelanggan AS P');
+        $this->db->join('sto AS S', 'S.id_sto = P.id_sto');
+        $this->db->join('layanan AS L', 'L.id_layanan = P.id_layanan');
+        $this->db->where("P.tgl_psb BETWEEN '$tgl_mulai' AND '$tgl_akhir'");
+        $this->db->order_by('P.nm_pelanggan');
+        return $this->db->get()->result_array();
+    }
+
     public function getIdPelanggan()
     {
         $this->db->select('id_pelanggan');
