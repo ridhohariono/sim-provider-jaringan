@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-5 text-gray-800">Data Pencabutan Indihome</h1>
+    <h1 class="h3 mb-5 text-gray-800">Data Pencabutan Datin</h1>
     <div class="flash-data" data-flashdata="<?= $this->session->flashdata('adm_action') ?>"></div>
     <?php if ($this->session->flashdata('teknisi_action')) : ?>
         <div class="flash-datateknisi" data-flashteknisi="<?= $this->session->flashdata('teknisi_action') ?>"></div>
@@ -11,8 +11,8 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mt-5">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Pemasangan Indihome</h6>
+        <div class="card-header py-3 bg-gray-800">
+            <h6 class="m-0 font-weight-bold text-white">Pencabutan Datin</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">

@@ -8,8 +8,8 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Informasi Akun</h6>
+        <div class="card-header py-3 bg-gray-800">
+            <h6 class="m-0 font-weight-bold text-white">Informasi Akun</h6>
         </div>
         <div class="card-body">
             <div class="row">
@@ -56,8 +56,8 @@
     </div>
 
     <div class="card o-hidden border-0 shadow-lg my-5">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Ganti Password</h6>
+        <div class="card-header py-3 bg-gray-800">
+            <h6 class="m-0 font-weight-bold text-white">Ganti Password</h6>
         </div>
         <div class="card-body ">
             <div class="row">
